@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@iceteachain/web3": "^0.1.16",
+    "bip39": "^3.0.2",
+    "hdkey": "^1.1.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
@@ -12,7 +15,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "ctest": "node ./test/contract.js",
+    "eject": "react-scripts eject",
+    "deploy": "node scripts/deploy.js",
+    "deploy:all": "node scripts/deploy.js && node scripts/deploy.js prod",
+    "deploy:prod": "node scripts/deploy.js prod",
+    "seed": "node scripts/seed.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -28,5 +36,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@iceteachain/sunseed": "github:TradaTech/sunseed",
+    "envfile": "^4.1.0"
   }
 }

@@ -1,11 +1,11 @@
 module.exports = (contract, { validate, Joi }) => {
     return {
         getOne(id) {
-          return contract.memories.get(id)
+          return contract.answers.get(id)
         },
 
         getThrow(id) {
-          const memory = contract.memories.get(id)
+          const memory = contract.answers.get(id)
           if (memory == null) {
             throw new Error(`Memory ${id} not found.`)
           }
@@ -14,7 +14,7 @@ module.exports = (contract, { validate, Joi }) => {
 
         getList(lockId, options = {}) {
             const { begin, end } = options
-            return contract.memories.query({
+            return contract.answers.query({
                 filter: memo => memo.lockId === lockId,
                 begin, end
             })
@@ -26,11 +26,11 @@ module.exports = (contract, { validate, Joi }) => {
                 timestamp: Joi.date().timestamp()
             }))
 
-            return contract.memories.add({ ...memory, lockId })
+            return contract.answers.add({ ...memory, lockId })
         },
 
         remove(id) {
-            return contract.memories.delete(id)
+            return contract.answers.delete(id)
         },
     }
 }
