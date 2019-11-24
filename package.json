@@ -15,7 +15,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "ctest": "node ./test/contract.js",
+    "ctest": "node ./test/test.js",
     "eject": "react-scripts eject",
     "deploy": "node scripts/deploy.js",
     "deploy:all": "node scripts/deploy.js && node scripts/deploy.js prod",

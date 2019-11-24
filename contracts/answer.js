@@ -5,28 +5,28 @@ module.exports = (contract, { validate, Joi }) => {
         },
 
         getThrow(id) {
-          const memory = contract.answers.get(id)
-          if (memory == null) {
+          const answer = contract.answers.get(id)
+          if (answer == null) {
             throw new Error(`Memory ${id} not found.`)
           }
-          return memory
+          return answer
         },
 
-        getList(lockId, options = {}) {
+        getList(questionId, options = {}) {
             const { begin, end } = options
             return contract.answers.query({
-                filter: memo => memo.lockId === lockId,
+                filter: memo => memo.questionId === questionId,
                 begin, end
             })
         },
 
-        add(lockId, memory) {
-            memory = validate(memory, Joi.object({
+        add(questionId, answer) {
+            answer = validate(answer, Joi.object({
                 text: Joi.string().required(),
-                timestamp: Joi.date().timestamp()
+                timestamp: Joi.date().timestamp('unix').raw()
             }))
 
-            return contract.answers.add({ ...memory, lockId })
+            return contract.answers.add({ ...answer, questionId })
         },
 
         remove(id) {

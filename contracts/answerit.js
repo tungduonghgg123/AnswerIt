@@ -1,40 +1,55 @@
 const { validate, stateUtil } = require(';');
 const Joi = require('@hapi/joi');
 const { path } = stateUtil(this)
-const makeLockHelper = require('./question.js')
-const makeMemoryHelper = require('./answer.js')
+const makeQuestionHelper = require('./question.js')
+const makeAnswerHelper = require('./answer.js')
+const {
+    importState,
+    exportState,
+    migrateState
+} = require('./migration.js')(this)
 
 @contract class AnswerIt {
 
     questions = path('questions', {})
-    memories = path('memories', {})
-    lockHelper = makeLockHelper(this, { validate, Joi })
-    memoryHelper = makeMemoryHelper(this, { validate, Joi })
+    answers = path('answers', {})
+    questionHelper = makeQuestionHelper(this, { validate, Joi })
+    answerHelper = makeAnswerHelper(this, { validate, Joi })
 
-    @transaction addLock(lock) {
-        return this.lockHelper.add(lock)
+    @transaction addQuestion(question) {
+        return this.questionHelper.add(question)
     }
 
-    @transaction removeLock(id: string) {
-        return this.lockHelper.remove(id)
+    @transaction removeQuestion(id: string) {
+        return this.questionHelper.remove(id)
     }
 
-    @transaction addMemory(lockId: string, memory) {
-        return this.memoryHelper.add(lockId, memory)
+    @transaction addAnswer(questionId: string, answer) {
+        return this.answerHelper.add(questionId, answer)
     }
 
-    @transaction removeMemory(id: number) {
-        return this.memoryHelper.remove(id)
+    @transaction removeAnswer(id: number) {
+        return this.answerHelper.remove(id)
     }
 
-    @view getLocks(owner: address, options) {
-        return this.lockHelper.getList(owner, options)
+    @view getQuestions(owner: address, options) {
+        return this.questionHelper.getList(owner, options)
     }
 
-    @view getMemories(lockId: string, options) {
-        return this.memoryHelper.getList(lockId, options)
+    @view getAnswers(questionId: string, options) {
+        return this.answerHelper.getList(questionId, options)
     }
-    @view getLock() {
-      return this.questions.query()
+    @view getAllQuestion() {
+        return this.questions.query()
+    }
+    @transaction migrateState(fromContract: address, overwrite: ?bool = false) {
+        return migrateState(fromContract, overwrite)
+    }
+    @view exportState() {
+        return exportState()
+    }
+
+    @transaction importState(data, overwrite: ?bool = false) {
+        return importState(data, overwrite)
     }
 }
