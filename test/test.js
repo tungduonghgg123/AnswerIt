@@ -2,7 +2,6 @@ const { IceteaWeb3 } = require('@iceteachain/web3')
 const envfile = require('envfile')
 const { envPath } = require('../scripts/mode')
 const config = envfile.parseFileSync(envPath)
-const { toUNIT } = require('../src/web3/common.js')
 
 // wrap around an Icetea node' RPC
 const tweb3 = new IceteaWeb3(config.REACT_APP_RPC)
@@ -29,3 +28,4 @@ contract.events.AddQuestion({}, (error, data) => {
         console.log(data)
     }
 })
+contract.methods.getAllQuestion().call().then(r => console.log(r))

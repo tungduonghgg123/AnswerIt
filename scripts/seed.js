@@ -1,10 +1,6 @@
 const envfile = require('envfile')
-const fs = require('fs')
-const { toPkey } = require('./mnemonic')
-const { transpile } = require('@iceteachain/sunseed')
 const { IceteaWeb3 } = require('@iceteachain/web3')
-
-const { mode, envPath } = require('./mode')
+const {  envPath } = require('./mode')
 
 
 // load config
@@ -22,25 +18,6 @@ const { toUNIT } = require('../src/web3/common')
         // connect to Icetea RPC
         const tweb3 = new IceteaWeb3(endpoint)
         console.log(`Connected to ${endpoint}.`)
-
-        // create a private key
-        let pkey = config.PKEY || process.env.PKEY
-        if (!pkey) {
-            const seed = config.MNEMONIC || process.env.MNEMONIC
-            if (seed) {
-                pkey = toPkey(seed)
-            }
-        }
-
-        let account
-        if (pkey) {
-            account = tweb3.wallet.importAccount(pkey)
-        } else {
-            account = tweb3.wallet.createBankAccount()
-        }
-
-
-        console.log(`Deploying from ${account.address}...`)
 
         tweb3.onError(console.error)
 
@@ -60,9 +37,8 @@ const { toUNIT } = require('../src/web3/common')
                 "deadline2Modify": Math.round(new Date().getTime() / 1000) + 15 * 60,
             }
             try {
-                await addQuestion(question, address, toUNIT(0.5))
+                await addQuestion(question, address, toUNIT(0.05))
                 thread.answers.forEach(async (_answer) => {
-                    console.log(_answer)
                     const answer = {
                         "value": _answer,
                         "timestamp": Math.round(new Date().getTime() / 1000),
@@ -70,22 +46,13 @@ const { toUNIT } = require('../src/web3/common')
                     }
                     try {
                         await addAnswer(index.toString(), answer, mule_address)
-
                     } catch (e) {
-                        // throw new Error(e)
                         console.log(e)
-                    }
+                    } 
                 })
-
             }
             catch (e) {
-                throw new Error(e)
+                console.log(e)
             }
-
-
         })
-
-
-        // process.exit(0)
-
     })();

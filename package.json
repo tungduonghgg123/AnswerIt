@@ -20,7 +20,8 @@
     "deploy": "node scripts/deploy.js",
     "deploy:all": "node scripts/deploy.js && node scripts/deploy.js prod",
     "deploy:prod": "node scripts/deploy.js prod",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "ds": "node scripts/deploy.js && node scripts/seed.js"
   },
   "eslintConfig": {
     "extends": "react-app"
