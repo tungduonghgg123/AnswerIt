@@ -69,7 +69,7 @@ const { toUNIT } = require('../src/web3/common')
                         "deadline2Modify": Math.round(new Date().getTime() / 1000) + 15 * 60,
                     }
                     try {
-                        await addAnswer(index, answer, mule_address)
+                        await addAnswer(index.toString(), answer, mule_address)
 
                     } catch (e) {
                         // throw new Error(e)
