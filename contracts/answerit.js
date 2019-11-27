@@ -38,12 +38,68 @@ const {
     @view getQuestion(id) {
         return this.questionHelper.getOne(id)
     }
-    @view getAnswers(questionId: string, options) {
-        return this.answerHelper.getList(questionId, options)
-    }
     @view getAllQuestion() {
         return this.questions.query()
     }
+
+    @view getAnswers(questionId: string, options) {
+        return this.answerHelper.getList(questionId, options)
+    }
+    @view getAnswer(id) {
+        return this.answerHelper.getOne(id)
+    }
+    /**
+     * 
+     * @param {string} questionId 
+     * @param {string} answerId 
+     * @param {number} amount optional
+     * VERSION 1: send all reward at once.
+     */
+    @transaction sendReward(questionId, answerId, amount) {
+        questionId = validate(questionId, Joi.string())
+        answerId = validate(answerId, Joi.string())
+    
+        const question = this.getQuestion(questionId)
+
+        // check question's owner
+        expect(question.owner === msg.sender, "You don't have the consent to do this!")
+        // eligible to give reward
+        expect(!question.gaveReward, "You already gave reward!")
+        if(amount) {
+
+            amount = validate(amount, Joi.number().positive().max(parseInt(question.reward)))
+        } else {
+            amount = question.reward
+        }
+        
+        // get answerID's owner => recipient
+        const answer = this.getAnswer(answerId)
+
+        // check whether answer belongs to this question
+        expect(questionId === answer.questionId, "This is not an answer from this question id!")
+        const recipient = answer.owner
+        // send
+        expect( amount <= this.balance, "Contract doesn't have enough balance!")
+        this.transfer(recipient, amount)
+
+        // update question and answer => close thread
+
+        this.answers.set(answerId,{
+            ...answer,
+            isBestAnswer: true,
+            reward: amount
+        } )
+
+        this.questions.set(questionId, {
+            ...question,
+            gaveReward: true,
+            resolved: true
+        })
+        this.emitEvent('GaveReward', this.getAnswer(answerId))
+    }
+
+
+
     @transaction migrateState(fromContract: address, overwrite: ?bool = false) {
         return migrateState(fromContract, overwrite)
     }
@@ -57,5 +113,11 @@ const {
     /// testing purpose
     @view getstateAPI() {
         return (Object.getOwnPropertyNames(this.questions))
+    }
+
+    @view showBalance() {
+        // reward
+
+        // money deposited to a question
     }
 }

@@ -34,7 +34,8 @@ module.exports = (contract, { validate, Joi }) => {
                 expireTime: Joi.date().timestamp('unix').raw(),
                 deadline2Modify: Joi.date().timestamp('unix').required().raw(),
                 timestamp: Joi.date().timestamp('unix').required().raw(),
-                gaveReward: Joi.boolean()
+                gaveReward: Joi.boolean(),
+                resolved: Joi.boolean()
             }))
             if(contract.runtime.msg.value) {
                 question.reward = contract.runtime.msg.value 

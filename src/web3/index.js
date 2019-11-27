@@ -45,3 +45,17 @@ exports.removeAnswer = async (id, from) => {
         throw new Error(e)
     }
 }
+exports.getAnswers = async (questionId) => {
+    try {
+        return await contract.methods.getAnswers(questionId).call()
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+exports.sendReward = async (questionId, answerId, amount, from) => {
+    try {
+        await contract.methods.sendReward(questionId, answerId, amount).sendCommit({ from })
+    } catch (e) {
+        throw new Error(e)
+    }
+}

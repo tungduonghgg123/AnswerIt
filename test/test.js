@@ -14,6 +14,8 @@ const contract = tweb3.contract(config.REACT_APP_CONTRACT)
 const address = main_acc.address
 const mule_address = mule_acc.address
 
+const {getAnswers, sendReward} = require('../src/web3/index')
+
 contract.events.AddAnswer({}, (error, data) => {
     if (error) {
         console.error(error)
@@ -28,4 +30,16 @@ contract.events.AddQuestion({}, (error, data) => {
         console.log(data)
     }
 })
-contract.methods.getAllQuestion().call().then(r => console.log(r))
+contract.events.GaveReward({}, (error, data) => {
+    if (error) {
+        console.error(error)
+    } else {
+        console.log(data)
+    }
+})
+// contract.methods.getstateAPI().call().then(r => console.log(r))
+
+getAnswers("2").then(r => console.log(r), e => console.log(e))
+
+
+sendReward('1', '4', 20 , address).then(r => console.log(r), e => console.log(e))
