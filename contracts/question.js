@@ -40,7 +40,7 @@ module.exports = (contract, { validate, Joi }) => {
                 question.reward = contract.runtime.msg.value 
                 question.gaveReward = false
             }
-            contract.emitEvent('AddQuestion', question)
+            contract.emitEvent('AddQuestion', {...question, index: contract.questions.count()})
 
             return contract.questions.add({ ...question, owner: contract.runtime.msg.sender })
         },

@@ -54,5 +54,8 @@ const {
     @transaction importState(data, overwrite: ?bool = false) {
         return importState(data, overwrite)
     }
-
+    /// testing purpose
+    @view getstateAPI() {
+        return (Object.getOwnPropertyNames(this.questions))
+    }
 }

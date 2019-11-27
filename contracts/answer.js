@@ -28,6 +28,11 @@ module.exports = (contract, { expect, validate, Joi }) => {
                 reward: Joi.number().min(0),
                 deadline2Modify: Joi.date().timestamp('unix').required().raw(),
             }))
+            contract.emitEvent('AddAnswer', { 
+                ...answer, 
+                questionId, 
+                owner: contract.runtime.msg.sender 
+            })
 
             return contract.answers.add({ 
                 ...answer, 

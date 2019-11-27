@@ -34,4 +34,4 @@ async function getFaucet(address) {
 }
 
 // getFaucet()
-getAddressInfo(contractAddr)
+getAddressInfo(account.address)

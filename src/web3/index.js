@@ -12,7 +12,7 @@ exports.addQuestion = async ( question, from, value) => {
     try {
         await contract.methods.addQuestion(question).sendCommit({ from, payer: 'system.faucet', value })
     } catch (e) {
-        console.log('try to use money from sender...')
+        //console.log('try to use money from sender...')
         try {
             contract.methods.addQuestion(question).sendCommit({ from, value })
         } catch (e) {
