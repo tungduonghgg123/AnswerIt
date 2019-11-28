@@ -28,7 +28,7 @@ const {
         return this.answerHelper.add(questionId, answer)
     }
 
-    @transaction removeAnswer(id: number, timestamp) {
+    @transaction removeAnswer(id: string, timestamp) {
         return this.answerHelper.remove(id, timestamp)
     }
 
@@ -82,18 +82,20 @@ const {
         expect( amount <= this.balance, "Contract doesn't have enough balance!")
         this.transfer(recipient, amount)
 
-        // update question and answer => close thread
-
+        // update question and answer => close thread ( not allow them to be changed)
+        const current = Math.round(new Date().getTime() / 1000)
         this.answers.set(answerId,{
             ...answer,
             isBestAnswer: true,
-            reward: amount
+            reward: amount,
+            deadline2Modify: current
         } )
 
         this.questions.set(questionId, {
             ...question,
             gaveReward: true,
-            resolved: true
+            resolved: true,
+            deadline2Modify: current
         })
         this.emitEvent('GaveReward', this.getAnswer(answerId))
     }
@@ -114,10 +116,12 @@ const {
     @view getstateAPI() {
         return (Object.getOwnPropertyNames(this.questions))
     }
-
-    @view showBalance() {
-        // reward
-
-        // money deposited to a question
+    /**
+     * 
+     * @param {string} questionId 
+     * withdraw deposited money when user create a new question
+     */
+    @transaction withdrawFromQuestion( id: string, timestamp ) {
+        return this.questionHelper.withdraw(id, timestamp)
     }
 }

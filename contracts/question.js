@@ -38,7 +38,7 @@ module.exports = (contract, { validate, Joi }) => {
                 resolved: Joi.boolean()
             }))
             if(contract.runtime.msg.value) {
-                question.reward = contract.runtime.msg.value 
+                question.reward = parseInt(contract.runtime.msg.value ) 
                 question.gaveReward = false
             }
             contract.emitEvent('AddQuestion', {...question, index: contract.questions.count()})
@@ -64,5 +64,25 @@ module.exports = (contract, { validate, Joi }) => {
             // it will return 'false' if nothing to delete
             return contract.questions.delete(id)
         },
+
+        withdraw(id, timestamp) {
+            const question = this.getOne(id)
+            // check consent
+            expect( contract.runtime.msg.sender === question.owner, "You don't have the consent to do this!" )
+            // check reward, gaveReward, expireTime
+            let amount = question.reward
+            amount = validate(amount, Joi.number().positive().max(parseInt(contract.balance)))
+
+            expect( timestamp > question.expireTime, "You can't withdraw money during this time")
+            expect(!question.gaveReward, "You already gave reward!")
+
+            // send
+            contract.transfer(contract.runtime.msg.sender, amount)
+            // update reward for this question
+            contract.questions.set(id, {
+                ...question,
+                reward: 0
+            })
+        }
     }
 }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hapi/joi": "^16.1.8",
     "@iceteachain/web3": "^0.1.16",
     "bip39": "^3.0.2",
     "hdkey": "^1.1.1",

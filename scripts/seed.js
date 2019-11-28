@@ -32,7 +32,7 @@ const { toUNIT } = require('../src/web3/common')
         data.data.forEach(async (thread, index) => {
             const question = {
                 "value": thread.question,
-                "expireTime": Math.round(new Date().getTime() / 1000) + 3600,
+                "expireTime": index === 0? Math.round(new Date().getTime() / 1000) : Math.round(new Date().getTime() / 1000) + 3600,
                 "timestamp": Math.round(new Date().getTime() / 1000),
                 "deadline2Modify": Math.round(new Date().getTime() / 1000) + 15 * 60,
             }
@@ -54,5 +54,9 @@ const { toUNIT } = require('../src/web3/common')
             catch (e) {
                 console.log(e)
             }
+            // finally {
+            //     if(index === 3)
+            //         process.exit(0) 
+            // }
         })
     })();
