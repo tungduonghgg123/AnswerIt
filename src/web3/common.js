@@ -10,3 +10,11 @@ exports.toUNIT = (tea) => {
   tea = (+tea).toFixed(decimal)
   return tea * (10 ** decimal)
 }
+
+exports.toUNIXTimestamp = (dateObj) => {
+  try {
+    return Math.round(dateObj.getTime() / 1000)
+  } catch (e){
+    throw e
+  }
+}

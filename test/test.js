@@ -59,4 +59,4 @@ contract.events.RemoveQuestion({}, (error, data) => {
 
 // sendReward('1', '4', 20 , address).then(r => console.log(r), e => console.log(e))
 // removeAnswer('4', mule_address).then(r => console.log(r), e => console.log(e))
-withdrawFromQuestion('0', address).then(r => console.log(r), e => console.log(e))
+// withdrawFromQuestion('0', address).then(r => console.log(r), e => console.log(e))

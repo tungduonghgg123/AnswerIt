@@ -1,13 +1,20 @@
 const { IceteaWeb3 } = require('@iceteachain/web3')
-const envfile = require('envfile')
-const { envPath } = require('../../scripts/mode')
-const config = envfile.parseFileSync(envPath)
 
-const tweb3 = new IceteaWeb3(config.REACT_APP_RPC)
-const contract = tweb3.contract(config.REACT_APP_CONTRACT)
+// const { envPath } = require('../../scripts/mode')
+// const envPath = '.env'
+// const config = envfile.parseFileSync(envPath)
+
+// const tweb3 = new IceteaWeb3(config.REACT_APP_RPC)
+// const contract = tweb3.contract(config.REACT_APP_CONTRACT)
+const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
+const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
+const main_acc = tweb3.wallet.importAccount('643YwKQMQ2ZkeCcEgE1zKYJNvUr7RxH5mAVMYDZZgH1f')
+const mule_acc = tweb3.wallet.importAccount('8A7DaE1mGPJzjc17mJ1u2KpnM43RJXtLhFh5XSk8844L')
+const address = main_acc.address
+const mule_address = mule_acc.address
 
 
-exports.addQuestion = async (question, from, value) => {
+exports.addQuestion = async (question, from = address, value) => {
     try {
         await contract.methods.addQuestion(question).sendCommit({ from, payer: 'system.faucet', value })
     } catch (e) {

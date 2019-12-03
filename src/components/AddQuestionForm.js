@@ -10,15 +10,15 @@ import {
     KeyboardTimePicker
 } from '@material-ui/pickers';
 
-export default function AddQuestionForm() {
-    const { question } = styles
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const handleDateChange = date => {
-        setSelectedDate(date);
-        console.log(selectedDate)
-    }
+export default function AddQuestionForm(props) {
+    // const [selectedDate, setSelectedDate] = React.useState(new Date());
+    // const handleDateChange = date => {
+    //     console.log(date)
+    //     setSelectedDate(date)
+    // }
+    const {data, onDateChange, onContentChange, onRewardChange} = props
+    const {expireTime, value, reward} = data
     return (
-        // get data after user input
         <div>
             <form noValidate autoComplete="off">
                 <TextField
@@ -26,47 +26,49 @@ export default function AddQuestionForm() {
                     label="Question"
                     variant="outlined"
                     fullWidth
+                    value={value}
                     multiline
                     rows="5"
+                    onChange={(content) => onContentChange(content.target.value)}
                 />
-                
-                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{justifyContent: 'space-around'}}>
-                <Grid container justify="space-between">
                 <TextField
                     label="Reward"
                     id="standard-start-adornment"
                     variant="outlined"
-                    // fullWidth
-                    onChange={(text) => console.log(text.target.value)}
+                    fullWidth
+                    value={reward}
+                    onChange={(reward) => onRewardChange(reward.target.value)}
                     margin="normal"
-
                     InputProps={{
                         endAdornment: <InputAdornment position="end">TEA</InputAdornment>,
                     }}
                 />
-                    <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        label="Date picker"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
-                    <KeyboardTimePicker
-                        margin="normal"
-                        id="time-picker"
-                        label="Time picker"
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change time',
-                        }}
-                    />
+                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{ justifyContent: 'space-around' }}>
+                    <Grid container justify="space-between">
+
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker-inline"
+                            label="Date picker"
+                            value={expireTime}
+                            onChange={onDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                        <KeyboardTimePicker
+                            margin="normal"
+                            id="time-picker"
+                            label="Time picker"
+                            value={expireTime}
+                            onChange={onDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change time',
+                            }}
+                        />
                     </Grid>
                 </MuiPickersUtilsProvider>
             </form>
@@ -74,11 +76,5 @@ export default function AddQuestionForm() {
 
         </div>
     )
-}
-
-const styles = {
-    question: {
-        marginRight: '20px'
-    }
 }
 export { AddQuestionForm }
