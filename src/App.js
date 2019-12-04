@@ -1,11 +1,16 @@
 import React from 'react';
 import { color } from './styles/index'
-import './App.css';
-import { Header, FormDialog, AddQuestionForm, NewFeed } from './components'
 import { Button } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import { Header, FormDialog, AddQuestionForm, NewFeed } from './components'
 import { toUNIXTimestamp, toUNIT } from './web3/common'
 import { addQuestion, getAllQuestion } from './web3/index'
-import Container from '@material-ui/core/Container';
 /**
  * MODIFY_TIME: in seconds
  */
