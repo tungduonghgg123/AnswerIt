@@ -14,7 +14,7 @@ const contract = tweb3.contract(config.REACT_APP_CONTRACT)
 const address = main_acc.address
 const mule_address = mule_acc.address
 
-const {getAnswers, sendReward, removeQuestion, removeAnswer, withdrawFromQuestion} = require('../src/web3/index')
+const {getAnswers, sendReward,getAllQuestion, getQuestions, addQuestion, removeQuestion, removeAnswer, withdrawFromQuestion} = require('../src/web3/index')
 
 contract.events.AddAnswer({}, (error, data) => {
     if (error) {
@@ -58,5 +58,13 @@ contract.events.RemoveQuestion({}, (error, data) => {
 
 
 // sendReward('1', '4', 20 , address).then(r => console.log(r), e => console.log(e))
-// removeAnswer('4', mule_address).then(r => console.log(r), e => console.log(e))
+// removeQuestion('16', address).then(r => console.log(r), e => console.log(e))
 // withdrawFromQuestion('0', address).then(r => console.log(r), e => console.log(e))
+getQuestions(address).then(r => console.log(r), e => console.log(e))
+const q = {
+    value: 'I am Tung Duong',
+    expireTime: 1575453132,
+    deadline2Modify: 1575454032,
+    timestamp: 1575453139,
+  }
+// addQuestion(q)

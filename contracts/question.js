@@ -41,6 +41,9 @@ module.exports = (contract, { validate, Joi }) => {
                 question.reward = parseInt(contract.runtime.msg.value ) 
                 question.gaveReward = false
             }
+            /**
+             * `Warning`: index should be the index of the last question + 1
+             */
             contract.emitEvent('AddQuestion', {...question, index: contract.questions.count()})
 
             return contract.questions.add({ ...question, owner: contract.runtime.msg.sender })

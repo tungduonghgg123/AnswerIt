@@ -60,7 +60,13 @@ exports.getAnswers = async (questionId) => {
 }
 exports.getAllQuestion = async () => {
     try {
-        return await contract.methods.getAllQuestion().call()
+        const questions = await contract.methods.getAllQuestion().call()
+        const keys = Object.keys(questions)
+        let array = []
+        keys.forEach((key) => {
+            array[parseInt(key)] = questions[parseInt(key)]
+        })
+        return array
     } catch (e) {
         throw e
     }
