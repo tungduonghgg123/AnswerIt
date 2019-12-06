@@ -1,9 +1,7 @@
 import React from 'react'
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import {TextField, InputAdornment, Grid} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
-import Grid from '@material-ui/core/Grid';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,

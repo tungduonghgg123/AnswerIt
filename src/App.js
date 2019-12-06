@@ -1,15 +1,12 @@
 import React from 'react';
 import { color } from './styles/index'
-import { Button } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
-import List from '@material-ui/core/List';
-
+import { Button, Container, List } from '@material-ui/core';
 import {
   Header, FormDialog, AddQuestionForm, AnswerForm,
   NewFeed, Thread, Question, Answer
 } from './components'
 import { toUNIXTimestamp, toUNIT } from './web3/common'
-import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers } from './web3/index'
+import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward } from './web3/index'
 /**
  * MODIFY_TIME: in seconds
  */
@@ -135,6 +132,7 @@ class App extends React.Component {
   fetchAnswers(questionId) {
     try {
       getAnswers(questionId).then((answers) => {
+        console.log(answers)
         this.setState({
           answers: answers
         })
@@ -144,10 +142,16 @@ class App extends React.Component {
       throw e
     }
   }
+  giveReward(questionId, answerId) {
+    if(!this.state.rewardFeed)
+      return
+    sendReward(questionId, answerId, this.state.clickedQuestion.reward)
+  }
   renderAnswers() {
+    console.log(this.state.answers)
     return this.state.answers.map((answer, i) => {
       return (
-        <Answer key={i} answer={answer} i={i} />
+        <Answer key={i} answer={answer} i={i} onClick={( ) => this.giveReward(answer.questionId.toString(), answer.id.toString())}/>
       )
     })
   }
@@ -164,7 +168,7 @@ class App extends React.Component {
   renderThread() {
     return (
       <Thread open={true} handleClose={() => this.closeThread()} >
-        <Question isReward={this.state.rewardFeed} question={this.state.clickedQuestion} i={this.state.clickedQuestion.index} />
+        <Question isReward={this.state.rewardFeed} question={this.state.clickedQuestion} i={this.state.clickedQuestion.index} onClick={() => {}} />
         <AnswerForm
           value={this.state.answer.value}
           onContentChange={(content) => this.handleAnswerContentChange(content.target.value)}

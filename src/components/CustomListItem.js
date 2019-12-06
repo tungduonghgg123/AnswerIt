@@ -1,17 +1,19 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import DoneIcon from '@material-ui/icons/Done';
+import { Avatar, Divider, ListItem, IconButton, ListItemSecondaryAction, ListItemText, ListItemAvatar } from '@material-ui/core';
 import images from '../assets/images'
 import { diffTime, toTEA } from '../web3/common'
+import { color } from '../styles'
 const NUM_IMAGES = images.length - 1
+const styles = {
+    tickIcon: {
+        color: color.secondary
+    }
+}
 function Question(props) {
     const { isReward, question, i, onClick } = props
-    const { reward, expireTime, value } = question
+    const { reward, expireTime, value, resolved } = question
+    const { tickIcon } = styles
     if (isReward) {
         if (reward)
             return (
@@ -21,13 +23,25 @@ function Question(props) {
                             <Avatar alt="Remy Sharp" src={images[i % NUM_IMAGES]} />
                         </ListItemAvatar>
                         <ListItemText
-                            primary={`Reward: ${toTEA(reward)} Tea -- Deadline: ${diffTime(expireTime)}`}
-                            secondary={
+                            secondary={`Reward: ${toTEA(reward)} Tea -- Deadline: ${diffTime(expireTime)}`}
+                            primary={
                                 <React.Fragment>
                                     {value}
                                 </React.Fragment>
                             }
                         />
+                        {
+                            resolved ?
+                                <ListItemSecondaryAction>
+                                    <IconButton edge="end" aria-label="delete">
+                                        <DoneIcon style={tickIcon} />
+                                    </IconButton>
+                                </ListItemSecondaryAction> 
+                                : 
+                                null
+                        }
+
+
                     </ListItem>
                     <Divider variant="inset" component="li" />
                 </div>
@@ -44,13 +58,15 @@ function Question(props) {
                             <Avatar alt="Remy Sharp" src={images[i % NUM_IMAGES]} />
                         </ListItemAvatar>
                         <ListItemText
-                            primary={`Deadline: ${diffTime(expireTime)}`}
-                            secondary={
+                            secondary={`Deadline: ${diffTime(expireTime)}`}
+                            primary={
                                 <React.Fragment>
                                     {value}
                                 </React.Fragment>
                             }
                         />
+                        <span style={{ color: 'pink' }}>solved</span>
+
                     </ListItem>
                     <Divider variant="inset" component="li" />
                 </div>
@@ -59,21 +75,22 @@ function Question(props) {
     }
 }
 function Answer(props) {
-    const { answer, i } = props
-    const { value } = answer
+    const { answer, i, onClick } = props
+    const { value, timestamp } = answer
     return (
         <div>
-            <ListItem alignItems="flex-start" onClick={() => console.log('ahihi')}>
+            <ListItem alignItems="flex-start" onClick={() => onClick()}>
                 <ListItemAvatar>
                     <Avatar alt="Remy Sharp" src={images[i % NUM_IMAGES]} />
                 </ListItemAvatar>
                 <ListItemText
-                    // primary={`Reward: ${toTEA(reward)} Tea -- Deadline: ${diffTime(expireTime)}`}
-                    secondary={
+                    primary={
                         <React.Fragment>
                             {value}
                         </React.Fragment>
                     }
+                    secondary={` ${diffTime(timestamp)}`}
+
                 />
             </ListItem>
             <Divider variant="inset" component="li" />

@@ -98,7 +98,7 @@ exports.getQuestions = async (owner) => {
         throw e
     }
 }
-exports.sendReward = async (questionId, answerId, amount, from) => {
+exports.sendReward = async (questionId, answerId, amount, from = mule_address) => {
     try {
         await contract.methods.sendReward(questionId, answerId, amount).sendCommit({ from })
     } catch (e) {
