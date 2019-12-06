@@ -2,15 +2,14 @@ import React from 'react';
 import { color } from './styles/index'
 import { Button } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
+
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import { Header, FormDialog, AddQuestionForm, NewFeed } from './components'
+  Header, FormDialog, AddQuestionForm, AnswerForm,
+  NewFeed, Thread, Question, Answer
+} from './components'
 import { toUNIXTimestamp, toUNIT } from './web3/common'
-import { addQuestion, getAllQuestion } from './web3/index'
+import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers } from './web3/index'
 /**
  * MODIFY_TIME: in seconds
  */
@@ -21,12 +20,20 @@ class App extends React.Component {
     super(props)
     this.state = {
       openForm: false,
+      openThread: false,
       rewardFeed: true,
       question: {
         value: '',
         reward: '',
         expireTime: new Date(),
       },
+      answer: {
+        value: '',
+        timestamp: '',
+        deadline2Modify: ''
+      },
+      clickedQuestion: {},
+      answers: [],
       questions: []
     }
   }
@@ -46,6 +53,14 @@ class App extends React.Component {
       }
     })
   }
+  handleAnswerContentChange(content) {
+    this.setState({
+      answer: {
+        ...this.state.answer,
+        value: content
+      }
+    })
+  }
   handleQuestionRewardChange(reward) {
     this.setState({
       question: {
@@ -55,24 +70,56 @@ class App extends React.Component {
     })
   }
   submitQuestion() {
-    // convert date to UNIX format
-    // add deadline2modify
     let question = this.state.question
     const reward = toUNIT(parseFloat(question.reward))
     question = {
       ...question,
       expireTime: toUNIXTimestamp(question.expireTime),
-      deadline2Modify: toUNIXTimestamp(question.expireTime) + MODIFY_TIME,
+      deadline2Modify: toUNIXTimestamp(new Date()) + MODIFY_TIME,
       timestamp: toUNIXTimestamp(new Date()),
       reward: undefined
     }
     addQuestion(question, undefined, reward)
+    this.closeForm()
+
+  }
+  submitAnswer(toQuestionId) {
+    let answer = this.state.answer
+    answer = {
+      ...answer,
+      deadline2Modify: toUNIXTimestamp(new Date()) + MODIFY_TIME,
+      timestamp: toUNIXTimestamp(new Date()),
+    }
+    addAnswer(toQuestionId, answer)
+    this.cleanAnswerForm()
+  }
+  cleanAnswerForm() {
+    this.setState({
+      answer: {
+        value: '',
+        timestamp: '',
+        deadline2Modify: ''
+      }
+    })
+  }
+  cleanForm() {
+    this.setState({
+      question: {
+        value: '',
+        reward: '',
+        expireTime: new Date(),
+      }
+    })
+  }
+  closeForm() {
+    this.setState({ openForm: false })
+    this.cleanForm()
   }
   renderForm() {
     return (
       <FormDialog
         open={this.state.openForm}
-        handleClose={() => this.setState({ openForm: false })}
+        handleClose={() => this.closeForm()}
         handlePost={() => this.submitQuestion()}
       >
         <AddQuestionForm
@@ -85,14 +132,72 @@ class App extends React.Component {
     )
 
   }
-  
-  componentDidMount() {
+  fetchAnswers(questionId) {
+    try {
+      getAnswers(questionId).then((answers) => {
+        this.setState({
+          answers: answers
+        })
+
+      })
+    } catch (e) {
+      throw e
+    }
+  }
+  renderAnswers() {
+    return this.state.answers.map((answer, i) => {
+      return (
+        <Answer key={i} answer={answer} i={i} />
+      )
+    })
+  }
+  closeThread() {
+    this.setState({
+      openThread: false,
+      answer: {
+        value: '',
+        timestamp: '',
+        deadline2Modify: ''
+      }
+    })
+  }
+  renderThread() {
+    return (
+      <Thread open={true} handleClose={() => this.closeThread()} >
+        <Question isReward={this.state.rewardFeed} question={this.state.clickedQuestion} i={this.state.clickedQuestion.index} />
+        <AnswerForm
+          value={this.state.answer.value}
+          onContentChange={(content) => this.handleAnswerContentChange(content.target.value)}
+        />
+        <Button style={styles.button} onClick={() => this.submitAnswer(this.state.clickedQuestion.index.toString())} >Post</Button>
+        <List>
+          {this.renderAnswers()}
+        </List>
+      </Thread>
+
+    )
+  }
+  fetchQuestions() {
     getAllQuestion().then(questions => {
       this.setState({ questions })
     })
   }
+  componentDidMount() {
+    this.fetchQuestions()
+    addQuestionEvent(() => this.fetchQuestions())
+    addAnswerEvent(() => this.fetchAnswers(this.state.clickedQuestion.index.toString()))
+  }
+  async onQuestionClick(question, index) {
+    this.setState({
+      openThread: true,
+      clickedQuestion: {
+        ...question,
+        index
+      }
+    })
+    this.fetchAnswers(index.toString())
+  }
   render() {
-    //bug: getAllQuestion return not comprihensive
     const { container, button, feed } = styles
     return (
       <div style={container}>
@@ -101,13 +206,15 @@ class App extends React.Component {
           what is your question ?
         </Button>
         <div style={{ alignSelf: 'center' }}>
-          <Button style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({rewardFeed: true})}>Reward</Button>
-          <Button style={button} onClick={() => this.setState({rewardFeed: false})} >Normal</Button>
+          <Button style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({ rewardFeed: true })}>Reward</Button>
+          <Button style={button} onClick={() => this.setState({ rewardFeed: false })} >Normal</Button>
         </div>
         {this.state.openForm ? this.renderForm() : null}
+
         <Container maxWidth="sm" style={feed}>
-          <NewFeed isReward={this.state.rewardFeed} questions={this.state.questions}/>
+          <NewFeed isReward={this.state.rewardFeed} questions={this.state.questions} onQuestionClick={(q, i) => this.onQuestionClick(q, i)} />
         </Container>
+        {this.state.openThread ? this.renderThread() : null}
       </div>
     );
   }

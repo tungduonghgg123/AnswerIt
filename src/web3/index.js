@@ -27,13 +27,33 @@ exports.addQuestion = async (question, from = address, value) => {
 
     }
 }
-exports.addAnswer = async (questionId, answer, from) => {
+exports.addQuestionEvent = (callback) => {
+    contract.events.AddQuestion({}, (error, data) => {
+        if (error) {
+            throw error
+        } else {
+            callback()
+            return data
+        }
+    })
+}
+exports.addAnswer = async (questionId, answer, from = address) => {
     try {
         await contract.methods.addAnswer(questionId, answer).sendCommit({ from })
     } catch (e) {
         // e - error object. It has 3 properties: name, message and stack!
         throw e
     }
+}
+exports.addAnswerEvent = (callback) => {
+    contract.events.AddAnswer({}, (error, data) => {
+        if (error) {
+            throw error
+        } else {
+            callback()
+            return data
+        }
+    })
 }
 exports.removeQuestion = async (id, from) => {
     const timestamp = Math.round(new Date().getTime() / 1000)
