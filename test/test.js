@@ -57,7 +57,7 @@ contract.events.RemoveQuestion({}, (error, data) => {
 // contract.methods.getQuestion("0").call().then(r => console.log(r), e => console.log(e))
 
 
-// sendReward('1', '4', 20 , address).then(r => console.log(r), e => console.log(e))
+
 // removeQuestion('16', address).then(r => console.log(r), e => console.log(e))
 // withdrawFromQuestion('0', address).then(r => console.log(r), e => console.log(e))
 // getQuestions(address).then(r => console.log(r), e => console.log(e))
@@ -67,5 +67,5 @@ const q = {
     deadline2Modify: 1575454032,
     timestamp: 1575453139,
   }
-addQuestion(q)
+// addQuestion(q)
 // getAnswers("1").then((r) => console.log(r))

@@ -33,11 +33,9 @@ function Question(props) {
                         {
                             resolved ?
                                 <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete">
-                                        <DoneIcon style={tickIcon} />
-                                    </IconButton>
-                                </ListItemSecondaryAction> 
-                                : 
+                                    <DoneIcon style={tickIcon} />
+                                </ListItemSecondaryAction>
+                                :
                                 null
                         }
 
@@ -65,7 +63,6 @@ function Question(props) {
                                 </React.Fragment>
                             }
                         />
-                        <span style={{ color: 'pink' }}>solved</span>
 
                     </ListItem>
                     <Divider variant="inset" component="li" />
@@ -76,7 +73,7 @@ function Question(props) {
 }
 function Answer(props) {
     const { answer, i, onClick } = props
-    const { value, timestamp } = answer
+    const { value, timestamp, isBestAnswer } = answer
     return (
         <div>
             <ListItem alignItems="flex-start" onClick={() => onClick()}>
@@ -92,6 +89,14 @@ function Answer(props) {
                     secondary={` ${diffTime(timestamp)}`}
 
                 />
+                {
+                    isBestAnswer ?
+                        <ListItemSecondaryAction>
+                            <DoneIcon style={styles.tickIcon} />
+                        </ListItemSecondaryAction>
+                        :
+                        null
+                }
             </ListItem>
             <Divider variant="inset" component="li" />
         </div>

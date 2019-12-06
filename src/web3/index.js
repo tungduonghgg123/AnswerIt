@@ -98,13 +98,24 @@ exports.getQuestions = async (owner) => {
         throw e
     }
 }
-exports.sendReward = async (questionId, answerId, amount, from = mule_address) => {
+exports.sendReward = async (questionId, answerId, amount, from = address) => {
     try {
         await contract.methods.sendReward(questionId, answerId, amount).sendCommit({ from })
     } catch (e) {
         throw e
     }
 }
+exports.sendRewardEvent = (callback) => {
+    contract.events.GaveReward({}, (error, data) => {
+        if (error) {
+            throw error
+        } else {
+            callback()
+            return data
+        }
+    })
+}
+
 exports.withdrawFromQuestion = async (questionId, from) => {
     const timestamp = Math.round(new Date().getTime() / 1000)
     try {

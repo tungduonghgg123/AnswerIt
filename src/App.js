@@ -1,12 +1,13 @@
 import React from 'react';
 import { color } from './styles/index'
-import { Button, Container, List } from '@material-ui/core';
+import { Button, Container, List, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+
 import {
   Header, FormDialog, AddQuestionForm, AnswerForm,
   NewFeed, Thread, Question, Answer
 } from './components'
 import { toUNIXTimestamp, toUNIT } from './web3/common'
-import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward } from './web3/index'
+import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from './web3/index'
 /**
  * MODIFY_TIME: in seconds
  */
@@ -17,6 +18,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       openForm: false,
+      openGiveRewardDialog: false,
+      giveRewardDialogContent: '',
       openThread: false,
       rewardFeed: true,
       question: {
@@ -132,7 +135,6 @@ class App extends React.Component {
   fetchAnswers(questionId) {
     try {
       getAnswers(questionId).then((answers) => {
-        console.log(answers)
         this.setState({
           answers: answers
         })
@@ -142,16 +144,47 @@ class App extends React.Component {
       throw e
     }
   }
-  giveReward(questionId, answerId) {
-    if(!this.state.rewardFeed)
+  async giveReward(questionId, answerId) {
+    if (!this.state.rewardFeed)
       return
-    sendReward(questionId, answerId, this.state.clickedQuestion.reward)
+      try {
+        await sendReward(questionId, answerId, this.state.clickedQuestion.reward)
+        this.setState({
+          giveRewardDialogContent: 'success'
+        })
+    } catch (error) {
+      this.setState({
+        giveRewardDialogContent: error.message
+      })
+    }
+    this.setState({
+      openGiveRewardDialog: true
+    })
+  }
+  closeGiveRewardDialog() {
+    this.setState({
+      openGiveRewardDialog: false,
+      giveRewardDialogContent: ''
+    })
   }
   renderAnswers() {
-    console.log(this.state.answers)
     return this.state.answers.map((answer, i) => {
       return (
-        <Answer key={i} answer={answer} i={i} onClick={( ) => this.giveReward(answer.questionId.toString(), answer.id.toString())}/>
+        <div key={i}>
+          <Answer  answer={answer} i={i} onClick={() => this.giveReward(answer.questionId.toString(), answer.id.toString())} />
+          <Dialog  open={this.state.openGiveRewardDialog} onClose={() => this.closeGiveRewardDialog()} aria-labelledby="form-dialog-title">
+            <DialogContent>
+              <DialogContentText>
+                {this.state.giveRewardDialogContent}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => this.closeGiveRewardDialog()} color="primary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       )
     })
   }
@@ -168,7 +201,7 @@ class App extends React.Component {
   renderThread() {
     return (
       <Thread open={true} handleClose={() => this.closeThread()} >
-        <Question isReward={this.state.rewardFeed} question={this.state.clickedQuestion} i={this.state.clickedQuestion.index} onClick={() => {}} />
+        <Question isReward={this.state.rewardFeed} question={this.state.clickedQuestion} i={this.state.clickedQuestion.index} onClick={() => { }} />
         <AnswerForm
           value={this.state.answer.value}
           onContentChange={(content) => this.handleAnswerContentChange(content.target.value)}
@@ -190,6 +223,10 @@ class App extends React.Component {
     this.fetchQuestions()
     addQuestionEvent(() => this.fetchQuestions())
     addAnswerEvent(() => this.fetchAnswers(this.state.clickedQuestion.index.toString()))
+    sendRewardEvent(() => {
+      this.fetchQuestions()
+      this.fetchAnswers(this.state.clickedQuestion.index.toString())
+    })
   }
   async onQuestionClick(question, index) {
     this.setState({
