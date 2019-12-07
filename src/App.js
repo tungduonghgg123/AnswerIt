@@ -1,10 +1,11 @@
 import React from 'react';
 import { color } from './styles/index'
-import { Button, Container, List, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-
+import { Button, Container, List, Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
+import { connect } from 'react-redux';
+import * as actions from './redux/actions'
 import {
   Header, FormDialog, AddQuestionForm, AnswerForm,
-  NewFeed, Thread, Question, Answer
+  NewFeed, Thread, Answer, Question
 } from './components'
 import { toUNIXTimestamp, toUNIT } from './web3/common'
 import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from './web3/index'
@@ -79,7 +80,7 @@ class App extends React.Component {
       timestamp: toUNIXTimestamp(new Date()),
       reward: undefined
     }
-    addQuestion(question, undefined, reward)
+    addQuestion(question, this.props.account, reward)
     this.closeForm()
 
   }
@@ -133,16 +134,11 @@ class App extends React.Component {
 
   }
   fetchAnswers(questionId) {
-    try {
       getAnswers(questionId).then((answers) => {
         this.setState({
           answers: answers
         })
-
       })
-    } catch (e) {
-      throw e
-    }
   }
   async giveReward(questionId, answerId) {
     if (!this.state.rewardFeed)
@@ -172,7 +168,7 @@ class App extends React.Component {
       return (
         <div key={i}>
           <Answer  answer={answer} i={i} onClick={() => this.giveReward(answer.questionId.toString(), answer.id.toString())} />
-          <Dialog  open={this.state.openGiveRewardDialog} onClose={() => this.closeGiveRewardDialog()} aria-labelledby="form-dialog-title">
+          <Dialog maxWidth="xs" fullWidth open={this.state.openGiveRewardDialog} onClose={() => this.closeGiveRewardDialog()} aria-labelledby="form-dialog-title">
             <DialogContent>
               <DialogContentText>
                 {this.state.giveRewardDialogContent}
@@ -214,14 +210,15 @@ class App extends React.Component {
 
     )
   }
-  fetchQuestions() {
-    getAllQuestion().then(questions => {
-      this.setState({ questions })
-    })
+  async fetchQuestions() {
+    const questions = await getAllQuestion()
+    this.setState({questions})
   }
   componentDidMount() {
     this.fetchQuestions()
-    addQuestionEvent(() => this.fetchQuestions())
+    addQuestionEvent(() => {
+      this.fetchQuestions()
+    })
     addAnswerEvent(() => this.fetchAnswers(this.state.clickedQuestion.index.toString()))
     sendRewardEvent(() => {
       this.fetchQuestions()
@@ -238,11 +235,14 @@ class App extends React.Component {
     })
     this.fetchAnswers(index.toString())
   }
+
   render() {
     const { container, button, feed } = styles
     return (
       <div style={container}>
-        <Header />
+        <Header 
+          balance={this.state.balance}
+        />
         <Button style={button} variant="outlined" onClick={() => this.setState({ openForm: true, question: { ...this.state.question, expireTime: new Date() } })}>
           what is your question ?
         </Button>
@@ -279,4 +279,8 @@ const styles = {
     padding: 0
   }
 }
-export default App;
+const mapStateToProps = state => ({
+  account: state.setAccountReducer,
+});
+
+export default connect(mapStateToProps, actions)(App)

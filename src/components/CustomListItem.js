@@ -4,6 +4,9 @@ import { Avatar, Divider, ListItem, IconButton, ListItemSecondaryAction, ListIte
 import images from '../assets/images'
 import { diffTime, toTEA } from '../web3/common'
 import { color } from '../styles'
+import { connect } from 'react-redux';
+import * as actions from '../redux/actions'
+import {account2Index} from '../redux/reducers/accountReducer'
 const NUM_IMAGES = images.length - 1
 const styles = {
     tickIcon: {
@@ -14,13 +17,14 @@ function Question(props) {
     const { isReward, question, i, onClick } = props
     const { reward, expireTime, value, resolved } = question
     const { tickIcon } = styles
+    const image = images[account2Index(question.owner)]
     if (isReward) {
         if (reward)
             return (
                 <div key={i}>
                     <ListItem alignItems="flex-start" onClick={() => onClick(question, i)}>
                         <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={images[i % NUM_IMAGES]} />
+                            <Avatar alt="Remy Sharp" src={image} />
                         </ListItemAvatar>
                         <ListItemText
                             secondary={`Reward: ${toTEA(reward)} Tea -- Deadline: ${diffTime(expireTime)}`}
@@ -30,6 +34,7 @@ function Question(props) {
                                 </React.Fragment>
                             }
                         />
+
                         {
                             resolved ?
                                 <ListItemSecondaryAction>
@@ -38,8 +43,6 @@ function Question(props) {
                                 :
                                 null
                         }
-
-
                     </ListItem>
                     <Divider variant="inset" component="li" />
                 </div>
@@ -53,7 +56,7 @@ function Question(props) {
                 <div key={i}>
                     <ListItem key={i} alignItems="flex-start" onClick={() => onClick(question, i)}>
                         <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={images[i % NUM_IMAGES]} />
+                            <Avatar alt="Remy Sharp" src={image} />
                         </ListItemAvatar>
                         <ListItemText
                             secondary={`Deadline: ${diffTime(expireTime)}`}
@@ -102,4 +105,9 @@ function Answer(props) {
         </div>
     )
 }
-export { Question, Answer }
+const mapStateToProps = state => ({
+    id: state.setAccountReducer.id,
+  
+  });
+export default connect(mapStateToProps, actions)(Question)
+export {  Answer }
