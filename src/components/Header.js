@@ -6,6 +6,7 @@ import { color } from '../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions'
 import { getBalance } from '../web3/index'
+import {account2Index} from '../redux/reducers/accountReducer'
 
 class Header extends React.Component {
   constructor(props) {
@@ -56,7 +57,8 @@ class Header extends React.Component {
             <Typography style={{ color: "black" }}>
               {this.state.balance} Tea
             </Typography>
-            <Button onClick={() => this.setShowDialog(true)}>Login</Button>
+            {/* <Button onClick={() => this.setShowDialog(true)}>Login</Button> */}
+            <Avatar alt="Remy Sharp" src={images[account2Index(this.props.account)]} onClick={() => this.setShowDialog(true)} />
             <Dialog open={this.state.showDialog} maxWidth="sm" fullWidth onClose={() => this.setShowDialog(false)}>
               <DialogTitle id="form-dialog-title">Select Account</DialogTitle>
               <List style={{flexDirection: 'row', display: 'flex', justifyContent: 'space-around'}} onClick={() => {}}>

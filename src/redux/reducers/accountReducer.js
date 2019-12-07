@@ -9,7 +9,7 @@ const accounts = [
     'teat18lpmnpgprv0rwz0rzueu0tyc28eqxj0a5cc5fq',
     'teat10sycvyxlslwhyq2mg9gdpujk78rxm0yceyfcen'
 ]
-function setAccountReducer (state = accounts[0], action) {
+function setAccountReducer (state = accounts[1], action) {
     switch (action.type) {
         case SET_ACCOUNT:
             return state = accounts[action.payload]

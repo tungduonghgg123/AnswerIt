@@ -51,6 +51,7 @@ contract.events.RemoveQuestion({}, (error, data) => {
         console.log(data)
     }
 })
+console.log(Object.getOwnPropertyNames(tweb3.wallet))
 // contract.methods.getstateAPI().call().then(r => console.log(r))
 
 // getAnswers("1").then(r => console.log(r), e => console.log(e))

@@ -18,18 +18,22 @@ tweb3.wallet.importAccount('CbUFvWuBNdH3xxkspzyWZu66PL8q4gAd8zK1Z78g6Ttt')
 tweb3.wallet.importAccount('6JjCo9diGK1LKYfSGrfvk7fqMgDoeSr94cBVmadhUp7G')
 
 exports.addQuestion = async (question, from , value) => {
-    try {
-        console.log(from)
-        await contract.methods.addQuestion(question).sendCommit({ from, payer: 'system.faucet', value })
-    } catch (e) {
-        //console.log('try to use money from sender...')
+    // try {
+    //     console.log(from)
+    //     await contract.methods.addQuestion(question).sendCommit({ from, payer: 'system.faucet', value })
+    // } catch (e) {
+    //     //console.log('try to use money from sender...')
+    //     try {
+    //         contract.methods.addQuestion(question).sendCommit({ from, value })
+    //     } catch (e) {
+    //         throw e
+    //     }
+    // }
         try {
             contract.methods.addQuestion(question).sendCommit({ from, value })
         } catch (e) {
             throw e
         }
-
-    }
 }
 exports.addQuestionEvent = (callback) => {
     contract.events.AddQuestion({}, (error, data) => {
