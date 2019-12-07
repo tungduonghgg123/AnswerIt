@@ -1,66 +1,21 @@
 import React from 'react';
 import { color } from './styles/index'
-import { Button, Container, List, Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions'
-import {
-  Header, FormDialog, AddQuestionForm, AnswerForm,
-  NewFeed, Thread, Answer, Question, InformDialog, AskQuestion,
-} from './components'
-import { toUNIXTimestamp, toUNIT } from './web3/common'
-import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from './web3/index'
-
-/**
- * MODIFY_TIME: in seconds
- */
-const MODIFY_TIME = 15 * 60
+import { Header, NewFeed, Thread, AskQuestion,} from './components'
+import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers, sendRewardEvent } from './web3/index'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      openForm: false,
-      openGiveRewardDialog: false,
-      giveRewardDialogContent: '',
       openThread: false,
       rewardFeed: true,
-      answer: {
-        value: '',
-        timestamp: '',
-        deadline2Modify: ''
-      },
       clickedQuestion: {},
-      answers: [],
-      questions: []
+      questions: [],
+      answers: []
     }
-  }
-
-  handleAnswerContentChange(content) {
-    this.setState({
-      answer: {
-        ...this.state.answer,
-        value: content
-      }
-    })
-  }
-  submitAnswer(toQuestionId) {
-    let answer = this.state.answer
-    answer = {
-      ...answer,
-      deadline2Modify: toUNIXTimestamp(new Date()) + MODIFY_TIME,
-      timestamp: toUNIXTimestamp(new Date()),
-    }
-    addAnswer(toQuestionId, answer, this.props.account)
-    this.cleanAnswerForm()
-  }
-  cleanAnswerForm() {
-    this.setState({
-      answer: {
-        value: '',
-        timestamp: '',
-        deadline2Modify: ''
-      }
-    })
   }
   fetchAnswers(questionId) {
     getAnswers(questionId).then((answers) => {
@@ -69,47 +24,7 @@ class App extends React.Component {
       })
     })
   }
-  async giveReward(questionId, answerId) {
-    if (!this.state.rewardFeed)
-      return
-    try {
-      await sendReward(questionId, answerId, this.state.clickedQuestion.reward, this.props.account)
-      this.setState({
-        giveRewardDialogContent: 'success'
-      })
-    } catch (error) {
-      this.setState({
-        giveRewardDialogContent: error.message
-      })
-    }
-    this.setState({
-      openGiveRewardDialog: true
-    })
-  }
-  closeGiveRewardDialog() {
-    this.setState({
-      openGiveRewardDialog: false,
-      giveRewardDialogContent: ''
-    })
-  }
-  closeSubmitQuestionDialog() {
-    this.setState({
-      openSubmitQuestionDialog: false,
-      submitQuestionDialogContent: ''
-    })
-  }
-  renderAnswers() {
-    return this.state.answers.map((answer, i) => {
-      return (
-        <div key={i}>
-          <Answer answer={answer} i={i} onClick={() => this.giveReward(answer.questionId.toString(), answer.id.toString())} />
-          <InformDialog open={this.state.openGiveRewardDialog} onClose={() => this.closeGiveRewardDialog()}>
-            {this.state.giveRewardDialogContent}
-          </InformDialog>
-        </div>
-      )
-    })
-  }
+
   closeThread() {
     this.setState({
       openThread: false,
@@ -122,16 +37,13 @@ class App extends React.Component {
   }
   renderThread() {
     return (
-      <Thread open={true} handleClose={() => this.closeThread()} >
-        <Question isReward={this.state.rewardFeed} question={this.state.clickedQuestion} i={this.state.clickedQuestion.index} onClick={() => { }} />
-        <AnswerForm
-          value={this.state.answer.value}
-          onContentChange={(content) => this.handleAnswerContentChange(content.target.value)}
-        />
-        <Button style={styles.button} onClick={() => this.submitAnswer(this.state.clickedQuestion.index.toString())} >Post</Button>
-        <List>
-          {this.renderAnswers()}
-        </List>
+      <Thread 
+        open={true} 
+        handleClose={() => this.closeThread()} 
+        rewardFeed={this.state.rewardFeed}
+        question={this.state.clickedQuestion}
+        answers={this.state.answers}
+      >
       </Thread>
 
     )
@@ -161,7 +73,6 @@ class App extends React.Component {
     })
     this.fetchAnswers(index.toString())
   }
-
   render() {
     const { container, button, feed } = styles
     return (

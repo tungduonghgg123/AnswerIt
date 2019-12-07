@@ -4,13 +4,13 @@ import { Button} from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions'
 import { FormDialog, AddQuestionForm, InformDialog,} from './'
-import { toUNIXTimestamp, toUNIT } from '../web3/common'
+import { toUNIXTimestamp, toUNIT, MODIFY_TIME } from '../web3/common'
 import { addQuestion} from '../web3/index'
 
 /**
  * MODIFY_TIME: in seconds
  */
-const MODIFY_TIME = 15 * 60
+
 function AskQuestion(props) {
     const [openForm, setOpenForm] = useState(false)
     const [openNotifyDialog, setOpenNotifyDialog ] = useState(false)

@@ -51,3 +51,4 @@ exports.diffTime =(time) => {
   });
   return moment.unix(time).fromNow();
 }
+exports.MODIFY_TIME = 15 * 60
