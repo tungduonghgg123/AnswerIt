@@ -74,40 +74,9 @@ function Question(props) {
         return null
     }
 }
-function Answer(props) {
-    const { answer, i, onClick } = props
-    const { value, timestamp, isBestAnswer } = answer
-    return (
-        <div>
-            <ListItem alignItems="flex-start" onClick={() => onClick()}>
-                <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src={images[i % NUM_IMAGES]} />
-                </ListItemAvatar>
-                <ListItemText
-                    primary={
-                        <React.Fragment>
-                            {value}
-                        </React.Fragment>
-                    }
-                    secondary={` ${diffTime(timestamp)}`}
 
-                />
-                {
-                    isBestAnswer ?
-                        <ListItemSecondaryAction>
-                            <DoneIcon style={styles.tickIcon} />
-                        </ListItemSecondaryAction>
-                        :
-                        null
-                }
-            </ListItem>
-            <Divider variant="inset" component="li" />
-        </div>
-    )
-}
 const mapStateToProps = state => ({
     id: state.setAccountReducer.id,
   
   });
 export default connect(mapStateToProps, actions)(Question)
-export {  Answer }

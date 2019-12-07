@@ -91,7 +91,7 @@ class App extends React.Component {
       deadline2Modify: toUNIXTimestamp(new Date()) + MODIFY_TIME,
       timestamp: toUNIXTimestamp(new Date()),
     }
-    addAnswer(toQuestionId, answer)
+    addAnswer(toQuestionId, answer, this.props.account)
     this.cleanAnswerForm()
   }
   cleanAnswerForm() {
@@ -144,7 +144,7 @@ class App extends React.Component {
     if (!this.state.rewardFeed)
       return
       try {
-        await sendReward(questionId, answerId, this.state.clickedQuestion.reward)
+        await sendReward(questionId, answerId, this.state.clickedQuestion.reward, this.props.account)
         this.setState({
           giveRewardDialogContent: 'success'
         })
