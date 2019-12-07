@@ -30,7 +30,7 @@ exports.addQuestion = async (question, from , value) => {
     //     }
     // }
         try {
-            contract.methods.addQuestion(question).sendCommit({ from, value })
+            await contract.methods.addQuestion(question).sendCommit({ from, value })
         } catch (e) {
             throw e
         }
