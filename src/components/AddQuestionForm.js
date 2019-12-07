@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {TextField, InputAdornment, Grid} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
@@ -8,12 +8,7 @@ import {
     KeyboardTimePicker
 } from '@material-ui/pickers';
 
-export default function AddQuestionForm(props) {
-    // const [selectedDate, setSelectedDate] = React.useState(new Date());
-    // const handleDateChange = date => {
-    //     console.log(date)
-    //     setSelectedDate(date)
-    // }
+function AddQuestionForm(props) {
     const {data, onDateChange, onContentChange, onRewardChange} = props
     const {expireTime, value, reward} = data
     return (

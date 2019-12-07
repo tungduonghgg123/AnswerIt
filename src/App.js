@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from './redux/actions'
 import {
   Header, FormDialog, AddQuestionForm, AnswerForm,
-  NewFeed, Thread, Answer, Question, InformDialog,
+  NewFeed, Thread, Answer, Question, InformDialog, AskQuestion,
 } from './components'
 import { toUNIXTimestamp, toUNIT } from './web3/common'
 import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from './web3/index'
@@ -22,15 +22,8 @@ class App extends React.Component {
       openForm: false,
       openGiveRewardDialog: false,
       giveRewardDialogContent: '',
-      openSubmitQuestionDialog: false,
-      submitQuestionDialogContent: '',
       openThread: false,
       rewardFeed: true,
-      question: {
-        value: '',
-        reward: '',
-        expireTime: new Date(),
-      },
       answer: {
         value: '',
         timestamp: '',
@@ -41,61 +34,13 @@ class App extends React.Component {
       questions: []
     }
   }
-  handleDateChange(date) {
-    this.setState({
-      question: {
-        ...this.state.question,
-        expireTime: date
-      }
-    })
-  }
-  handleQuestionContentChange(content) {
-    this.setState({
-      question: {
-        ...this.state.question,
-        value: content
-      }
-    })
-  }
+
   handleAnswerContentChange(content) {
     this.setState({
       answer: {
         ...this.state.answer,
         value: content
       }
-    })
-  }
-  handleQuestionRewardChange(reward) {
-    this.setState({
-      question: {
-        ...this.state.question,
-        reward: reward
-      }
-    })
-  }
-  async submitQuestion() {
-    let question = this.state.question
-    const reward = toUNIT(parseFloat(question.reward))
-    question = {
-      ...question,
-      expireTime: toUNIXTimestamp(question.expireTime),
-      deadline2Modify: toUNIXTimestamp(new Date()) + MODIFY_TIME,
-      timestamp: toUNIXTimestamp(new Date()),
-      reward: undefined
-    }
-    try {
-      await addQuestion(question, this.props.account, reward)
-      this.setState({
-        submitQuestionDialogContent: 'success'
-      })
-      this.closeForm()
-    } catch (error) {
-      this.setState({
-        submitQuestionDialogContent: error.message
-      })
-    }
-    this.setState({
-      openSubmitQuestionDialog: true
     })
   }
   submitAnswer(toQuestionId) {
@@ -116,36 +61,6 @@ class App extends React.Component {
         deadline2Modify: ''
       }
     })
-  }
-  cleanForm() {
-    this.setState({
-      question: {
-        value: '',
-        reward: '',
-        expireTime: new Date(),
-      }
-    })
-  }
-  closeForm() {
-    this.setState({ openForm: false })
-    this.cleanForm()
-  }
-  renderForm() {
-    return (
-      <FormDialog
-        open={this.state.openForm}
-        handleClose={() => this.closeForm()}
-        handlePost={() => this.submitQuestion()}
-      >
-        <AddQuestionForm
-          data={this.state.question}
-          onDateChange={(date) => this.handleDateChange(date)}
-          onContentChange={(content) => this.handleQuestionContentChange(content)}
-          onRewardChange={(reward) => this.handleQuestionRewardChange(reward)}
-        />
-      </FormDialog>
-    )
-
   }
   fetchAnswers(questionId) {
     getAnswers(questionId).then((answers) => {
@@ -252,19 +167,12 @@ class App extends React.Component {
     return (
       <div style={container}>
         <Header/>
-        <Button style={button} variant="outlined" onClick={() => this.setState({ openForm: true, question: { ...this.state.question, expireTime: new Date() } })}>
-          what is your question ?
-        </Button>
+        <AskQuestion/>
         <div style={{ alignSelf: 'center' }}>
           <Button style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({ rewardFeed: true })}>Reward</Button>
           <Button style={button} onClick={() => this.setState({ rewardFeed: false })} >Normal</Button>
         </div>
-        {this.state.openForm ? this.renderForm() : null}
-        {/* this dialog serves the role informing user after submiting question */}
-        <InformDialog open={this.state.openSubmitQuestionDialog} onClose={() => this.closeSubmitQuestionDialog()}>
-            {this.state.submitQuestionDialogContent}
-        </InformDialog>
-        
+
         <Container maxWidth="sm" style={feed}>
           <NewFeed isReward={this.state.rewardFeed} questions={this.state.questions} onQuestionClick={(q, i) => this.onQuestionClick(q, i)} />
         </Container>
@@ -281,7 +189,7 @@ const styles = {
   },
   container: {
     background: color.primary,
-    height: '100vh',
+    flex: 1,
     display: 'flex',
     flexDirection: "column",
   },
@@ -289,6 +197,7 @@ const styles = {
     flex: 1,
     marginTop: '10px',
     border: 'solid',
+    borderColor: color.primary,
     padding: 0
   }
 }

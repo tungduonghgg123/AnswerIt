@@ -7,6 +7,7 @@ export * from './Thread'
 export {default as Question} from './Question'
 export * from './Answer'
 export * from './InformDialog'
+export {default as AskQuestion} from './AskQuestion'
 
 
 
