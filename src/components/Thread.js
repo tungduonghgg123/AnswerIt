@@ -27,15 +27,21 @@ function Thread(props) {
         }
         )
     }
-    function submitAnswer(toQuestionId) {
+    async function submitAnswer(toQuestionId) {
         let answer1 = answer
         answer1 = {
             ...answer,
             deadline2Modify: toUNIXTimestamp(new Date()) + MODIFY_TIME,
             timestamp: toUNIXTimestamp(new Date()),
         }
-        addAnswer(toQuestionId, answer1, account)
-        cleanAnswerForm()
+        try {
+            await addAnswer(toQuestionId, answer1, account)
+            cleanAnswerForm()
+        } catch (error) {
+            console.log(error.message)
+            setDialogContent(error.message)
+            setOpenDialog(true)
+        }
     }
     function cleanAnswerForm() {
         setAnswer({
@@ -67,9 +73,6 @@ function Thread(props) {
                         answer={answer} i={i}
                         onClick={() => giveReward(answer.questionId.toString(), answer.id.toString())}
                     />
-                    <InformDialog open={openDialog} onClose={() => closeGiveRewardDialog()}>
-                        {dialogContent}
-                    </InformDialog>
                 </div>
             )
         })
@@ -90,6 +93,9 @@ function Thread(props) {
                     {renderAnswers()}
                 </List>
             </DialogContent>
+            <InformDialog open={openDialog} onClose={() => closeGiveRewardDialog()}>
+                {dialogContent}
+            </InformDialog>
         </Dialog>
     );
 }
