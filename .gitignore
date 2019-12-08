@@ -26,4 +26,5 @@ yarn-error.log*
 REACT_INSTRUCTIONS.md
 
 #environment
-.env
+# .env
+.env.dev

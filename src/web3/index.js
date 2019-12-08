@@ -1,6 +1,5 @@
 const { IceteaWeb3 } = require('@iceteachain/web3')
 const {toTEA} = require('./common')
-const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
 
 // const { envPath } = require('../../scripts/mode')
 // const envPath = '.env'
@@ -8,7 +7,16 @@ const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
 
 // const tweb3 = new IceteaWeb3(config.REACT_APP_RPC)
 // const contract = tweb3.contract(config.REACT_APP_CONTRACT)
-const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
+
+// LOCAL CONTRACT 
+// const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
+// const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
+
+// ONLINE CONTRACT
+const tweb3 = new IceteaWeb3('wss://rpc.icetea.io/websocket')
+const contract = tweb3.contract('teat1fpc4tknvtyt8vuuv4e2fwzyl57humvlgdshas4')
+
+
 tweb3.wallet.importAccount('643YwKQMQ2ZkeCcEgE1zKYJNvUr7RxH5mAVMYDZZgH1f')
 tweb3.wallet.importAccount('8A7DaE1mGPJzjc17mJ1u2KpnM43RJXtLhFh5XSk8844L')
 tweb3.wallet.importAccount('AamnYmsHSUUL33ceqdUKMBmoYiGPXpCr3uEAN5e56ycJ')
