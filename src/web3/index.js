@@ -9,8 +9,8 @@ const {toTEA} = require('./common')
 // const contract = tweb3.contract(config.REACT_APP_CONTRACT)
 
 // LOCAL CONTRACT 
-// const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
 // const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
+// const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
 
 // ONLINE CONTRACT
 const tweb3 = new IceteaWeb3('wss://rpc.icetea.io/websocket')

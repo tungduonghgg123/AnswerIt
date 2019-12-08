@@ -103,6 +103,7 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: "column",
+    minHeight: "100vh"
   },
   feed: {
     flex: 1,
