@@ -13,7 +13,7 @@ if (mode) {
     envPath = mode
   }
 } else {
-  envPath = '.env'
+  envPath = '.env.dev'
 }
 
 module.exports = { mode, envPath }

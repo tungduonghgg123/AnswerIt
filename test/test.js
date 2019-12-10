@@ -34,6 +34,7 @@ contract.events.GaveReward({}, (error, data) => {
     if (error) {
         console.error(error)
     } else {
+        console.log('gave reward')
         console.log(data)
     }
 })
@@ -51,7 +52,13 @@ contract.events.RemoveQuestion({}, (error, data) => {
         console.log(data)
     }
 })
-console.log(Object.getOwnPropertyNames(tweb3.wallet))
+// console.log(Object.getOwnPropertyNames(tweb3.wallet))
+const filter = {
+    where: [
+      "EventNames CONTAINS '%Transferred|'",
+      "from=" + address
+    ]
+  }
 // contract.methods.getstateAPI().call().then(r => console.log(r))
 
 // getAnswers("1").then(r => console.log(r), e => console.log(e))
@@ -67,6 +74,6 @@ const q = {
     expireTime: 1575453132,
     deadline2Modify: 1575454032,
     timestamp: 1575453139,
-  }
+}
 // addQuestion(q)
 // getAnswers("1").then((r) => console.log(r))

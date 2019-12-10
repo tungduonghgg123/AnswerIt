@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, MenuIcon, List } from '@material-ui/core';
-import { Avatar, Dialog, ListItemAvatar, ListItem, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import React from 'react';
+import { AppBar, Toolbar, Typography, List } from '@material-ui/core';
+import { Avatar, Dialog, ListItemAvatar, DialogTitle } from '@material-ui/core';
 import images from '../assets/images'
 import { color } from '../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions'
-import { getBalance } from '../web3/index'
+import { getBalance, balanceChangeEvent, sendRewardEvent } from '../web3/index'
 import {account2Index} from '../redux/reducers/accountReducer'
 
 class Header extends React.Component {
@@ -40,7 +40,12 @@ class Header extends React.Component {
   }
   componentDidMount() {
     this.fetchBalance()
-    // subcrible when balance change
+    // subcribe when balance change
+    balanceChangeEvent(this.props.account, () => this.fetchBalance()) 
+    sendRewardEvent(() => {
+      this.fetchBalance() 
+      this.props.sendRewardEventHandler()
+    })
   }
   render() {
   

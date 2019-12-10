@@ -58,10 +58,14 @@ class App extends React.Component {
       this.fetchQuestions()
     })
     addAnswerEvent(() => this.fetchAnswers(this.state.clickedQuestion.index.toString()))
-    sendRewardEvent(() => {
-      this.fetchQuestions()
+    // sendRewardEvent(() => {
+    //   this.fetchQuestions()
+    //   this.fetchAnswers(this.state.clickedQuestion.index.toString())
+    // })
+  }
+  sendRewardEventHandler() {
+    this.fetchQuestions()
       this.fetchAnswers(this.state.clickedQuestion.index.toString())
-    })
   }
   async onQuestionClick(question, index) {
     this.setState({
@@ -77,7 +81,7 @@ class App extends React.Component {
     const { container, button, feed } = styles
     return (
       <div style={container}>
-        <Header/>
+        <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/>
         <AskQuestion/>
         <div style={{ alignSelf: 'center' }}>
           <Button style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({ rewardFeed: true })}>Reward</Button>

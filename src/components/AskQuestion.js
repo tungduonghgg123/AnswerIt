@@ -37,7 +37,6 @@ function AskQuestion(props) {
         cleanForm()
     }
     function handleDateChange(date) {
-        console.log(date)
         setQuestion({
             ...question,
             expireTime: date
@@ -50,7 +49,6 @@ function AskQuestion(props) {
         })
     }
     function handleQuestionRewardChange(reward) {
-        console.log(reward)
         setQuestion({
             ...question,
             reward

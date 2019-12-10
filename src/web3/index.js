@@ -9,12 +9,12 @@ const {toTEA} = require('./common')
 // const contract = tweb3.contract(config.REACT_APP_CONTRACT)
 
 // LOCAL CONTRACT 
-// const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
-// const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
+const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
+const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
 
 // ONLINE CONTRACT
-const tweb3 = new IceteaWeb3('wss://rpc.icetea.io/websocket')
-const contract = tweb3.contract('teat1fpc4tknvtyt8vuuv4e2fwzyl57humvlgdshas4')
+// const tweb3 = new IceteaWeb3('wss://rpc.icetea.io/websocket')
+// const contract = tweb3.contract('teat1fpc4tknvtyt8vuuv4e2fwzyl57humvlgdshas4')
 
 
 tweb3.wallet.importAccount('643YwKQMQ2ZkeCcEgE1zKYJNvUr7RxH5mAVMYDZZgH1f')
@@ -150,3 +150,14 @@ exports.getBalance = async (address) => {
       console.log(error)
     }
   }
+exports.balanceChangeEvent = (from, callback) => {
+    tweb3.subscribe('Tx', { from }, (err, result) => {
+        if (err) {
+            console.log(err)
+            return
+        }
+        if(result.tags.Transferred)
+            callback()
+    })
+
+}
