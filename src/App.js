@@ -63,9 +63,12 @@ class App extends React.Component {
     //   this.fetchAnswers(this.state.clickedQuestion.index.toString())
     // })
   }
+  /**
+   * purpose: call the nested functions in <Header/>
+   */
   sendRewardEventHandler() {
     this.fetchQuestions()
-      this.fetchAnswers(this.state.clickedQuestion.index.toString())
+    this.fetchAnswers(this.state.clickedQuestion.index.toString())
   }
   async onQuestionClick(question, index) {
     this.setState({
