@@ -12,7 +12,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showDialog: false, 
+      showDialog: true, 
       balance: 0
     }
   }
@@ -28,7 +28,10 @@ class Header extends React.Component {
     return images.map((image, i) => {
       return (
         <ListItemAvatar key={i}>
-          <Avatar alt="Remy Sharp" src={image} onClick={() => this.changeAccount(i)} />
+          <Avatar alt="Remy Sharp" src={image} onClick={() => {
+            this.changeAccount(i)
+            this.setShowDialog(false)
+            }} />
         </ListItemAvatar>
       )
     })
@@ -56,10 +59,10 @@ class Header extends React.Component {
             {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton> */}
-            <Typography style={{ color: "black" }}>
-              Answerit
+            <Typography style={styles.text}>
+              ANSWERIT
             </Typography>
-            <Typography style={{ color: "black" }}>
+            <Typography style={styles.text}>
               {this.state.balance} Tea
             </Typography>
             {/* <Button onClick={() => this.setShowDialog(true)}>Login</Button> */}
@@ -81,5 +84,10 @@ const mapStateToProps = state => ({
   account: state.setAccountReducer,
 
 });
+const styles = {
+  text: {
+    color: color.primary
+  }
+}
 export default connect(mapStateToProps, actions)(Header)
 

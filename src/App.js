@@ -4,7 +4,7 @@ import { Button, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions'
 import { Header, NewFeed, Thread, AskQuestion,} from './components'
-import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers, sendRewardEvent } from './web3/index'
+import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers } from './web3/index'
 
 class App extends React.Component {
   constructor(props) {
@@ -50,7 +50,17 @@ class App extends React.Component {
   }
   async fetchQuestions() {
     const questions = await getAllQuestion()
-    this.setState({ questions })
+    this.setState({ questions})
+    console.log(this.state.clickedQuestion, this.state.clickedQuestion.index)
+    if(this.state.clickedQuestion && this.state.clickedQuestion.index) {
+      const index = this.state.clickedQuestion.index
+      this.setState({
+        clickedQuestion: {
+          ...questions[index],
+          index
+        }
+      })
+    }
   }
   componentDidMount() {
     this.fetchQuestions()

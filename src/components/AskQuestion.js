@@ -84,6 +84,7 @@ function AskQuestion(props) {
             >
                 what is your question ?
             </Button>
+
             <FormDialog
                 open={openForm}
                 handleClose={() => closeForm()}
@@ -108,6 +109,12 @@ const styles = {
         background: color.secondary,
         marginTop: '10px'
     },
+    test: {
+        color: 'blue',
+        color: 'red'
+    },
+    test2: {
+    }
 
 }
 const mapStateToProps = state => ({
