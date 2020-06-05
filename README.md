@@ -10,8 +10,9 @@ $ yarn install
 $ yarn start
 
 # Issues
-1. after changing state, if I get state immediately, i will got the previous, not the new one @@
+1. after changing state, if I get state immediately, i will get the previous, not the new one @@
 2. send @transaction does not require TEA?
 3. Add question which deposits more money than sender's balance.
+4. Những câu hỏi đã được tích (v) có layout lạ.
 # Future Updates
 1. Check timestamp directly by contract (ex: generate new block before get timestamp)
