@@ -1,4 +1,3 @@
-export {default as Header} from './Header';
 export * from './AddQuestionForm';
 export * from './AnswerForm';
 export * from './PostQuestion';

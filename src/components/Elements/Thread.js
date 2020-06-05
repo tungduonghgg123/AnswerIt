@@ -1,15 +1,15 @@
 
 import React, { useState } from 'react';
-import { color } from '../styles/index'
+import { color } from '../../styles/index'
 import { Button, Container, List, Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
 import { connect } from 'react-redux';
-import * as actions from '../redux/actions'
+import * as actions from '../../redux/actions'
 import {
     Header, FormDialog, AddQuestionForm, AnswerForm,
     NewFeed, Answer, Question, InformDialog, AskQuestion,
 } from './'
-import { toUNIXTimestamp, MODIFY_TIME } from '../web3/common'
-import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from '../web3/index'
+import { toUNIXTimestamp, MODIFY_TIME } from '../../web3/common'
+import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from '../../web3/index'
 
 function Thread(props) {
     const { open, handleClose, rewardFeed, question, account, answers } = props

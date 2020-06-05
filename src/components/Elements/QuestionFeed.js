@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { timestamp2date} from '../web3/common'
+import { timestamp2date} from '../../web3/common'
 function QuestionFeed(props) {
     const {reward, expireTime, value} = props
   return (

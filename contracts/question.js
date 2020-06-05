@@ -38,6 +38,7 @@ module.exports = (contract, { validate, Joi }) => {
                 resolved: Joi.boolean()
             }))
             if(contract.runtime.msg.value) {
+                
                 question.reward = parseInt(contract.runtime.msg.value ) 
                 question.gaveReward = false
             }

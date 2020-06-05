@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { color } from '../styles/index'
+import { color } from '../../styles/index'
 import { Button} from '@material-ui/core';
 import { connect } from 'react-redux';
-import * as actions from '../redux/actions'
+import * as actions from '../../redux/actions'
 import { FormDialog, AddQuestionForm, InformDialog,} from './'
-import { toUNIXTimestamp, toUNIT, MODIFY_TIME } from '../web3/common'
-import { addQuestion} from '../web3/index'
+import { toUNIXTimestamp, toUNIT, MODIFY_TIME } from '../../web3/common'
+import { addQuestion} from '../../web3/index'
 
 /**
  * MODIFY_TIME: in seconds
@@ -109,12 +109,6 @@ const styles = {
         background: color.secondary,
         marginTop: '10px'
     },
-    test: {
-        color: 'blue',
-        color: 'red'
-    },
-    test2: {
-    }
 
 }
 const mapStateToProps = state => ({

@@ -1,12 +1,12 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, List } from '@material-ui/core';
 import { Avatar, Dialog, ListItemAvatar, DialogTitle } from '@material-ui/core';
-import images from '../assets/images'
-import { color } from '../styles/index'
+import images from '../../assets/images'
+import { color } from '../../styles/index'
 import { connect } from 'react-redux';
-import * as actions from '../redux/actions'
-import { getBalance, balanceChangeEvent, sendRewardEvent } from '../web3/index'
-import {account2Index} from '../redux/reducers/accountReducer'
+import * as actions from '../../redux/actions'
+import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/index'
+import {account2Index} from '../../redux/reducers/accountReducer'
 
 class Header extends React.Component {
   constructor(props) {

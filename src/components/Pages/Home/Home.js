@@ -1,13 +1,13 @@
 import React from 'react';
-import { color } from './styles/index'
+import { color } from '../../../styles/index'
 import { Button, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
-import * as actions from './redux/actions'
-import { NewFeed, Thread, AskQuestion,} from './components/Elements'
-import { Header } from './components/Layouts'
-import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers } from './web3/index'
+import * as actions from '../../redux/actions'
+import { NewFeed, Thread, AskQuestion,} from '../../components/Elements'
+import { Header } from '../../Layouts'
+import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers } from '../../../web3/index'
 
-class App extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -135,4 +135,4 @@ const mapStateToProps = state => ({
   account: state.setAccountReducer,
 });
 
-export default connect(mapStateToProps, actions)(App)
+export default connect(mapStateToProps, actions)(Home)
