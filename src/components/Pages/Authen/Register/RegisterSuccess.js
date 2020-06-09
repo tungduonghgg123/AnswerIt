@@ -10,12 +10,12 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { encode as codecEncode } from '@iceteachain/common/src/codec';
 import { FormattedMessage } from 'react-intl';
 
-import * as actionAccount from '../../../../store/actions/account';
-import * as actionCreate from '../../../../store/actions/create';
-import * as actionGlobal from '../../../../store/actions/globalData';
+import * as actionAccount from '../../../../redux/actions/account';
+import * as actionCreate from '../../../../redux/actions/create';
+// import * as actionGlobal from '../../../../store/actions/globalData';
 import { encode } from '../../../../helper/encode';
-import { savetoLocalStorage } from '../../../../helper';
-import { getWeb3, grantAccessToken } from '../../../../service/tweb3';
+import { savetoLocalStorage } from '../../../../helper/utils';
+import { getWeb3, grantAccessToken } from '../../../../web3';
 
 const WrapperImg = styled.div`
   margin-top: 20px;
@@ -93,7 +93,7 @@ function RegisterSuccess(props) {
   const {
     address,
     // privateKey,
-    setLoading,
+    // setLoading,
     // setStep,
     history,
     password,
@@ -107,7 +107,7 @@ function RegisterSuccess(props) {
   const [savedPhrase, setSavedPhrase] = useState(false);
 
   function gotoHome() {
-    setLoading(true);
+    // setLoading(true);
     setTimeout(async () => {
       const mode = 1;
       const tweb3 = getWeb3();
@@ -134,7 +134,7 @@ function RegisterSuccess(props) {
         };
         setAccount(account);
         // setStep('one');
-        setLoading(false);
+        // setLoading(false);
         if (pathName) {
           history.push(pathName);
         } else history.push('/');
@@ -221,9 +221,9 @@ const mapDispatchToProps = dispatch => {
     setAccount: value => {
       dispatch(actionAccount.setAccount(value));
     },
-    setLoading: value => {
-      dispatch(actionGlobal.setLoading(value));
-    },
+    // setLoading: value => {
+    //   dispatch(actionGlobal.setLoading(value));
+    // },
     setPathName: value => {
       dispatch(actionCreate.setPathName(value));
     },

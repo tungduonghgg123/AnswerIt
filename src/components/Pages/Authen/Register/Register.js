@@ -7,12 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import { LayoutAuthen, BoxAuthen, ShadowBoxAuthen } from '../../../Elements/StyledUtils';
 // import { HeaderAuthen } from '../../../elements/Common';
 import RegisterCore from './RegisterCore';
-// import RegisterSuccess from './RegisterSuccess';
-// import * as actionCreate from '../../../../store/actions/create';
+import RegisterSuccess from './RegisterSuccess';
+import * as actionCreate from '../../../../redux/actions/create';
 // import ImageCrop from '../../../elements/ImageCrop';
 
 function Register(props) {
-  // const { step, setStep } = props;
+  const { step, setStep } = props;
   const [isOpenCrop, setIsOpenCrop] = useState(false);
   const [originFile, setOriginFile] = useState([]);
   // const [avatar, setAvatar] = useState('/static/img/no-avatar.jpg');
@@ -31,23 +31,23 @@ function Register(props) {
   //   setAvatarData(e.cropFile);
   //   setAvatar(e.avaPreview);
   // }
-
   return (
     <div>
       <QueueAnim delay={200} type={['top', 'bottom']}>
         <LayoutAuthen key={1}>
           <BoxAuthen>
             <ShadowBoxAuthen>
-              {/* {step === 'one' && <HeaderAuthen title={<FormattedMessage id="regist.regist" />} />}
-              {step === 'one' && ( */}
+              {/* {step === 'one' && <HeaderAuthen title={<FormattedMessage id="regist.regist" />} />} */}
+              {step === 'one' && (
                 <RegisterCore
                   setIsOpenCrop={setIsOpenCrop}
                   setOriginFile={setOriginFile}
                   // avatar={avatar}
                   // avatarData={avatarData}
                 />
-              {/* )}
-              {step === 'two' && <RegisterSuccess />} */}
+              )}
+              {step === 'two' && <RegisterSuccess />}
+
             </ShadowBoxAuthen>
           </BoxAuthen>
         </LayoutAuthen>
@@ -57,18 +57,18 @@ function Register(props) {
   );
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     step: state.create.step,
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    step: state.create.step,
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     setStep: step => {
-//       dispatch(actionCreate.setStep(step));
-//     },
-//   };
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register));
-export default withRouter(Register)
+const mapDispatchToProps = dispatch => {
+  return {
+    setStep: step => {
+      dispatch(actionCreate.setStep(step));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register));
+// export default withRouter(Register)

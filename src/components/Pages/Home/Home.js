@@ -95,7 +95,6 @@ class Home extends React.Component {
   render() {
     const { container, button, feed } = styles
     const isRegistered = !!this.props.address
-    console.log(isRegistered)
     return isRegistered ? (
       <div style={container}>
         <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/>

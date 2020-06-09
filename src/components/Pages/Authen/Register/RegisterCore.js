@@ -129,7 +129,7 @@ function Register2(props) {
 
 
           // setLoading(false);
-          // setStep('two');
+          props.setStep('two');
           // setIsRemember(isRememberState);
 
           // REMARK:

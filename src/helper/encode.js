@@ -1,5 +1,4 @@
 const keythereum = require('keythereum');
-
 const iteration = parseInt(process.env.REACT_APP_KDF_ITERATION || 10000, 10);
 
 /**

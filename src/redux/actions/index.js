@@ -4,3 +4,4 @@ export const setAccount123 = (accountIndex) => ({ type: SET_ACCOUNT, payload: ac
 export const getIndex = (address) => ({ type: OWNER_2_INDEX, payload: address})
 
 export * from './account'
+export * from './create'
