@@ -6,6 +6,7 @@ import * as actions from '../../../redux/actions'
 import { NewFeed, Thread, AskQuestion,} from '../../Elements'
 import { Header } from '../../Layouts'
 import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers } from '../../../web3/index'
+import LandingPage from '../../Layouts/LandingPage'
 
 class Home extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Home extends React.Component {
       questions: [],
       answers: []
     }
+
   }
   fetchAnswers(questionId) {
     getAnswers(questionId).then((answers) => {
@@ -52,7 +54,6 @@ class Home extends React.Component {
   async fetchQuestions() {
     const questions = await getAllQuestion()
     this.setState({ questions})
-    console.log(this.state.clickedQuestion, this.state.clickedQuestion.index)
     if(this.state.clickedQuestion && this.state.clickedQuestion.index) {
       const index = this.state.clickedQuestion.index
       this.setState({
@@ -93,7 +94,9 @@ class Home extends React.Component {
   }
   render() {
     const { container, button, feed } = styles
-    return (
+    const isRegistered = !!this.props.address
+    console.log(isRegistered)
+    return isRegistered ? (
       <div style={container}>
         <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/>
         <AskQuestion/>
@@ -107,7 +110,7 @@ class Home extends React.Component {
         </Container>
         {this.state.openThread ? this.renderThread() : null}
       </div>
-    );
+    ) :  (<LandingPage/>);
   }
 }
 const styles = {
@@ -133,6 +136,7 @@ const styles = {
 }
 const mapStateToProps = state => ({
   account: state.setAccountReducer,
+  address: state.account.address,
 });
 
 export default connect(mapStateToProps, actions)(Home)

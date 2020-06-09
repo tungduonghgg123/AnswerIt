@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { FormattedMessage } from 'react-intl';
 
 const OutBox = styled.div`
   display: flex;

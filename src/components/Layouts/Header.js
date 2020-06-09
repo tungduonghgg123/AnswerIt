@@ -17,7 +17,7 @@ class Header extends React.Component {
     }
   }
   async changeAccount(index) {
-    await this.props.setAccount(index)
+    await this.props.setAccount123(index)
     this.fetchBalance()
   }
   async fetchBalance() {

@@ -14,5 +14,6 @@ $ yarn start
 2. send @transaction does not require TEA?
 3. Add question which deposits more money than sender's balance.
 4. Những câu hỏi đã được tích (v) có layout lạ.
+5. slow text input speed
 # Future Updates
 1. Check timestamp directly by contract (ex: generate new block before get timestamp)

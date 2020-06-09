@@ -1,5 +1,7 @@
 const { IceteaWeb3 } = require('@iceteachain/web3')
 const {toTEA} = require('./common')
+// to store contract addresses
+const contracts = {}
 
 // const { envPath } = require('../../scripts/mode')
 // const envPath = '.env'
@@ -11,6 +13,16 @@ const {toTEA} = require('./common')
 // LOCAL CONTRACT 
 const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
 const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
+export const getWeb3 = ()  =>  tweb3
+export const getContract = (address = contract) => {
+    if (!contracts[address]) {
+        contracts[address] = getWeb3().contract(address)
+    }
+    return contracts[address]
+}
+
+export const getAliasContract = () => getContract('system.alias')
+export const getDidContract = () => getContract('system.did')
 
 // ONLINE CONTRACT
 // const tweb3 = new IceteaWeb3('wss://rpc.icetea.io/websocket')
@@ -25,7 +37,7 @@ tweb3.wallet.importAccount('ETcFN4WdQPiJysBbcEC3mSWkEP8oQ2jFpW4aF3kPAVij')
 tweb3.wallet.importAccount('CbUFvWuBNdH3xxkspzyWZu66PL8q4gAd8zK1Z78g6Ttt')
 tweb3.wallet.importAccount('6JjCo9diGK1LKYfSGrfvk7fqMgDoeSr94cBVmadhUp7G')
 
-exports.addQuestion = async (question, from , value) => {
+export const addQuestion = async (question, from , value) => {
     // try {
     //     console.log(from)
     //     await contract.methods.addQuestion(question).sendCommit({ from, payer: 'system.faucet', value })
@@ -43,7 +55,7 @@ exports.addQuestion = async (question, from , value) => {
             throw e
         }
 }
-exports.addQuestionEvent = (callback) => {
+export const addQuestionEvent = (callback) => {
     contract.events.AddQuestion({}, (error, data) => {
         if (error) {
             throw error
@@ -53,7 +65,7 @@ exports.addQuestionEvent = (callback) => {
         }
     })
 }
-exports.addAnswer = async (questionId, answer, from) => {
+export const addAnswer = async (questionId, answer, from) => {
     try {
         await contract.methods.addAnswer(questionId, answer).sendCommit({ from })
     } catch (e) {
@@ -61,7 +73,7 @@ exports.addAnswer = async (questionId, answer, from) => {
         throw e
     }
 }
-exports.addAnswerEvent = (callback) => {
+export const addAnswerEvent = (callback) => {
     contract.events.AddAnswer({}, (error, data) => {
         if (error) {
             throw error
@@ -71,7 +83,7 @@ exports.addAnswerEvent = (callback) => {
         }
     })
 }
-exports.removeQuestion = async (id, from) => {
+export const removeQuestion = async (id, from) => {
     const timestamp = Math.round(new Date().getTime() / 1000)
     try {
         await contract.methods.removeQuestion(id, timestamp).sendCommit({ from })
@@ -79,7 +91,7 @@ exports.removeQuestion = async (id, from) => {
         throw e
     }
 }
-exports.removeAnswer = async (id, from) => {
+export const removeAnswer = async (id, from) => {
     const timestamp = Math.round(new Date().getTime() / 1000)
     try {
         await contract.methods.removeAnswer(id, timestamp).sendCommit({ from })
@@ -87,14 +99,14 @@ exports.removeAnswer = async (id, from) => {
         throw e
     }
 }
-exports.getAnswers = async (questionId) => {
+export const getAnswers = async (questionId) => {
     try {
         return await contract.methods.getAnswers(questionId).call()
     } catch (e) {
         throw e
     }
 }
-exports.getAllQuestion = async () => {
+export const getAllQuestion = async () => {
     try {
         const questions = await contract.methods.getAllQuestion().call()
         const keys = Object.keys(questions)
@@ -107,21 +119,21 @@ exports.getAllQuestion = async () => {
         throw e
     }
 }
-exports.getQuestions = async (owner) => {
+export const getQuestions = async (owner) => {
     try {
         return await contract.methods.getQuestions(owner).call()
     } catch (e) {
         throw e
     }
 }
-exports.sendReward = async (questionId, answerId, amount, from) => {
+export const sendReward = async (questionId, answerId, amount, from) => {
     try {
         await contract.methods.sendReward(questionId, answerId, amount).sendCommit({ from })
     } catch (e) {
         throw e
     }
 }
-exports.sendRewardEvent = (callback) => {
+export const sendRewardEvent = (callback) => {
     contract.events.GaveReward({}, (error, data) => {
         if (error) {
             throw error
@@ -132,7 +144,7 @@ exports.sendRewardEvent = (callback) => {
     })
 }
 
-exports.withdrawFromQuestion = async (questionId, from) => {
+export const withdrawFromQuestion = async (questionId, from) => {
     const timestamp = Math.round(new Date().getTime() / 1000)
     try {
         await contract.methods.withdrawFromQuestion(questionId, timestamp).sendCommit({ from })
@@ -140,7 +152,7 @@ exports.withdrawFromQuestion = async (questionId, from) => {
         throw e
     }
 }
-exports.getBalance = async (address) => {
+export const getBalance = async (address) => {
     try {
 
     const info = await tweb3.getAccountInfo(address)      
@@ -150,7 +162,7 @@ exports.getBalance = async (address) => {
       console.log(error)
     }
   }
-exports.balanceChangeEvent = (from, callback) => {
+export const balanceChangeEvent = (from, callback) => {
     tweb3.subscribe('Tx', { from }, (err, result) => {
         if (err) {
             console.log(err)

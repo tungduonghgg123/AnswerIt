@@ -3,6 +3,9 @@ import { color } from './styles/index'
 import { connect } from 'react-redux';
 import * as actions from './redux/actions'
 import Home from './components/Pages/Home/Home'
+// import Login from './components/Pages/Authen/Login/Login'
+// import Register from './components/Pages/Authen/Register/Register'
+import Register from './components/Pages/Authen/Register/Register'
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,9 +20,9 @@ export default class App extends React.Component {
     return (
       <Router>
         <Switch>
-          {/* <Route path="/landing"> 
-            <Landing/>
-          </Route> */}
+          <Route path="/register">
+            <Register/>
+          </Route>
           <Route path="/">
             <Home/>
           </Route>
