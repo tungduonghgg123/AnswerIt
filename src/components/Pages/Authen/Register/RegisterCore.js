@@ -49,7 +49,7 @@ function Register2(props) {
   const [lastname, setLastname] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
-  // const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   //   const [isRememberState, setIsRememberState] = useRemember();
   const classes = useStyles();
@@ -86,7 +86,7 @@ function Register2(props) {
     const isUsernameRegistered = await isAliasRegistered(username);
     if (isUsernameRegistered) {
       const message = 'This username is already taken.';
-      // enqueueSnackbar(message, { variant: 'error' });
+      enqueueSnackbar(message, { variant: 'error' });
     } else {
       // setLoading(true);
       setTimeout(async () => {
@@ -154,7 +154,7 @@ function Register2(props) {
         } catch (error) {
           console.error(error);
           const message = `An error has occured. Detail:${error}`;
-          // enqueueSnackbar(message, { variant: 'error' });
+          enqueueSnackbar(message, { variant: 'error' });
           // setLoading(false);
         }
       }, 100);

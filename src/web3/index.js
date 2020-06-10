@@ -11,8 +11,8 @@ const contracts = {}
 // const contract = tweb3.contract(config.REACT_APP_CONTRACT)
 
 // LOCAL CONTRACT 
-const tweb3 = new IceteaWeb3('ws://localhost:26657/websocket')
-const contract = tweb3.contract('teat1pdjcljwc9rrv5c5url96nszd0xjnn2wu3x4xkr')
+const tweb3 = new IceteaWeb3(process.env.REACT_APP_RPC)
+const contract = tweb3.contract(process.env.REACT_APP_CONTRACT)
 export const getWeb3 = ()  =>  tweb3
 export const getContract = (address = contract) => {
     if (!contracts[address]) {

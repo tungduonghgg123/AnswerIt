@@ -67,6 +67,7 @@ class Home extends React.Component {
   componentDidMount() {
     this.fetchQuestions()
     addQuestionEvent(() => {
+      console.log('ahihi')
       this.fetchQuestions()
     })
     addAnswerEvent(() => this.fetchAnswers(this.state.clickedQuestion.index.toString()))
@@ -95,7 +96,7 @@ class Home extends React.Component {
   render() {
     const { container, button, feed } = styles
     const isRegistered = !!this.props.address
-    return isRegistered ? (
+    return !isRegistered ? (
       <div style={container}>
         <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/>
         <AskQuestion/>

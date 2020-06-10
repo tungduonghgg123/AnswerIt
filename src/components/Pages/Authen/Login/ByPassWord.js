@@ -12,16 +12,18 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { FormattedMessage } from 'react-intl';
 
-import { AvatarPro } from '../../../elements';
-import { getWeb3, grantAccessToken } from '../../../../service/tweb3';
-import { wallet, decode, getTagsInfo, savetoLocalStorage } from '../../../../helper';
-import * as actionGlobal from '../../../../store/actions/globalData';
-import * as actionAccount from '../../../../store/actions/account';
-import * as actionCreate from '../../../../store/actions/create';
-import { DivControlBtnKeystore } from '../../../elements/StyledUtils';
-import { ButtonPro, LinkPro } from '../../../elements/Button';
+// import { AvatarPro } from '../../../elements';
+import { getWeb3, grantAccessToken } from '../../../../web3';
+import { wallet, savetoLocalStorage } from '../../../../helper/utils';
+import {decode} from '../../../../helper/decode';
+import {getTagsInfo} from '../../../../helper/account';
+// import * as actionGlobal from '../../../../store/actions/globalData';
+import * as actionAccount from '../../../../redux/actions/account';
+import * as actionCreate from '../../../../redux/actions/create';
+import { DivControlBtnKeystore } from '../../../Elements/StyledUtils';
+import { ButtonPro, LinkPro } from '../../../Elements/Button';
 import { encode } from '../../../../helper/encode';
-import { useRemember } from '../../../../helper/hooks';
+// import { useRemember } from '../../../../helper/hooks';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -51,7 +53,9 @@ function ByPassWord(props) {
     avatar: '',
   });
   const [password, setPassword] = useState('');
-  const [isRemember, setIsRemember] = useRemember();
+  // const [isRemember, setIsRemember] = useRemember();
+  const [isRemember, setIsRemember] = useState(false);
+
   const { enqueueSnackbar } = useSnackbar();
   const ja = 'ja';
 
@@ -65,14 +69,9 @@ function ByPassWord(props) {
         }
       } else {
         setState({ ...state, username: 'undefined' });
-        let message;
-        if (language === ja) {
-          message =
-            'このマシンでの最初のログインである。 別のマシンでアカウントを作成した場合は、回復フレーズを入力してください。';
-        } else {
-          message =
+        let message =
             'This is the first time log in on this machine. If you created an account on another machine, please enter recovery phrase.';
-        }
+
         enqueueSnackbar(message, {
           variant: 'info',
           autoHideDuration: 15000,
@@ -167,7 +166,7 @@ function ByPassWord(props) {
     <>
       <Grid className={classes.avatar} container spacing={2} alignItems="flex-end">
         <Grid item>
-          <AvatarPro hash={state.avatar} />
+          {/* <AvatarPro hash={state.avatar} /> */}
         </Grid>
         <Grid item>
           <TextField
@@ -222,7 +221,7 @@ const mapStateToProps = state => {
   return {
     encryptedData: state.account.encryptedData,
     address: state.account.address,
-    language: state.globalData.language,
+    // language: state.globalData.language,
   };
 };
 
@@ -234,9 +233,9 @@ const mapDispatchToProps = dispatch => {
     setStep: value => {
       dispatch(actionCreate.setStep(value));
     },
-    setLoading: value => {
-      dispatch(actionGlobal.setLoading(value));
-    },
+    // setLoading: value => {
+    //   dispatch(actionGlobal.setLoading(value));
+    // },
   };
 };
 

@@ -11,14 +11,14 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { FormattedMessage } from 'react-intl';
 
-import { wallet, savetoLocalStorage } from '../../../../helper';
-import { ButtonPro, LinkPro } from '../../../elements/Button';
-import * as actionGlobal from '../../../../store/actions/globalData';
-import * as actionAccount from '../../../../store/actions/account';
-import * as actionCreate from '../../../../store/actions/create';
-import { getWeb3, grantAccessToken } from '../../../../service/tweb3';
-import { DivControlBtnKeystore } from '../../../elements/StyledUtils';
-import { useRemember } from '../../../../helper/hooks';
+import { wallet, savetoLocalStorage } from '../../../../helper/utils';
+import { ButtonPro, LinkPro } from '../../../Elements/Button';
+// import * as actionGlobal from '../../../../store/actions/globalData';
+import * as actionAccount from '../../../../redux/actions/account';
+import * as actionCreate from '../../../../redux/actions/create';
+import { getWeb3, grantAccessToken } from '../../../../web3';
+import { DivControlBtnKeystore } from '../../../Elements/StyledUtils';
+// import { useRemember } from '../../../../helper/hooks';
 import { encode } from '../../../../helper/encode';
 
 const styles = theme => ({
@@ -43,13 +43,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ByMnemonic(props) {
-  const { setLoading, setAccount, setStep, history, language } = props;
+  const { setLoading, setAccount, setStep, history } = props;
   const [password, setPassword] = useState('');
   const [rePassErr] = useState('');
-  const [isRemember, setIsRemember] = useRemember();
-  const ja = 'ja';
-  const inputRecovery = '回復フレーズまたはキーを入力してください';
-  const inputPassword = 'パスワードを入力してください';
+  // const [isRemember, setIsRemember] = useRemember();
+  const [isRemember, setIsRemember] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -60,26 +58,21 @@ function ByMnemonic(props) {
     let message = '';
 
     if (!phrase) {
-      if (language === ja) {
-        message = inputRecovery;
-      } else {
         message = 'Please input recovery phrase or key.';
-      }
+
       enqueueSnackbar(message, { variant: 'error' });
       return;
     }
 
     if (!password) {
-      if (language === ja) {
-        message = inputPassword;
-      } else {
         message = 'Please input new password.';
-      }
+
       enqueueSnackbar(message, { variant: 'error' });
       return;
     }
 
-    setLoading(true);
+    // setLoading(true);
+
     // setTimeout(async () => {
     try {
       let privateKey = phrase;
@@ -103,13 +96,13 @@ function ByMnemonic(props) {
       const acc = tweb3.wallet.importAccount(privateKey);
       // tweb3.wallet.defaultAccount = address;
 
-      // check if account is a regular address
-      if (!tweb3.utils.isRegularAccount(acc.address)) {
-        const m = 'The recovery phrase is for a bank account. LoveLock only accepts regular (non-bank) account.';
-        const error = new Error(m);
-        error.showMessage = m;
-        throw error;
-      }
+      // // check if account is a regular address
+      // if (!tweb3.utils.isRegularAccount(acc.address)) {
+      //   const m = 'The recovery phrase is for a bank account. LoveLock only accepts regular (non-bank) account.';
+      //   const error = new Error(m);
+      //   error.showMessage = m;
+      //   throw error;
+      // }
 
       const token = tweb3.wallet.createRegularAccount();
       grantAccessToken(address, token.address, isRemember).then(({ returnValue }) => {
@@ -136,14 +129,14 @@ function ByMnemonic(props) {
           mnemonic: mode === 1 ? phrase : '',
         };
         setAccount(account);
-        setLoading(false);
+        // setLoading(false);
         history.push('/');
       });
     } catch (error) {
       console.warn(error);
       const m = error.showMessage || `An error occurred: ${error.message || 'unknown'}`;
       enqueueSnackbar(m, { variant: 'error' });
-      setLoading(false);
+      // setLoading(false);
     }
     // setLoading(false);
     //}, 100);
@@ -175,7 +168,7 @@ function ByMnemonic(props) {
       <TextField
         id="outlined-multiline-static"
         label={<FormattedMessage id="login.recoveryLabel" />}
-        placeholder={language === ja ? inputRecovery : 'Enter your Recovery phrase or key'}
+        placeholder={ 'Enter your Recovery phrase or key'}
         multiline
         rows="4"
         onKeyDown={e => e.keyCode === 13 && gotoLogin(e)}
@@ -194,7 +187,7 @@ function ByMnemonic(props) {
       <TextField
         id="rePassword"
         label={<FormattedMessage id="login.newPassLabel" />}
-        placeholder={language === ja ? inputPassword : 'Enter your password'}
+        placeholder={ 'Enter your password'}
         helperText={rePassErr}
         error={rePassErr !== ''}
         fullWidth
@@ -231,7 +224,7 @@ function ByMnemonic(props) {
 
 const mapStateToProps = state => {
   return {
-    language: state.globalData.language,
+    // language: 'en'
   };
 };
 
@@ -243,9 +236,9 @@ const mapDispatchToProps = dispatch => {
     setStep: value => {
       dispatch(actionCreate.setStep(value));
     },
-    setLoading: value => {
-      dispatch(actionGlobal.setLoading(value));
-    },
+    // setLoading: value => {
+    //   dispatch(actionGlobal.setLoading(value));
+    // },
   };
 };
 

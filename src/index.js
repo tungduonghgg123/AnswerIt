@@ -6,12 +6,16 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import store from './redux/store'
 import { IntlProvider } from 'react-intl';
+import { SnackbarProvider } from 'notistack';
 import textConfig from './textConfig/en.json'
+
 ReactDOM.render(
     <Provider store={store}>
-        <IntlProvider messages={textConfig} locale="en">
-            <App />
-        </IntlProvider>
+        <SnackbarProvider maxSnack={3}>
+            <IntlProvider messages={textConfig} locale="en">
+                <App />
+            </IntlProvider>
+        </SnackbarProvider>
     </Provider>
     , document.getElementById('root')
 );

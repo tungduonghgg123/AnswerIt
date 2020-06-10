@@ -4,13 +4,13 @@ import { withStyles } from '@material-ui/core/styles';
 import QueueAnim from 'rc-queue-anim';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { LayoutAuthen, BoxAuthen, ShadowBoxAuthen } from '../../../elements/StyledUtils';
-import { HeaderAuthen } from '../../../elements/Common';
+import { LayoutAuthen, BoxAuthen, ShadowBoxAuthen } from '../../../Elements/StyledUtils';
+// import { HeaderAuthen } from '../../../Elements/Common';
 import ByMnemonic from './ByMnemonic';
 import ByPassWord from './ByPassWord';
-import { LinkPro } from '../../../elements/Button';
-import * as actionCreate from '../../../../store/actions/create';
-import ScanQRCodeModal from '../../../elements/ScanQRCodeModal';
+import { LinkPro } from '../../../Elements/Button';
+import * as actionCreate from '../../../../redux/actions/create';
+// import ScanQRCodeModal from '../../../elements/ScanQRCodeModal';
 
 const styles = () => ({
   //   button: {
@@ -35,7 +35,7 @@ function Login(props) {
         <LayoutAuthen key={1}>
           <BoxAuthen>
             <ShadowBoxAuthen>
-              <HeaderAuthen title={<FormattedMessage id="login.login" />} />
+              {/* <HeaderAuthen title={<FormattedMessage id="login.login" />} /> */}
 
               {step === 'one' && <ByPassWord />}
               {step === 'two' && (
@@ -57,7 +57,7 @@ function Login(props) {
           </BoxAuthen>
         </LayoutAuthen>
       </QueueAnim>
-      {isQRCodeActive && <ScanQRCodeModal setIsQRCodeActive={setIsQRCodeActive} setRecoveryPhase={setRecoveryPhase} />}
+      {/* {isQRCodeActive && <ScanQRCodeModal setIsQRCodeActive={setIsQRCodeActive} setRecoveryPhase={setRecoveryPhase} />} */}
     </div>
   );
 }

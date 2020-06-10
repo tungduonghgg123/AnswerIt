@@ -3,7 +3,7 @@ import { color } from './styles/index'
 import { connect } from 'react-redux';
 import * as actions from './redux/actions'
 import Home from './components/Pages/Home/Home'
-// import Login from './components/Pages/Authen/Login/Login'
+import Login from './components/Pages/Authen/Login/Login'
 // import Register from './components/Pages/Authen/Register/Register'
 import Register from './components/Pages/Authen/Register/Register'
 import {
@@ -24,7 +24,7 @@ export default class App extends React.Component {
             <Register/>
           </Route>
           <Route path="/login">
-            <h1>Login Page</h1>
+          <Login/>
           </Route>
           <Route path="/">
             <Home/>
