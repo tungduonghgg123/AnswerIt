@@ -175,8 +175,9 @@ export const balanceChangeEvent = (from, callback) => {
             console.log(err)
             return
         }
-        if(result.tags.Transferred)
-            callback()
+        console.log(result)
+        // if(result.tags.Transfered)
+        //     callback()
     })
 
 }

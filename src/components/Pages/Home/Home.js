@@ -79,10 +79,10 @@ class Home extends React.Component {
   /**
    * purpose: call the nested functions in <Header/>
    */
-  sendRewardEventHandler() {
-    this.fetchQuestions()
-    this.fetchAnswers(this.state.clickedQuestion.index.toString())
-  }
+  // sendRewardEventHandler() {
+  //   this.fetchQuestions()
+  //   this.fetchAnswers(this.state.clickedQuestion.index.toString())
+  // }
   async onQuestionClick(question, index) {
     this.setState({
       openThread: true,
@@ -98,7 +98,7 @@ class Home extends React.Component {
     const isRegistered = !!this.props.address
     return !isRegistered ? (
       <div style={container}>
-        <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/>
+        {/* <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/> */}
         <AskQuestion/>
         <div style={{ alignSelf: 'center' }}>
           <Button style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({ rewardFeed: true })}>Reward</Button>
