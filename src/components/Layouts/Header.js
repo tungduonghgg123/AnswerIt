@@ -7,12 +7,11 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/index'
 import {account2Index} from '../../redux/reducers/accountReducer'
-
 class Header extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showDialog: true, 
+      showDialog: false, 
       balance: 0
     }
   }
@@ -21,7 +20,7 @@ class Header extends React.Component {
     this.fetchBalance()
   }
   async fetchBalance() {
-    const balance = await getBalance(this.props.account)
+    const balance = await getBalance(this.props.address)
     this.setState({balance})
   }
   renderAccount() {
@@ -44,7 +43,7 @@ class Header extends React.Component {
   componentDidMount() {
     this.fetchBalance()
     // subcribe when balance change
-    balanceChangeEvent(this.props.account, () => this.fetchBalance()) 
+    balanceChangeEvent(this.props.address, () => this.fetchBalance()) 
     sendRewardEvent(() => {
       this.fetchBalance() 
       this.props.sendRewardEventHandler()
@@ -82,7 +81,7 @@ class Header extends React.Component {
 }
 const mapStateToProps = state => ({
   account: state.setAccountReducer,
-
+  address: state.account.address,
 });
 const styles = {
   text: {

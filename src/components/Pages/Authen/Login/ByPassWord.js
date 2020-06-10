@@ -86,7 +86,7 @@ function ByPassWord(props) {
 
   async function gotoLogin() {
     if (encryptedData) {
-      setLoading(true);
+      // setLoading(true);
 
       setTimeout(() => {
         try {
@@ -134,7 +134,7 @@ function ByPassWord(props) {
               mode,
             };
             setAccount(account);
-            setLoading(false);
+            // setLoading(false);
             setTimeout(() => {
               history.push('/');
             }, 1);
@@ -143,7 +143,7 @@ function ByPassWord(props) {
           console.error(error);
           const message = 'Your password is invalid. Please try again.';
           enqueueSnackbar(message, { variant: 'error' });
-          setLoading(false);
+          // setLoading(false);
         }
       }, 100);
     } else {

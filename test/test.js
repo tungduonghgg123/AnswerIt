@@ -14,44 +14,7 @@ const contract = tweb3.contract(config.REACT_APP_CONTRACT)
 const address = main_acc.address
 const mule_address = mule_acc.address
 
-const {getAnswers, sendReward,getAllQuestion, getQuestions, addQuestion, removeQuestion, removeAnswer, withdrawFromQuestion} = require('../src/web3/index')
-
-contract.events.AddAnswer({}, (error, data) => {
-    if (error) {
-        console.error(error)
-    } else {
-        console.log(data)
-    }
-})
-contract.events.AddQuestion({}, (error, data) => {
-    if (error) {
-        console.error(error)
-    } else {
-        console.log(data)
-    }
-})
-contract.events.GaveReward({}, (error, data) => {
-    if (error) {
-        console.error(error)
-    } else {
-        console.log('gave reward')
-        console.log(data)
-    }
-})
-contract.events.RemoveAnswer({}, (error, data) => {
-    if (error) {
-        console.error(error)
-    } else {
-        console.log(data)
-    }
-})
-contract.events.RemoveQuestion({}, (error, data) => {
-    if (error) {
-        console.error(error)
-    } else {
-        console.log(data)
-    }
-})
+// const {getAnswers, sendReward,getAllQuestion, getQuestions, addQuestion, removeQuestion, removeAnswer, withdrawFromQuestion} = require('../src/web3/index')
 // console.log(Object.getOwnPropertyNames(tweb3.wallet))
 const filter = {
     where: [
@@ -69,11 +32,18 @@ const filter = {
 // removeQuestion('16', address).then(r => console.log(r), e => console.log(e))
 // withdrawFromQuestion('0', address).then(r => console.log(r), e => console.log(e))
 // getQuestions(address).then(r => console.log(r), e => console.log(e))
-const q = {
-    value: 'I am Tung Duong',
-    expireTime: 1575453132,
-    deadline2Modify: 1575454032,
-    timestamp: 1575453139,
-}
+// const q = {
+//     value: 'I am Tung Duong',
+//     expireTime: 1575453132,
+//     deadline2Modify: 1575454032,
+//     timestamp: 1575453139,
+// }
 // addQuestion(q)
 // getAnswers("1").then((r) => console.log(r))
+
+contract.methods.getAnswers("0").call().then(r => {
+    console.log(r)
+    process.exit()
+
+})
+// getAllQuestion().then(r => console.log(r))

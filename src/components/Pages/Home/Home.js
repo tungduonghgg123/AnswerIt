@@ -7,7 +7,7 @@ import { NewFeed, Thread, AskQuestion,} from '../../Elements'
 import { Header } from '../../Layouts'
 import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers } from '../../../web3/index'
 import LandingPage from '../../Layouts/LandingPage'
-
+import _ from 'lodash'
 class Home extends React.Component {
   constructor(props) {
     super(props)
@@ -70,7 +70,17 @@ class Home extends React.Component {
       console.log('ahihi')
       this.fetchQuestions()
     })
-    addAnswerEvent(() => this.fetchAnswers(this.state.clickedQuestion.index.toString()))
+    addAnswerEvent(() => {
+      console.log(this.state.clickedQuestion)
+      if(_.isEmpty(this.state.clickedQuestion)) {
+        console.log('empty object')
+        return
+      } else {
+        console.log('not empty')
+        this.fetchAnswers(this.state.clickedQuestion.index.toString()) 
+      }
+    }
+    )
     // sendRewardEvent(() => {
     //   this.fetchQuestions()
     //   this.fetchAnswers(this.state.clickedQuestion.index.toString())
@@ -96,9 +106,9 @@ class Home extends React.Component {
   render() {
     const { container, button, feed } = styles
     const isRegistered = !!this.props.address
-    return !isRegistered ? (
+    return isRegistered ? (
       <div style={container}>
-        {/* <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/> */}
+        <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/>
         <AskQuestion/>
         <div style={{ alignSelf: 'center' }}>
           <Button style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({ rewardFeed: true })}>Reward</Button>
