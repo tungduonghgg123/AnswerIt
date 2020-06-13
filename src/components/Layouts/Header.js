@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/index'
 import {account2Index} from '../../redux/reducers/accountReducer'
+import PasswordPrompt from './PasswordPrompt'
+
 class Header extends React.Component {
   constructor(props) {
     super(props)
@@ -50,7 +52,7 @@ class Header extends React.Component {
     })
   }
   render() {
-  
+    const {needAuth} = this.props
     return (
       <div >
         <AppBar position="static" style={{ background: color.secondary }}>
@@ -74,6 +76,7 @@ class Header extends React.Component {
             </Dialog>
           </Toolbar>
         </AppBar>
+        {needAuth && <PasswordPrompt />}
       </div>
     );
 
@@ -82,6 +85,7 @@ class Header extends React.Component {
 const mapStateToProps = state => ({
   account: state.setAccountReducer,
   address: state.account.address,
+  needAuth: state.account.needAuth,
 });
 const styles = {
   text: {

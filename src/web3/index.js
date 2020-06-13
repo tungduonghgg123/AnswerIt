@@ -44,7 +44,7 @@ tweb3.wallet.importAccount('ETcFN4WdQPiJysBbcEC3mSWkEP8oQ2jFpW4aF3kPAVij')
 tweb3.wallet.importAccount('CbUFvWuBNdH3xxkspzyWZu66PL8q4gAd8zK1Z78g6Ttt')
 tweb3.wallet.importAccount('6JjCo9diGK1LKYfSGrfvk7fqMgDoeSr94cBVmadhUp7G')
 
-export const addQuestion = async (question, from , value) => {
+export const addQuestion = async (question, from , payer, value) => {
     // try {
     //     console.log(from)
     //     await contract.methods.addQuestion(question).sendCommit({ from, payer: 'system.faucet', value })
@@ -57,7 +57,10 @@ export const addQuestion = async (question, from , value) => {
     //     }
     // }
         try {
-            await contract.methods.addQuestion(question).sendCommit({ from, value })
+            console.log('addQuestion',payer)
+            await contract.methods.addQuestion(question).sendCommit({ 
+                from, signers: payer, value 
+            })
         } catch (e) {
             throw e
         }

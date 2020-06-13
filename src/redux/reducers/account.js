@@ -25,9 +25,7 @@ const initialState = {
       const expiredSoon = process.env.REACT_APP_CONTRACT !== token.contract || token.expireAfter - Date.now() < 60 * 1000;
       if (!expiredSoon) {
         resp.tokenKey = codecToString(token.tokenKey);
-          getWeb3().wallet.importAccount(token.tokenKey);
-
-
+        getWeb3().wallet.importAccount(token.tokenKey);
         resp.tokenAddress = token.tokenAddress;
       }
       resp.expireAfter = token.expireAfter;

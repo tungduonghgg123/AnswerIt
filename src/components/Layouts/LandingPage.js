@@ -18,7 +18,7 @@ const SplitLeft = styled.div`
   overflow-x: hidden;
   padding-top: 20px;
   left: 0;
-  background-color: #8250c8;
+  background-color: #261300;
   color: #fff;
   background-size: cover;
   background-image: url('/static/img/landing.svg');

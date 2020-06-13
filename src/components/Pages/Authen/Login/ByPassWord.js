@@ -57,7 +57,6 @@ function ByPassWord(props) {
   const [isRemember, setIsRemember] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
-  const ja = 'ja';
 
   useEffect(() => {
     async function loadData() {

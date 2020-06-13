@@ -4,7 +4,6 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 
 function FormDialog(props) {
   return (
-    <div>
       <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Question Form</DialogTitle>
         <DialogContent>
@@ -27,7 +26,6 @@ function FormDialog(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
   );
 }
 export {FormDialog}

@@ -12,7 +12,8 @@ import { addQuestion} from '../../web3/index'
  */
 
 function AskQuestion(props) {
-    const [openForm, setOpenForm] = useState(false)
+    const { tokenAddress, tokenKey, address, privateKey, setNeedAuth } = props    
+    const [openForm, setOpenForm] = useState(true)
     const [openNotifyDialog, setOpenNotifyDialog ] = useState(false)
     const [notify, setNotify] = useState('')
     const [question, setQuestion] = useState({
@@ -20,7 +21,6 @@ function AskQuestion(props) {
         reward: '',
         expireTime: new Date(),
     })
-
     function closeForm() {
         setOpenForm(false)
         cleanForm()
@@ -69,7 +69,24 @@ function AskQuestion(props) {
             reward: undefined
         }
         try {
-            await addQuestion(question1, props.account, reward)
+            const requirePrivateKey = !! (reward && reward > 0)
+            if (requirePrivateKey) {
+                if(privateKey) {
+                    await addQuestion(question1, address, null, reward)
+                } else {
+                    console.log(`user's private key is required!`)
+                    setNeedAuth(true)
+                    return;
+                }
+            } else {
+                if(!tokenAddress && !tokenKey) {
+                    // it would be best to direct to the login page
+                    console.log('token expired!')
+                    setNeedAuth(true)
+                    return;
+                }
+                await addQuestion(question1, address, tokenAddress, reward)
+            }
             setNotify('success')
             closeForm()
         } catch (error) {
@@ -113,6 +130,11 @@ const styles = {
 }
 const mapStateToProps = state => ({
     account: state.setAccountReducer,
+    address: state.account.address,
+    tokenAddress: state.account.tokenAddress,
+    tokenKey: state.account.tokenKey,
+    privateKey: state.account.privateKey,
+    needAuth: state.account.needAuth
   });
   
   export default connect(mapStateToProps, actions)(AskQuestion)

@@ -12,7 +12,7 @@ import { toUNIXTimestamp, MODIFY_TIME } from '../../web3/common'
 import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from '../../web3/index'
 
 function Thread(props) {
-    const { open, handleClose, rewardFeed, question, account, answers } = props
+    const { open, handleClose, rewardFeed, question, account, answers, address } = props
     const [openDialog, setOpenDialog] = useState(false)
     const [dialogContent, setDialogContent] = useState('')
     const [answer, setAnswer] = useState({
@@ -35,7 +35,7 @@ function Thread(props) {
             timestamp: toUNIXTimestamp(new Date()),
         }
         try {
-            await addAnswer(toQuestionId, answer1, account)
+            await addAnswer(toQuestionId, answer1, address)
             cleanAnswerForm()
         } catch (error) {
             console.log(error.message)
@@ -58,7 +58,7 @@ function Thread(props) {
         if (!rewardFeed)
             return
         try {
-            await sendReward(questionId, answerId, question.reward, account)
+            await sendReward(questionId, answerId, question.reward, address)
             setDialogContent('success')
         } catch (error) {
             setDialogContent(error.message)
@@ -108,6 +108,8 @@ const styles = {
 }
 const mapStateToProps = state => ({
     account: state.setAccountReducer,
+    address: state.account.address
+
 });
 
 export default connect(mapStateToProps, actions)(Thread)

@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FormattedMessage } from 'react-intl';
 import WarningIcon from '@material-ui/icons/Warning';
 import { useSnackbar } from 'notistack';
+import { withRouter } from 'react-router-dom';
 
 
 import { isAliasRegistered, setTagsInfo, registerAlias } from '../../../../helper/account'
@@ -81,6 +82,10 @@ function Register2(props) {
   function createAccountWithMneomnic() {
     const { mnemonic, privateKey, publicKey, address } = wallet.getAccountFromMneomnic();
     return { mnemonic, privateKey, publicKey, address };
+  }
+  function gotoLogin() {
+    const { history } = props;
+    history.push('/login');
   }
   async function gotoNext() {
     const isUsernameRegistered = await isAliasRegistered(username);
@@ -274,7 +279,7 @@ function Register2(props) {
             </span>
             <LinkPro
               className="alreadyAcc"
-            // onClick={gotoLogin}
+              onClick={gotoLogin}
             >
               <FormattedMessage id="regist.login" />
             </LinkPro>
@@ -290,7 +295,7 @@ function Register2(props) {
   );
 }
 
-export default connect(null, actions)(Register2)
+export default withRouter(connect(null, actions)(Register2))
 
 const WarningPass = styled.div`
   .warningSnackbar {
