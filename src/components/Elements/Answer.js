@@ -5,7 +5,6 @@ import images from '../../assets/images'
 import { diffTime, toTEA } from '../../web3/common'
 import { color } from '../../styles'
 
-import {account2Index} from '../../redux/reducers/accountReducer'
 
 const styles = {
     tickIcon: {
@@ -15,13 +14,16 @@ const styles = {
 function Answer(props) {
     const { answer, i, onClick } = props
     const { value, timestamp, isBestAnswer } = answer
-    const image = images[account2Index(answer.owner)]
+    // const image = images[account2Index(answer.owner)]
 
     return (
         <div>
             <ListItem alignItems="flex-start" onClick={() => onClick()}>
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src={image} />
+                    <Avatar 
+                    alt="Remy Sharp" 
+                    // src={image} 
+                    />
                 </ListItemAvatar>
                 <ListItemText
                     primary={

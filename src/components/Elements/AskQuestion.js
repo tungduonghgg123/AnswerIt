@@ -13,7 +13,7 @@ import { addQuestion} from '../../web3/index'
 
 function AskQuestion(props) {
     const { tokenAddress, tokenKey, address, privateKey, setNeedAuth } = props    
-    const [openForm, setOpenForm] = useState(true)
+    const [openForm, setOpenForm] = useState(false)
     const [openNotifyDialog, setOpenNotifyDialog ] = useState(false)
     const [notify, setNotify] = useState('')
     const [question, setQuestion] = useState({
@@ -129,7 +129,6 @@ const styles = {
 
 }
 const mapStateToProps = state => ({
-    account: state.setAccountReducer,
     address: state.account.address,
     tokenAddress: state.account.tokenAddress,
     tokenKey: state.account.tokenKey,

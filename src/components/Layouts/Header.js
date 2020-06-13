@@ -6,7 +6,6 @@ import { color } from '../../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/index'
-import {account2Index} from '../../redux/reducers/accountReducer'
 import PasswordPrompt from './PasswordPrompt'
 
 class Header extends React.Component {
@@ -26,16 +25,16 @@ class Header extends React.Component {
     this.setState({balance})
   }
   renderAccount() {
-    return images.map((image, i) => {
-      return (
-        <ListItemAvatar key={i}>
-          <Avatar alt="Remy Sharp" src={image} onClick={() => {
-            this.changeAccount(i)
-            this.setShowDialog(false)
-            }} />
-        </ListItemAvatar>
-      )
-    })
+    // return images.map((image, i) => {
+    //   return (
+    //     <ListItemAvatar key={i}>
+    //       <Avatar alt="Remy Sharp" src={image} onClick={() => {
+    //         this.changeAccount(i)
+    //         this.setShowDialog(false)
+    //         }} />
+    //     </ListItemAvatar>
+    //   )
+    // })
   }
   setShowDialog(bool) {
     this.setState({
@@ -67,9 +66,9 @@ class Header extends React.Component {
               {this.state.balance} Tea
             </Typography>
             {/* <Button onClick={() => this.setShowDialog(true)}>Login</Button> */}
-            <Avatar alt="Remy Sharp" src={images[account2Index(this.props.account)]} onClick={() => this.setShowDialog(true)} />
+            <Avatar alt="Remy Sharp"  onClick={() => this.setShowDialog(true)} />
             <Dialog open={this.state.showDialog} maxWidth="sm" fullWidth onClose={() => this.setShowDialog(false)}>
-              <DialogTitle id="form-dialog-title">Select Account</DialogTitle>
+              <DialogTitle id="form-dialog-title">Your Account</DialogTitle>
               <List style={{flexDirection: 'row', display: 'flex', justifyContent: 'space-around'}} onClick={() => {}}>
                 {this.renderAccount()}
               </List>
@@ -83,7 +82,6 @@ class Header extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  account: state.setAccountReducer,
   address: state.account.address,
   needAuth: state.account.needAuth,
 });

@@ -6,7 +6,7 @@ import { diffTime, toTEA } from '../../web3/common'
 import { color } from '../../styles'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
-import {account2Index} from '../../redux/reducers/accountReducer'
+
 const NUM_IMAGES = images.length - 1
 const styles = {
     tickIcon: {
@@ -17,14 +17,13 @@ function Question(props) {
     const { isReward, question, i, onClick } = props
     const { reward, expireTime, value, resolved } = question
     const { tickIcon } = styles
-    const image = images[account2Index(question.owner)]
     if (isReward) {
         if (reward)
             return (
                 <div key={i}>
                     <ListItem alignItems="flex-start" onClick={() => onClick(question, i)}>
                         <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={image} />
+                            <Avatar alt="Remy Sharp" />
                         </ListItemAvatar>
                         <ListItemText
                             secondary={`Reward: ${toTEA(reward)} Tea -- Deadline: ${diffTime(expireTime)}`}
@@ -56,7 +55,7 @@ function Question(props) {
                 <div key={i}>
                     <ListItem key={i} alignItems="flex-start" onClick={() => onClick(question, i)}>
                         <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={image} />
+                            <Avatar alt="Remy Sharp" />
                         </ListItemAvatar>
                         <ListItemText
                             secondary={`Deadline: ${diffTime(expireTime)}`}
@@ -75,8 +74,6 @@ function Question(props) {
     }
 }
 
-const mapStateToProps = state => ({
-    id: state.setAccountReducer.id,
-  
+const mapStateToProps = state => ({  
   });
 export default connect(mapStateToProps, actions)(Question)

@@ -144,7 +144,6 @@ const styles = {
   }
 }
 const mapStateToProps = state => ({
-  account: state.setAccountReducer,
   address: state.account.address,
 });
 
