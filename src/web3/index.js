@@ -75,9 +75,9 @@ export const addQuestionEvent = (callback) => {
         }
     })
 }
-export const addAnswer = async (questionId, answer, from) => {
+export const addAnswer = async (questionId, answer, from, tokenKey) => {
     try {
-        await contract.methods.addAnswer(questionId, answer).sendCommit({ from })
+        await contract.methods.addAnswer(questionId, answer).sendCommit({ from, signers: tokenKey })
     } catch (e) {
         // e - error object. It has 3 properties: name, message and stack!
         throw e

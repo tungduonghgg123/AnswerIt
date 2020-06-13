@@ -22,7 +22,7 @@ import { wallet } from '../../../../helper/utils'
 import {getWeb3} from '../../../../web3'
 import { DivControlBtnKeystore, FlexBox } from '../../../Elements/StyledUtils';
 import { ButtonPro, LinkPro } from '../../../Elements/Button';
-// import { useRemember } from '../../../../helper/hooks';
+import { useRemember } from '../../../../helper/hooks';
 
 const useStyles = makeStyles(theme => ({
   rightIcon: {
@@ -52,7 +52,7 @@ function Register2(props) {
   const [rePassword, setRePassword] = useState('');
   const { enqueueSnackbar } = useSnackbar();
 
-  //   const [isRememberState, setIsRememberState] = useRemember();
+    const [isRemember, setIsRemember] = useRemember();
   const classes = useStyles();
   useEffect(() => {
     ValidatorForm.addValidationRule('isPasswordMatch', value => {
@@ -135,7 +135,8 @@ function Register2(props) {
 
           // setLoading(false);
           props.setStep('two');
-          // setIsRemember(isRememberState);
+          // pass this props to redux store, because we're gonna need it in the next step.
+          props.setIsRemember(isRemember);
 
           // REMARK:
           // No matter we explicitly store or not, Chrome ALWAYS shows a popup
@@ -243,21 +244,21 @@ function Register2(props) {
           value={rePassword}
           inputProps={{ autoComplete: 'new-password' }}
         />
-        {/* <div>
+        <div>
               <FormControlLabel
                 control={
                   <Checkbox
                     icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                     checkedIcon={<CheckBoxIcon fontSize="small" />}
-                    value={isRememberState}
-                    checked={isRememberState}
+                    value={isRemember}
+                    checked={isRemember}
                     color="primary"
-                    onChange={() => setIsRememberState(!isRememberState)}
+                    onChange={() => setIsRemember(!isRemember)}
                   />
                 }
                 label={<FormattedMessage id="regist.rememberMe" />}
               />
-            </div> */}
+            </div>
         <WarningPass>
           <SnackbarContent
             className="warningSnackbar"

@@ -9,12 +9,13 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
 import { getWeb3, grantAccessToken } from '../../web3';
 import * as actions from '../../redux/actions';
-import { wallet } from '../../helper/utils';
-import {  decode } from '../../helper/decode';
+import { wallet, savetoLocalStorage } from '../../helper/utils';
+import { decode } from '../../helper/decode';
+import { encode } from '../../helper/encode';
 
 import { useRemember } from '../../helper/hooks';
 import CommonDialog from '../Elements/CommonDialog';
@@ -25,7 +26,7 @@ const LOGIN_BY_MNEMONIC = 1;
 
 function PasswordPrompt(props) {
   const [password, setPassword] = useState('');
-  const [text, setText]  = useState('text')
+  const [text, setText] = useState('text')
   const dispatch = useDispatch();
   const encryptedData = useSelector(state => state.account.encryptedData);
   const needAuth = useSelector(state => state.account.needAuth);
@@ -125,8 +126,9 @@ function PasswordPrompt(props) {
 
         const token = tweb3.wallet.createRegularAccount();
         grantAccessToken(address, token.address, isRemember).then(({ returnValue }) => {
+          console.log(returnValue)
           tweb3.wallet.importAccount(token.privateKey);
-          // const keyObject = encode(privateKey, decryptPass);
+          const keyObject = encode(privateKey, decryptPass);
           const storage = isRemember ? localStorage : sessionStorage;
           // save token account
           storage.sessionData = codecEncode({
@@ -136,15 +138,16 @@ function PasswordPrompt(props) {
             expireAfter: returnValue,
           }).toString('base64');
           // re-save main account
-          // savetoLocalStorage(address, keyObject);
+          savetoLocalStorage({address, mode, keyObject});
           const account = {
             address,
             privateKey,
-            mnemonic: mode === LOGIN_BY_MNEMONIC ? decodeOutput : '',
-            mode,
             tokenAddress: token.address,
             tokenKey: token.privateKey,
             cipher: decryptPass,
+            encryptedData: keyObject,
+            mode,
+            mnemonic: mode === LOGIN_BY_MNEMONIC ? decodeOutput : '',
           };
           setAccount(account);
 
@@ -180,60 +183,48 @@ function PasswordPrompt(props) {
   }
 
   return (!credLoading.current || autoPassFailed) && needAuth ? (
-    // <CommonDialog
-    //   title={<FormattedMessage id="passPrompt.passTitle" />}
-    //   okText={<FormattedMessage id="passPrompt.btnConfirm" />}
-    //   close={close}
-    //   confirm={handleConfirm}
-    //   onKeyReturn
-    //   // hasParentDialog
-    //   ensureTopLevel
-    // >
-    <Dialog open={true} onClose={close} aria-labelledby="form-dialog-title"  fullWidth={true} maxWidth={'sm'}>
-        <DialogTitle id="form-dialog-title">Confirm your password</DialogTitle>
-        <DialogContent>
+    <Dialog open={true} onClose={close} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth={'sm'}>
+      <DialogTitle id="form-dialog-title">Confirm your password</DialogTitle>
+      <DialogContent>
         <TextField
-        id="Password"
-        label={<FormattedMessage id="passPrompt.pass" />}
-        placeholder={'Enter your password'}
-        fullWidth
-        // autoFocus
-        
-        margin="normal"
-        onChange={passwordChange}
-        type="password"
-        autoComplete="current-password"
-      />
-       <div>
-        <LinkPro onClick={goToForgotPassScreen}>
-          <FormattedMessage id="passPrompt.forgot" />
-        </LinkPro>
-      </div>
-      <FormControlLabel
-        control={
-          <Checkbox
-            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-            checkedIcon={<CheckBoxIcon fontSize="small" />}
-            value={isRemember}
-            checked={isRemember}
-            color="primary"
-            onChange={() => setIsRemember(!isRemember)}
-          />
-        }
-        label={<FormattedMessage id="passPrompt.remember" />}
-      />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={close} color="primary">
-            Cancel
+          id="Password"
+          label={<FormattedMessage id="passPrompt.pass" />}
+          placeholder={'Enter your password'}
+          fullWidth
+          autoFocus
+          margin="normal"
+          onChange={passwordChange}
+          type="password"
+          autoComplete="current-password"
+        />
+        <div>
+          <LinkPro onClick={goToForgotPassScreen}>
+            <FormattedMessage id="passPrompt.forgot" />
+          </LinkPro>
+        </div>
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+              checkedIcon={<CheckBoxIcon fontSize="small" />}
+              value={isRemember}
+              checked={isRemember}
+              color="primary"
+              onChange={() => setIsRemember(!isRemember)}
+            />
+          }
+          label={<FormattedMessage id="passPrompt.remember" />}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={close} color="primary">
+          Cancel
           </Button>
-          <Button onClick={handleConfirm} color="primary">
-            Confirm
+        <Button onClick={handleConfirm} color="primary">
+          Confirm
           </Button>
-        </DialogActions>
-
-    {/* </CommonDialog>  */}
-    </Dialog> 
+      </DialogActions>
+    </Dialog>
   ) : null;
 }
 

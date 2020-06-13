@@ -1,18 +1,16 @@
 
 import React, { useState } from 'react';
 import { color } from '../../styles/index'
-import { Button, Container, List, Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
+import { Button, List, Dialog, DialogContent } from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
-import {
-    Header, FormDialog, AddQuestionForm, AnswerForm,
-    NewFeed, Answer, Question, InformDialog, AskQuestion,
-} from './'
+import { AnswerForm, Answer, Question, InformDialog} from './'
 import { toUNIXTimestamp, MODIFY_TIME } from '../../web3/common'
-import { addQuestion, addQuestionEvent, addAnswer, addAnswerEvent, getAllQuestion, getAnswers, sendReward, sendRewardEvent } from '../../web3/index'
+import { addAnswer, sendReward } from '../../web3/index'
 
 function Thread(props) {
-    const { open, handleClose, rewardFeed, question, account, answers, address } = props
+    const { open, handleClose, rewardFeed, question, answers } = props
+    const { address, tokenAddress, tokenKey, setNeedAuth } = props
     const [openDialog, setOpenDialog] = useState(false)
     const [dialogContent, setDialogContent] = useState('')
     const [answer, setAnswer] = useState({
@@ -35,7 +33,13 @@ function Thread(props) {
             timestamp: toUNIXTimestamp(new Date()),
         }
         try {
-            await addAnswer(toQuestionId, answer1, address)
+            if(!tokenAddress && !tokenKey) {
+                // it would be best to direct to the login page
+                console.log('token expired!')
+                setNeedAuth(true)
+                return;
+            }
+            await addAnswer(toQuestionId, answer1, address, tokenAddress)
             cleanAnswerForm()
         } catch (error) {
             console.log(error.message)
@@ -107,8 +111,9 @@ const styles = {
 
 }
 const mapStateToProps = state => ({
-    address: state.account.address
-
+    address: state.account.address,
+    tokenAddress: state.account.tokenAddress,
+    tokenKey: state.account.tokenKey,
 });
 
 export default connect(mapStateToProps, actions)(Thread)
