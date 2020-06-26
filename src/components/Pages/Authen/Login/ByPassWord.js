@@ -111,8 +111,10 @@ function ByPassWord(props) {
 
           const token = tweb3.wallet.createRegularAccount();
           grantAccessToken(address, token.address, isRemember).then(({ returnValue }) => {
+            console.log(returnValue)
             tweb3.wallet.importAccount(token.privateKey);
             const keyObject = encode(privateKey, password);
+        console.log('is remember: ', isRemember)
             const storage = isRemember ? localStorage : sessionStorage;
             // save token account
             storage.sessionData = codecEncode({

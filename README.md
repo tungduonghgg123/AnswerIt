@@ -4,10 +4,41 @@ Utilize ICETEA blockchain to bring the best experience for users.
 # Current Status: version 2.0
 Using ICETEA's native token icetea for payment with system.faucet is the payer. In the future update, a customized token will be used.
 # How to run
-make sure you have installed yarn, it is a package manager just likes npm!
+## 1. Install
 
-$ yarn install
-$ yarn start
+- Rename `.env.example` to `.env`
+- `npm i`
+- `npm i -g TradaTech/icetea TradaTech/ipfs-proxy`
+- `icetea init`
+
+## 2. Start to Icetea and IPFS node
+``
+Start an Icetea Node:
+```sh
+icetea start
+```
+
+Start a fake IPFS node for testing:
+```sh
+ipfslocal
+```
+
+## 3. Deploy contracts
+
+Deploy Lovelock contract:
+```
+npm run deploy
+```
+
+After deploying the new contract, change `PKEY` value in your `.env` with the `private key` exported from the command.
+
+Generate some seed data (optional):
+`npm run seed` then import the outputted private key for testing (use __Forgot Password__ screen to import).
+
+## 4. Start the app
+
+- `npm start`
+
 
 # Issues
 1. after changing state, if I get state immediately, i will get the previous, not the new one @@

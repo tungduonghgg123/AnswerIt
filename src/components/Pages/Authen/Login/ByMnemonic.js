@@ -109,6 +109,7 @@ function ByMnemonic(props) {
         console.log(returnValue)
         tweb3.wallet.importAccount(token.privateKey);
         const keyObject = encode(phrase, password);
+        console.log('is remember: ', isRemember)
         const storage = isRemember ? localStorage : sessionStorage;
         // save token account
         storage.sessionData = codecEncode({

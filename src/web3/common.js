@@ -9,7 +9,9 @@ exports.timestamp2date = (timestamp) => {
 exports.toTEA = (unit) => {
   return Number(unit) / (10 ** decimal)
 }
-
+exports.milliseconds2Date = (milliseconds) => {
+  return (new Date(milliseconds)).toString()
+}
 exports.toUNIT = (tea) => {
   tea = (+tea).toFixed(decimal)
   return tea * (10 ** decimal)

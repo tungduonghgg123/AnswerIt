@@ -1,6 +1,7 @@
 import { decode as codecDecode, toString as codecToString } from '@iceteachain/common/src/codec';
 import { actionTypes } from '../actions/account';
 import {getWeb3} from '../../web3'
+import {milliseconds2Date} from '../../web3/common'
 const initialState = {
   needAuth: false,
   isApproved: true,
@@ -11,6 +12,7 @@ const initialState = {
   tokenAddress: '',
   tokenKey: '',
   expireAfter: '',
+  expireAfter2Date: '',
   mnemonic: '',
   encryptedData: '',
   displayName: '',
@@ -19,11 +21,15 @@ const initialState = {
   ...(function getSessionStorage() {
     const resp = {};
     const sessionData = sessionStorage.getItem('sessionData') || localStorage.getItem('sessionData');
-
+    console.log('seession storage:', sessionStorage.getItem('sessionData'))
+    console.log('local: ', localStorage.getItem('sessionData'))
     if (sessionData) {
       const token = codecDecode(Buffer.from(sessionData, 'base64'));
+      console.log(token)
       const expiredSoon = process.env.REACT_APP_CONTRACT !== token.contract || token.expireAfter - Date.now() < 60 * 1000;
+      resp.expireAfter2Date = milliseconds2Date(token.expireAfter)
       if (!expiredSoon) {
+        console.log('not expired soon')
         resp.tokenKey = codecToString(token.tokenKey);
         getWeb3().wallet.importAccount(token.tokenKey);
         resp.tokenAddress = token.tokenAddress;

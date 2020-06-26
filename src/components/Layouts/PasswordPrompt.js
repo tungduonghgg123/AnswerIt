@@ -129,6 +129,7 @@ function PasswordPrompt(props) {
           console.log(returnValue)
           tweb3.wallet.importAccount(token.privateKey);
           const keyObject = encode(privateKey, decryptPass);
+        console.log('is remember: ', isRemember)
           const storage = isRemember ? localStorage : sessionStorage;
           // save token account
           storage.sessionData = codecEncode({
@@ -148,6 +149,7 @@ function PasswordPrompt(props) {
             encryptedData: keyObject,
             mode,
             mnemonic: mode === LOGIN_BY_MNEMONIC ? decodeOutput : '',
+            expireAfter: returnValue
           };
           setAccount(account);
 
