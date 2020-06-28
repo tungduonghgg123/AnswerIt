@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
+import {MyButton} from '../../../Elements/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -193,9 +193,9 @@ function RegisterSuccess(props) {
               label={<FormattedMessage id="regist.successConfirm" />}
             />
           </div>
-          <Button disabled={!savedPhrase} variant="contained" size="large" color="primary" onClick={gotoHome}>
+          <MyButton disabled={!savedPhrase} variant="contained" size="large" color="primary" onClick={gotoHome}>
             <FormattedMessage id="regist.btnContinue" />
-          </Button>
+          </MyButton>
         </FoolterBtn>
       </WrapperImg>
     </div>

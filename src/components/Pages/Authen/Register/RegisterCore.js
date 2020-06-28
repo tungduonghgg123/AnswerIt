@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { connect } from 'react-redux';
 import * as actions from '../../../../redux/actions'
+import {MyButton, MyLink} from '../../../Elements/Button';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,7 +10,6 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import styled from 'styled-components';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import { FormattedMessage } from 'react-intl';
 import WarningIcon from '@material-ui/icons/Warning';
@@ -21,7 +21,6 @@ import { isAliasRegistered, setTagsInfo, registerAlias } from '../../../../helpe
 import { wallet } from '../../../../helper/utils'
 import {getWeb3} from '../../../../web3'
 import { DivControlBtnKeystore, FlexBox } from '../../../Elements/StyledUtils';
-import { ButtonPro, LinkPro } from '../../../Elements/Button';
 import { useRemember } from '../../../../helper/hooks';
 
 const useStyles = makeStyles(theme => ({
@@ -44,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Register2(props) {
+function RegisterCore(props) {
   const [username, setUsername] = useState('');
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -252,7 +251,7 @@ function Register2(props) {
                     checkedIcon={<CheckBoxIcon fontSize="small" />}
                     value={isRemember}
                     checked={isRemember}
-                    color="primary"
+                    color="secondary"
                     onChange={() => setIsRemember(!isRemember)}
                   />
                 }
@@ -278,25 +277,24 @@ function Register2(props) {
             <span>
               <FormattedMessage id="regist.alreadyAcc" />
             </span>
-            <LinkPro
+            <MyLink
               className="alreadyAcc"
               onClick={gotoLogin}
+              color="secondary"
             >
               <FormattedMessage id="regist.login" />
-            </LinkPro>
+            </MyLink>
           </div>
-          <ButtonPro type="submit" className="nextBtn">
+          <MyButton type="submit" variant="contained" color="secondary">
             <FormattedMessage id="regist.next" />
-            {/* <Icon className={classes.rightIcon}>arrow_right_alt</Icon> */}
-          </ButtonPro>
+          </MyButton>
         </DivControlBtnKeystore>
       </ValidatorForm>
-      {/* {isOpenCrop && <ImageCrop close={closeCrop} accept={acceptCrop} originFile={originFile} />} */}
     </>
   );
 }
 
-export default withRouter(connect(null, actions)(Register2))
+export default withRouter(connect(null, actions)(RegisterCore))
 
 const WarningPass = styled.div`
   .warningSnackbar {

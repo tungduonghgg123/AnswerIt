@@ -12,19 +12,14 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { FormattedMessage } from 'react-intl';
 
 import { wallet, savetoLocalStorage } from '../../../../helper/utils';
-import { ButtonPro, LinkPro } from '../../../Elements/Button';
-// import * as actionGlobal from '../../../../store/actions/globalData';
+import {MyButton, MyLink} from '../../../Elements/Button';
 import * as actionAccount from '../../../../redux/actions/account';
 import * as actionCreate from '../../../../redux/actions/create';
 import { getWeb3, grantAccessToken } from '../../../../web3';
 import { DivControlBtnKeystore } from '../../../Elements/StyledUtils';
-// import { useRemember } from '../../../../helper/hooks';
 import { encode } from '../../../../helper/encode';
 
 const styles = theme => ({
-  // button: {
-  //   margin: theme.spacing(1),
-  //   background: 'linear-gradient(332deg, #b276ff, #fe8dc3)',
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -182,10 +177,15 @@ function ByMnemonic(props) {
         error={rePassErr !== ''}
         autoFocus
         value={props.recoveryPhase}
+        // InputLabelProps={{
+        //   style: {
+        //     textOverflow: 'ellipsis',
+        //     whiteSpace: 'nowrap',
+        //     overflow: 'hidden',
+        //     width: '100%',
+        //     color: '#82def9'
+        //   } }}
       />
-      <LinkPro onClick={() => props.setIsQRCodeActive(true)}>
-        <FormattedMessage id="login.qrCode" />
-      </LinkPro>
       <TextField
         id="rePassword"
         label={<FormattedMessage id="login.newPassLabel" />}
@@ -213,12 +213,12 @@ function ByMnemonic(props) {
         className={classes.formCtLb}
       />
       <DivControlBtnKeystore>
-        <ButtonPro color="primary" className="backBtn" onClick={loginWithPrivatekey}>
+        <MyLink color="primary" className="backBtn" onClick={loginWithPrivatekey}>
           <FormattedMessage id="login.btnBack" />
-        </ButtonPro>
-        <ButtonPro variant="contained" color="primary" className="nextBtn" type="submit">
+        </MyLink>
+        <MyButton variant="contained" color="primary" className="nextBtn" type="submit">
           <FormattedMessage id="login.btnRecover" />
-        </ButtonPro>
+        </MyButton>
       </DivControlBtnKeystore>
     </form>
   );

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
-import { ButtonPro, LinkPro } from './Button';
+import Button from '@material-ui/core/Button';
+
 
 const Backdrop = styled.div`
   position: fixed;
@@ -200,14 +201,14 @@ class CommonDialog extends React.Component {
               <Action>
                 <div className="actionConfirm">
                   {haveCancelButton && (
-                    <LinkPro className="deny nextBtn" onClick={cancel}>
+                    <Button className="deny nextBtn" onClick={cancel}>
                       {cancelText}
-                    </LinkPro>
+                    </Button>
                   )}
                   {haveConfirmButton && (
-                    <ButtonPro className="nextBtn send " onClick={confirm}>
+                    <Button className="nextBtn send " onClick={confirm}>
                       {typeof okText !== 'function' ? okText : okText()}
-                    </ButtonPro>
+                    </Button>
                   )}
                 </div>
               </Action>

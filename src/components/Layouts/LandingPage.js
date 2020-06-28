@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import {color} from '../../styles/index'
 
 const OutBox = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const SplitLeft = styled.div`
   overflow-x: hidden;
   padding-top: 20px;
   left: 0;
-  background-color: #261300;
+  background-color: ${color.primary};
   color: #fff;
   background-size: cover;
   background-image: url('/static/img/landing.svg');
@@ -62,7 +63,7 @@ const LoveLockQuote = styled.div`
   font-size: 18px;
   font-stretch: normal;
   line-height: 1.45;
-  color: #ffffff;
+  color: #14171a;
   position: relative;
   @media (max-width: 414px) {
     font-size: 16px;
@@ -76,7 +77,7 @@ const LoveLockQuote = styled.div`
     top: -40px;
     left: -40px;
     position: absolute;
-    color: rgba(255, 255, 255, 0.5);
+    color: black;
   }
 `;
 
@@ -164,7 +165,7 @@ class LandingPage extends PureComponent {
           <SplitLeft>
             <SplitContentLeft>
               <LoveLockQuote>
-              A forum that permit you to demand a great answer based on your budget in a decentralized and reliable way!
+              A forum that permits you to demand great answers based on your budget in a decentralized and reliable way!
               </LoveLockQuote>
             </SplitContentLeft> 
           </SplitLeft>
@@ -182,10 +183,10 @@ class LandingPage extends PureComponent {
                 <h2 className="signUpSubTitle">
                   Join AnswerIt now!
                 </h2>
-                <Button href="/register" className="signUpBtn" variant="contained" color="primary">
-                  Register
+                <Button href="/register" className="signUpBtn" variant="contained" style={styles.button}>
+                  Register  
                 </Button>
-                <Button href="/login" className="signUpBtn" variant="outlined" color="primary">
+                <Button href="/login" className="signUpBtn" variant="outlined" color="secondary">
                   Login
                 </Button>
               </SignupForm>
@@ -218,5 +219,11 @@ class LandingPage extends PureComponent {
     );
   }
 }
-
+const styles = {
+  button: {
+    background: color.secondary,
+    alignSelf: 'center',
+    color: 'white'
+  },
+}
 export default withRouter(LandingPage);

@@ -8,7 +8,8 @@ import { LayoutAuthen, BoxAuthen, ShadowBoxAuthen } from '../../../Elements/Styl
 // import { HeaderAuthen } from '../../../Elements/Common';
 import ByMnemonic from './ByMnemonic';
 import ByPassWord from './ByPassWord';
-import { LinkPro } from '../../../Elements/Button';
+import { MyLink} from '../../../Elements/Button';
+
 import * as actionCreate from '../../../../redux/actions/create';
 // import ScanQRCodeModal from '../../../elements/ScanQRCodeModal';
 
@@ -49,15 +50,14 @@ function Login(props) {
                 <span>
                   <FormattedMessage id="login.noAcc" />
                 </span>
-                <LinkPro onClick={gotoRegister}>
+                <MyLink onClick={gotoRegister}>
                   <FormattedMessage id="login.btnRegist" />
-                </LinkPro>
+                </MyLink>
               </div>
             </ShadowBoxAuthen>
           </BoxAuthen>
         </LayoutAuthen>
       </QueueAnim>
-      {/* {isQRCodeActive && <ScanQRCodeModal setIsQRCodeActive={setIsQRCodeActive} setRecoveryPhase={setRecoveryPhase} />} */}
     </div>
   );
 }

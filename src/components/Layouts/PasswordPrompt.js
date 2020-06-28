@@ -19,7 +19,6 @@ import { encode } from '../../helper/encode';
 
 import { useRemember } from '../../helper/hooks';
 import CommonDialog from '../Elements/CommonDialog';
-import { LinkPro } from '../Elements/Button';
 
 const LOGIN_BY_PRIVATEKEY = 0;
 const LOGIN_BY_MNEMONIC = 1;
@@ -200,9 +199,9 @@ function PasswordPrompt(props) {
           autoComplete="current-password"
         />
         <div>
-          <LinkPro onClick={goToForgotPassScreen}>
+          <Button onClick={goToForgotPassScreen}>
             <FormattedMessage id="passPrompt.forgot" />
-          </LinkPro>
+          </Button>
         </div>
         <FormControlLabel
           control={

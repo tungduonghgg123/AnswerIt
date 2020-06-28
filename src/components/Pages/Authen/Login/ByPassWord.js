@@ -21,7 +21,7 @@ import {getTagsInfo} from '../../../../helper/account';
 import * as actionAccount from '../../../../redux/actions/account';
 import * as actionCreate from '../../../../redux/actions/create';
 import { DivControlBtnKeystore } from '../../../Elements/StyledUtils';
-import { ButtonPro, LinkPro } from '../../../Elements/Button';
+import Button from '@material-ui/core/Button';
 import { encode } from '../../../../helper/encode';
 // import { useRemember } from '../../../../helper/hooks';
 
@@ -206,12 +206,12 @@ function ByPassWord(props) {
           className={classes.formCtLb}
         />
         <DivControlBtnKeystore>
-          <LinkPro onClick={loginWithSeed}>
+          <Button onClick={loginWithSeed}>
             <FormattedMessage id="login.forgotPass" />
-          </LinkPro>
-          <ButtonPro type="submit" className="nextBtn">
+          </Button>
+          <Button type="submit" className="nextBtn">
             <FormattedMessage id="login.btnLogin" />
-          </ButtonPro>
+          </Button>
         </DivControlBtnKeystore>
       </ValidatorForm>
     </>

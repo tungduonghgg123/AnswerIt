@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../redux/actions'
 import { NewFeed, Thread, AskQuestion,} from '../../Elements'
 import { Header } from '../../Layouts'
-import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers } from '../../../web3/index'
+import {  addQuestionEvent, addAnswerEvent, getAllQuestion, getAnswers, sendRewardEvent } from '../../../web3/index'
 import LandingPage from '../../Layouts/LandingPage'
 import _ from 'lodash'
 class Home extends React.Component {
@@ -80,18 +80,18 @@ class Home extends React.Component {
       }
     }
     )
-    // sendRewardEvent(() => {
-    //   this.fetchQuestions()
-    //   this.fetchAnswers(this.state.clickedQuestion.index.toString())
-    // })
+    sendRewardEvent(() => {
+      this.fetchQuestions()
+      this.fetchAnswers(this.state.clickedQuestion.index.toString())
+    })
   }
   /**
    * purpose: call the nested functions in <Header/>
    */
-  // sendRewardEventHandler() {
-  //   this.fetchQuestions()
-  //   this.fetchAnswers(this.state.clickedQuestion.index.toString())
-  // }
+  sendRewardEventHandler() {
+    this.fetchQuestions()
+    this.fetchAnswers(this.state.clickedQuestion.index.toString())
+  }
   async onQuestionClick(question, index) {
     this.setState({
       openThread: true,
