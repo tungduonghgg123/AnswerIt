@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import QueueAnim from 'rc-queue-anim';
 import { withRouter } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
 
 import { LayoutAuthen, BoxAuthen, ShadowBoxAuthen } from '../../../Elements/StyledUtils';
 // import { HeaderAuthen } from '../../../elements/Common';
@@ -12,25 +11,7 @@ import * as actionCreate from '../../../../redux/actions/create';
 // import ImageCrop from '../../../elements/ImageCrop';
 
 function Register(props) {
-  const { step, setStep } = props;
-  const [isOpenCrop, setIsOpenCrop] = useState(false);
-  const [originFile, setOriginFile] = useState([]);
-  // const [avatar, setAvatar] = useState('/static/img/no-avatar.jpg');
-  // const [avatarData, setAvatarData] = useState('');
-
-  // useEffect(() => {
-  //   setStep('one');
-  // }, [setStep]);
-
-  // function closeCrop() {
-  //   setIsOpenCrop(false);
-  // }
-
-  // function acceptCrop(e) {
-  //   closeCrop();
-  //   setAvatarData(e.cropFile);
-  //   setAvatar(e.avaPreview);
-  // }
+  const { step } = props;
   return (
     <div>
       <QueueAnim delay={200} type={['top', 'bottom']}>
@@ -40,8 +21,6 @@ function Register(props) {
               {/* {step === 'one' && <HeaderAuthen title={<FormattedMessage id="regist.regist" />} />} */}
               {step === 'one' && (
                 <RegisterCore
-                  setIsOpenCrop={setIsOpenCrop}
-                  setOriginFile={setOriginFile}
                   // avatar={avatar}
                   // avatarData={avatarData}
                 />

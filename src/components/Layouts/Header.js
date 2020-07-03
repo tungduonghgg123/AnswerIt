@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, List } from '@material-ui/core';
-import { Avatar, Dialog, ListItemAvatar, DialogTitle } from '@material-ui/core';
-import images from '../../assets/images'
+import { Avatar, Dialog, DialogTitle } from '@material-ui/core';
+// import images from '../../assets/images'
 import { color } from '../../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'

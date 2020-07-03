@@ -1,13 +1,11 @@
 import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
-import { Avatar, Divider, ListItem, IconButton, ListItemSecondaryAction, ListItemText, ListItemAvatar } from '@material-ui/core';
-import images from '../../assets/images'
+import { Avatar, Divider, ListItem, ListItemSecondaryAction, ListItemText, ListItemAvatar } from '@material-ui/core';
 import { diffTime, toTEA } from '../../web3/common'
 import { color } from '../../styles'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 
-const NUM_IMAGES = images.length - 1
 const styles = {
     tickIcon: {
         color: color.secondary

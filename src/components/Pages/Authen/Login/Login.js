@@ -22,7 +22,6 @@ const styles = () => ({
 
 function Login(props) {
   const { history, setStep, step } = props;
-  const [isQRCodeActive, setIsQRCodeActive] = useState(false);
   const [recoveryPhase, setRecoveryPhase] = useState('');
 
   function gotoRegister() {
@@ -41,7 +40,6 @@ function Login(props) {
               {step === 'one' && <ByPassWord />}
               {step === 'two' && (
                 <ByMnemonic
-                  setIsQRCodeActive={setIsQRCodeActive}
                   recoveryPhase={recoveryPhase}
                   setRecoveryPhase={setRecoveryPhase}
                 />

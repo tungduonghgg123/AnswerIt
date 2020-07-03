@@ -9,7 +9,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
 import { getWeb3, grantAccessToken } from '../../web3';
 import * as actions from '../../redux/actions';
@@ -18,14 +18,12 @@ import { decode } from '../../helper/decode';
 import { encode } from '../../helper/encode';
 
 import { useRemember } from '../../helper/hooks';
-import CommonDialog from '../Elements/CommonDialog';
 
 const LOGIN_BY_PRIVATEKEY = 0;
 const LOGIN_BY_MNEMONIC = 1;
 
 function PasswordPrompt(props) {
   const [password, setPassword] = useState('');
-  const [text, setText] = useState('text')
   const dispatch = useDispatch();
   const encryptedData = useSelector(state => state.account.encryptedData);
   const needAuth = useSelector(state => state.account.needAuth);

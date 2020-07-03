@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ByMnemonic(props) {
-  const { setLoading, setAccount, setStep, history } = props;
+  const { setAccount, setStep, history } = props;
   const [password, setPassword] = useState('');
   const [rePassErr] = useState('');
   // const [isRemember, setIsRemember] = useRemember();
@@ -88,7 +88,7 @@ function ByMnemonic(props) {
       // console.log('getAddressFromPrivateKey', privateKey);
 
       const tweb3 = getWeb3();
-      const acc = tweb3.wallet.importAccount(privateKey);
+      // const acc = tweb3.wallet.importAccount(privateKey);
       // tweb3.wallet.defaultAccount = address;
 
       // // check if account is a regular address

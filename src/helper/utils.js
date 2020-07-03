@@ -21,7 +21,7 @@ import { AccountType } from '@iceteachain/common/src/enum';
 import moment from 'moment';
 import { generateMnemonic, validateMnemonic, mnemonicToSeedSync } from 'bip39';
 import HDKey from 'hdkey';
-import { ipfs, createIpfsClient } from '../web3/ipfs';
+import { createIpfsClient } from '../web3/ipfs';
 // import eccrypto from 'eccrypto';
 // import { encodeTx } from './encode';
 // import { decodeTx, decode } from './decode';

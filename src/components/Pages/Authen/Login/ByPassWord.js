@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ByPassWord(props) {
-  const { setLoading, setAccount, setStep, history, encryptedData, language } = props;
+  const { setAccount, setStep, history, encryptedData } = props;
   const [state, setState] = React.useState({
     username: '',
     avatar: '',
