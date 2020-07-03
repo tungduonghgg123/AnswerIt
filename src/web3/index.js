@@ -1,5 +1,3 @@
-import { add } from 'lodash'
-
 const { IceteaWeb3 } = require('@iceteachain/web3')
 const {toTEA} = require('./common')
 // to store contract addresses
