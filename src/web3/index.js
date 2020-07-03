@@ -2,17 +2,17 @@ const { IceteaWeb3 } = require('@iceteachain/web3')
 const {toTEA} = require('./common')
 // to store contract addresses
 const contracts = {}
-
-// const { envPath } = require('../../scripts/mode')
-// const envPath = '.env'
-// const config = envfile.parseFileSync(envPath)
-
-// const tweb3 = new IceteaWeb3(config.REACT_APP_RPC)
-// const contract = tweb3.contract(config.REACT_APP_CONTRACT)
-
-// LOCAL CONTRACT 
 const tweb3 = new IceteaWeb3(process.env.REACT_APP_RPC)
-const contract = tweb3.contract(process.env.REACT_APP_CONTRACT)
+
+// resolve contract
+let contract = null
+const getContractAddress = async () => {
+    return await tweb3.contract('system.alias').methods.resolve(process.env.REACT_APP_CONTRACT).call()
+}
+getContractAddress().then((address) => {
+    contract = tweb3.contract(address)
+})
+
 export const getWeb3 = ()  =>  tweb3
 export const getContract = (address = contract) => {
     if (!contracts[address]) {
@@ -30,33 +30,8 @@ export const grantAccessToken = (mainAddress, tokenAddress, remember, sendType =
     return method[sendType]({ from: mainAddress })
 }
 
-// ONLINE CONTRACT
-// const tweb3 = new IceteaWeb3('wss://rpc.icetea.io/websocket')
-// const contract = tweb3.contract('teat1fpc4tknvtyt8vuuv4e2fwzyl57humvlgdshas4')
-
-
-tweb3.wallet.importAccount('643YwKQMQ2ZkeCcEgE1zKYJNvUr7RxH5mAVMYDZZgH1f')
-tweb3.wallet.importAccount('8A7DaE1mGPJzjc17mJ1u2KpnM43RJXtLhFh5XSk8844L')
-tweb3.wallet.importAccount('AamnYmsHSUUL33ceqdUKMBmoYiGPXpCr3uEAN5e56ycJ')
-tweb3.wallet.importAccount('EtHWQqZ9eP7rixn2RxA3xRhFeV9HQrFEw1pUuPtJrTjB')
-tweb3.wallet.importAccount('ETcFN4WdQPiJysBbcEC3mSWkEP8oQ2jFpW4aF3kPAVij')
-tweb3.wallet.importAccount('CbUFvWuBNdH3xxkspzyWZu66PL8q4gAd8zK1Z78g6Ttt')
-tweb3.wallet.importAccount('6JjCo9diGK1LKYfSGrfvk7fqMgDoeSr94cBVmadhUp7G')
-
 export const addQuestion = async (question, from , payer, value) => {
-    // try {
-    //     console.log(from)
-    //     await contract.methods.addQuestion(question).sendCommit({ from, payer: 'system.faucet', value })
-    // } catch (e) {
-    //     //console.log('try to use money from sender...')
-    //     try {
-    //         contract.methods.addQuestion(question).sendCommit({ from, value })
-    //     } catch (e) {
-    //         throw e
-    //     }
-    // }
         try {
-            console.log('addQuestion',payer)
             await contract.methods.addQuestion(question).sendCommit({ 
                 from, signers: payer, value 
             })
