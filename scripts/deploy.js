@@ -20,6 +20,8 @@ if (['-h', '--help'].includes(mode)) {
 console.log(`Load RPC endpoint from ${envPath}`)
 const config = envfile.parseFileSync(envPath)
 const endpoint = config.REACT_APP_RPC
+const contractAlias =  'contract.answerit_official' 
+
 
 // load source file
 const src = fs.readFileSync('./contracts/answerit.js');
@@ -35,6 +37,7 @@ const src = fs.readFileSync('./contracts/answerit.js');
 
   // create a private key
   let pkey = config.PKEY || process.env.PKEY
+  console.log(pkey)
   if (!pkey) {
     const seed = config.MNEMONIC || process.env.MNEMONIC
     if (seed) {
@@ -58,22 +61,39 @@ const src = fs.readFileSync('./contracts/answerit.js');
   console.log(`Contract created: ${r.address}`)
 
   // migrate data
-  // const oldAddress = config.REACT_APP_CONTRACT.trim()
-  // if (oldAddress) {
-  //   console.log('Trying to migrate data from ' + oldAddress)
-  //   try {
-  //     const newContract = tweb3.contract(r)
-  //     await newContract.methods.migrateState(oldAddress, true).sendCommit({ from: account.address })
-  //     console.log('Data migration finished.')
-  //   } catch (e) {
-  //     console.log('Fail to migrate data: ', e.message)
-  //   }
-  // }
+  try {
+    const contractAddr = await tweb3.contract('system.alias').methods.resolve(contractAlias).call()
+    if (!contractAddr) {
+      console.log(`${contractAlias} does not exist, no need to migrate data.`);
+    } else {
+      console.log('Trying to migrate data from ' + contractAlias);
+      const newContract = tweb3.contract(r);
+      await newContract.methods.migrateState(contractAlias, true).sendCommit({ from: account.address });
+      // await newContract.methods.addAdmins([account.address]).sendCommit({ from: account.address });
+      // await newContract.methods.migrateUsers().sendCommit({ from: account.address });
+      // await newContract.methods.migrateChoices().sendCommit({ from: account.address });
+      console.log('Data migration finished.');
+    }
+  } catch (e) {
+    console.log('Fail to migrate data: ', e.message);
+    console.log('Skip adding users and register alias.')
+    process.exit(1)
+  }
 
   // update .env
   config.REACT_APP_CONTRACT = r.address
   fs.writeFileSync(envPath, envfile.stringifySync(config)) 
   console.log(`New contract address was updated to ${envPath}.`)
+
+  // old contract is alias, re-register alias
+  try {
+    console.log(`Regiser new contract to alias ${contractAlias}`)
+    await tweb3.contract('system.alias').methods.register(contractAlias.split('.')[1], r.address, true).sendCommit({ from: account.address });
+    console.log('Alias registered.')
+  } catch (e) {
+    console.log('Fail to register alias: ', e.message)
+    console.log(`You need to register ${r.address} to ${contractAlias} manually.`)
+  }
 
   process.exit(0)
 

@@ -102,7 +102,7 @@ const {
 
 
 
-    @transaction migrateState(fromContract: address, overwrite: ?bool = false) {
+    @transaction migrateState(fromContract: string, overwrite: ?bool = false) {
         return migrateState(fromContract, overwrite)
     }
     @view exportState() {
