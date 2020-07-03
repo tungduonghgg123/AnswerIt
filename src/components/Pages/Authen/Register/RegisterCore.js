@@ -119,6 +119,7 @@ function RegisterCore(props) {
             )
           );
           registerInfo.push(registerAlias(username, address));
+          console.log(registerInfo)
           await Promise.all(registerInfo);
 
           const newAccount = {
