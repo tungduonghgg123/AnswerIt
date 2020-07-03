@@ -5,14 +5,19 @@ const contracts = {}
 const tweb3 = new IceteaWeb3(process.env.REACT_APP_RPC)
 
 // resolve contract
-let contract = null
+let contract = tweb3.contract(process.env.REACT_APP_CONTRACT)
+let eventReady = false
+let contractAddress = null
 const getContractAddress = async () => {
     return await tweb3.contract('system.alias').methods.resolve(process.env.REACT_APP_CONTRACT).call()
 }
 getContractAddress().then((address) => {
+    contractAddress = address
     contract = tweb3.contract(address)
+    eventReady = true
 })
 
+//
 export const getWeb3 = ()  =>  tweb3
 export const getContract = (address = contract) => {
     if (!contracts[address]) {
@@ -39,7 +44,9 @@ export const addQuestion = async (question, from , payer, value) => {
             throw e
         }
 }
-export const addQuestionEvent = (callback) => {
+export const addQuestionEvent = async (callback) => {
+    if(!eventReady)
+        return;
     contract.events.AddQuestion({}, (error, data) => {
         if (error) {
             throw error
@@ -58,6 +65,9 @@ export const addAnswer = async (questionId, answer, from, tokenKey) => {
     }
 }
 export const addAnswerEvent = (callback) => {
+    console.log(eventReady)
+    if(!eventReady)
+        return;
     contract.events.AddAnswer({}, (error, data) => {
         if (error) {
             throw error
@@ -118,6 +128,10 @@ export const sendReward = async (questionId, answerId, amount, from) => {
     }
 }
 export const sendRewardEvent = (callback) => {
+    if(!eventReady) {
+        setTimeout(null, 3000)
+    }
+        
     contract.events.GaveReward({}, (error, data) => {
         if (error) {
             throw error
@@ -147,6 +161,8 @@ export const getBalance = async (address) => {
     }
   }
 export const balanceChangeEvent = (from, callback) => {
+    if(!eventReady)
+        return;
     tweb3.subscribe('Tx', { from }, (err, result) => {
         if (err) {
             console.log(err)
