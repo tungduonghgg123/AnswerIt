@@ -3,8 +3,8 @@ const fs = require('fs')
 const { toPkey } = require('./mnemonic')
 const { transpile } = require('@iceteachain/sunseed')
 const { IceteaWeb3 } = require('@iceteachain/web3')
-
 const { mode, envPath } = require('./mode')
+
 
 if (['-h', '--help'].includes(mode)) {
   console.log('Purpose: Deploy contract then update .env file.')
@@ -33,6 +33,8 @@ const src = fs.readFileSync('./contracts/answerit.js');
 
   // connect to Icetea RPC
   const tweb3 = new IceteaWeb3(endpoint)
+const oldContractInstance = tweb3.contract(config.REACT_APP_CONTRACT)
+
   console.log(`Connected to ${endpoint}.`)
 
   // create a private key
@@ -61,8 +63,9 @@ const src = fs.readFileSync('./contracts/answerit.js');
   console.log(`Contract created: ${r.address}`)
 
   // migrate data
+  let contractAddr 
   try {
-    const contractAddr = await tweb3.contract('system.alias').methods.resolve(contractAlias).call()
+    contractAddr = await tweb3.contract('system.alias').methods.resolve(contractAlias).call()
     if (!contractAddr) {
       console.log(`${contractAlias} does not exist, no need to migrate data.`);
     } else {
@@ -80,10 +83,15 @@ const src = fs.readFileSync('./contracts/answerit.js');
     process.exit(1)
   }
 
-  // update .env
-  // config.REACT_APP_CONTRACT = r.address
-  // fs.writeFileSync(envPath, envfile.stringifySync(config)) 
-  // console.log(`New contract address was updated to ${envPath}.`)
+  // transfer TEA from old contract to new one
+
+  try {
+    await oldContractInstance.methods.transferTEA2NewContract(r.address).sendCommit({ from: account.address });
+    console.log('Tea transfer finished. ')
+
+  } catch(e) {
+    console.log('Fail to transfer money to new contract ', e.message)
+  }
 
   // old contract is alias, re-register alias
   try {

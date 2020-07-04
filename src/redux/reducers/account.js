@@ -1,7 +1,7 @@
 import { decode as codecDecode, toString as codecToString } from '@iceteachain/common/src/codec';
 import { actionTypes } from '../actions/account';
-import {getWeb3} from '../../web3'
-import {milliseconds2Date} from '../../helper/common'
+import { getWeb3 } from '../../web3'
+import { milliseconds2Date } from '../../helper/common'
 const initialState = {
   needAuth: false,
   publicKey: '',
@@ -16,7 +16,6 @@ const initialState = {
   encryptedData: '',
   displayName: '',
   mode: '',
-  point: '',
   ...(function getSessionStorage() {
     const resp = {};
     /**
@@ -38,7 +37,7 @@ const initialState = {
     let user = localStorage.getItem('user') || sessionStorage.getItem('user');
     // eslint-disable-next-line no-cond-assign
     if ((user = (user && JSON.parse(user)) || {}).address) {
-      resp.address = user.address;    
+      resp.address = user.address;
       resp.mode = user.mode; //  0: privatekey - 1: mnemonic
       resp.encryptedData = user.keyObject;
     }
@@ -54,9 +53,23 @@ const account = (state = initialState, action) => {
 
     case actionTypes.SET_NEEDAUTH:
       return { ...state, needAuth: action.data };
-    
+
     case actionTypes.LOG_OUT:
-      return initialState
+      return {
+        needAuth: false,
+        publicKey: '',
+        cipher: '',
+        address: '',
+        privateKey: '',
+        tokenAddress: '',
+        tokenKey: '',
+        expireAfter: '',
+        expireAfter2Date: '',
+        mnemonic: '',
+        encryptedData: '',
+        displayName: '',
+        mode: '',
+      }
     default:
       return state;
   }

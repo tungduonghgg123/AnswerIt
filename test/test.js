@@ -41,9 +41,14 @@ const filter = {
 // addQuestion(q)
 // getAnswers("1").then((r) => console.log(r))
 
-contract.methods.getAnswers("0").call().then(r => {
-    console.log(r)
-    process.exit()
+// contract.methods.getAnswers("0").call().then(r => {
+//     console.log(r)
+//     process.exit()
 
-})
+// })
 // getAllQuestion().then(r => console.log(r))
+tweb3.getBalance('teat1420pzskw455tqlg6mq2xqf52ee7lt5vqhs2qu9').then((r) => {
+  console.log(r)
+  process.exit()
+}
+  )

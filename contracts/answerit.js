@@ -8,6 +8,7 @@ const {
     exportState,
     migrateState
 } = require('./migration.js')(this)
+const { expectOwner } = require('./helper.js');
 
 @contract class AnswerIt {
 
@@ -100,7 +101,11 @@ const {
         this.emitEvent('GaveReward', this.getAnswer(answerId))
     }
 
-
+    @transaction transferTEA2NewContract(toContract: address) {
+        expectOwner(this)
+        if (this.balance > 0)
+            this.transfer(toContract, this.balance)
+    }
 
     @transaction migrateState(fromContract: string, overwrite: ?bool = false) {
         return migrateState(fromContract, overwrite)
