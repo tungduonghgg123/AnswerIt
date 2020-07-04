@@ -3,7 +3,6 @@ import { Avatar, AppBar, Toolbar, Typography } from '@material-ui/core';
 import { color } from '../../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
-import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/API'
 import PasswordPrompt from './PasswordPrompt'
 import { getTagsInfo, getAlias, logout } from '../../helper/account'
 import UserInfo from '../Elements/UserInfo'
@@ -19,10 +18,6 @@ class Header extends React.Component {
       firstName: '',
       lastName: ''
     }
-  }
-  async fetchBalance() {
-    const balance = await getBalance(this.props.address)
-    this.setState({ balance })
   }
   renderAccount() {
     {/* <List style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-around' }} onClick={() => { }}>
@@ -46,13 +41,6 @@ class Header extends React.Component {
     })
   }
   componentDidMount() {
-    this.fetchBalance()
-    // subcribe when balance change
-    balanceChangeEvent(this.props.address, () => this.fetchBalance())
-    sendRewardEvent(() => {
-      this.fetchBalance()
-      this.props.sendRewardEventHandler()
-    })
     getTagsInfo(this.props.address).then((tag) => {
       this.setState({
         displayName: tag['display-name'] ? tag['display-name'] : 'null',
