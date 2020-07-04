@@ -88,16 +88,10 @@ function ByMnemonic(props) {
       // console.log('getAddressFromPrivateKey', privateKey);
 
       const tweb3 = getWeb3();
-      // const acc = tweb3.wallet.importAccount(privateKey);
+      tweb3.wallet.importAccount(privateKey);
       // tweb3.wallet.defaultAccount = address;
 
-      // // check if account is a regular address
-      // if (!tweb3.utils.isRegularAccount(acc.address)) {
-      //   const m = 'The recovery phrase is for a bank account. LoveLock only accepts regular (non-bank) account.';
-      //   const error = new Error(m);
-      //   error.showMessage = m;
-      //   throw error;
-      // }
+    
 
       const token = tweb3.wallet.createRegularAccount();
       grantAccessToken(address, token.address, isRemember).then(({ returnValue }) => {

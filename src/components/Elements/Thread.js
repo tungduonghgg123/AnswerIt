@@ -5,8 +5,8 @@ import { Button, List, Dialog, DialogContent } from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { AnswerForm, Answer, Question, InformDialog} from './'
-import { toUNIXTimestamp, MODIFY_TIME } from '../../web3/common'
-import { addAnswer, sendReward } from '../../web3/index'
+import { toUNIXTimestamp, MODIFY_TIME } from '../../helper/common'
+import { addAnswer, sendReward } from '../../web3/API'
 
 function Thread(props) {
     const { open, handleClose, rewardFeed, question, answers } = props

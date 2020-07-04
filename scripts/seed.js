@@ -10,7 +10,7 @@ const endpoint = config.REACT_APP_RPC
 
 const { data } = require('./data')
 const { addQuestion, addAnswer } = require('../src/web3/index')
-const { toUNIT } = require('../src/web3/common')
+const { toUNIT } = require('../src/helper/common')
 
     ; (async () => {
 

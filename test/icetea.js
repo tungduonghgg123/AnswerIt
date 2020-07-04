@@ -2,7 +2,7 @@ const { IceteaWeb3 } = require('@iceteachain/web3')
 const envfile = require('envfile')
 const { envPath } = require('../scripts/mode')
 const config = envfile.parseFileSync(envPath)
-const {toTEA, toUNIT} = require('/Users/duongtung/Workspace/answerit/src/web3/common.js')
+const {toTEA, toUNIT} = require('/Users/duongtung/Workspace/answerit/src/helper/common.js')
 // wrap around an Icetea node' RPC
 const tweb3 = new IceteaWeb3(config.REACT_APP_RPC)
 

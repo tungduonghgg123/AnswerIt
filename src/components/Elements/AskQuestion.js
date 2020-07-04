@@ -4,8 +4,8 @@ import { Button} from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { FormDialog, AddQuestionForm, InformDialog,} from './'
-import { toUNIXTimestamp, toUNIT, MODIFY_TIME } from '../../web3/common'
-import { addQuestion} from '../../web3/index'
+import { toUNIXTimestamp, toUNIT, MODIFY_TIME } from '../../helper/common'
+import { addQuestion} from '../../web3/API'
 
 /**
  * MODIFY_TIME: in seconds

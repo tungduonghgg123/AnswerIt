@@ -1,7 +1,7 @@
 import { decode as codecDecode, toString as codecToString } from '@iceteachain/common/src/codec';
 import { actionTypes } from '../actions/account';
 import {getWeb3} from '../../web3'
-import {milliseconds2Date} from '../../web3/common'
+import {milliseconds2Date} from '../../helper/common'
 const initialState = {
   needAuth: false,
   isApproved: true,

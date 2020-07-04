@@ -1,11 +1,10 @@
 import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
-import { Avatar, Divider, ListItem, ListItemSecondaryAction, ListItemText, ListItemAvatar } from '@material-ui/core';
-import { diffTime, toTEA } from '../../web3/common'
+import { Avatar, Divider, ListItem, ListItemSecondaryAction, ListItemText, ListItemAvatar, Typography } from '@material-ui/core';
+import { diffTime, toTEA } from '../../helper/common'
 import { color } from '../../styles'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
-
 const styles = {
     tickIcon: {
         color: color.secondary
@@ -14,7 +13,9 @@ const styles = {
 function Question(props) {
     const { isReward, question, i, onClick } = props
     const { reward, expireTime, value, resolved } = question
+    const displayname = question['display-name']
     const { tickIcon } = styles
+  
     if (isReward) {
         if (reward)
             return (
@@ -24,10 +25,18 @@ function Question(props) {
                             <Avatar alt="Remy Sharp" />
                         </ListItemAvatar>
                         <ListItemText
-                            secondary={`Reward: ${toTEA(reward)} Tea -- Deadline: ${diffTime(expireTime)}`}
+                            secondary={`${displayname? displayname: 'null'} ${ reward? `-- Reward: ${toTEA(reward)} Tea` : ''}  -- Deadline: ${diffTime(expireTime)}`}
                             primary={
                                 <React.Fragment>
-                                    {value}
+                                    <Typography
+                                        // component="span"
+                                        // variant="body2"
+                                        // className={classes.inline}
+                                        color="textPrimary"
+                                    >
+                                        {value}
+                                    </Typography>
+                                        
                                 </React.Fragment>
                             }
                         />
@@ -56,7 +65,7 @@ function Question(props) {
                             <Avatar alt="Remy Sharp" />
                         </ListItemAvatar>
                         <ListItemText
-                            secondary={`Deadline: ${diffTime(expireTime)}`}
+                            secondary={`${displayname? displayname: 'null'} ${ reward? `-- Reward: ${toTEA(reward)} Tea` : ''}  -- Deadline: ${diffTime(expireTime)}`}
                             primary={
                                 <React.Fragment>
                                     {value}
@@ -72,6 +81,6 @@ function Question(props) {
     }
 }
 
-const mapStateToProps = state => ({  
-  });
+const mapStateToProps = state => ({
+});
 export default connect(mapStateToProps, actions)(Question)

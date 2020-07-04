@@ -2,7 +2,7 @@ import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
 import { Avatar, Divider, ListItem, ListItemSecondaryAction, ListItemText, ListItemAvatar } from '@material-ui/core';
 // import images from '../../assets/images'
-import { diffTime } from '../../web3/common'
+import { diffTime } from '../../helper/common'
 import { color } from '../../styles'
 
 
@@ -14,7 +14,7 @@ const styles = {
 function Answer(props) {
     const { answer, onClick } = props
     const { value, timestamp, isBestAnswer } = answer
-    // const image = images[account2Index(answer.owner)]
+    const displayname = answer['display-name']
 
     return (
         <div>
@@ -31,7 +31,7 @@ function Answer(props) {
                             {value}
                         </React.Fragment>
                     }
-                    secondary={` ${diffTime(timestamp)}`}
+                    secondary={`${displayname? displayname: 'null'} -- ${diffTime(timestamp)}`}
 
                 />
                 {

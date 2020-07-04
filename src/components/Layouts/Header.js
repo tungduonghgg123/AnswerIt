@@ -1,14 +1,13 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, DialogContent, DialogContentText } from '@material-ui/core';
-import { Avatar, Dialog, DialogTitle } from '@material-ui/core';
+import { Avatar, Dialog, DialogTitle, AppBar, Toolbar, Typography, DialogContent, DialogContentText } from '@material-ui/core';
 // import images from '../../assets/images'
 import { color } from '../../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
-import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/index'
+import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/API'
 import PasswordPrompt from './PasswordPrompt'
 import { getTagsInfo, getAlias } from '../../helper/account'
-
+import {UserInfo} from '../Elements/UserInfo'
 class Header extends React.Component {
   constructor(props) {
     super(props)
@@ -21,15 +20,15 @@ class Header extends React.Component {
       lastName: ''
     }
   }
-  async changeAccount(index) {
-    await this.props.setAccount123(index)
-    this.fetchBalance()
-  }
   async fetchBalance() {
     const balance = await getBalance(this.props.address)
     this.setState({ balance })
   }
   renderAccount() {
+    {/* <List style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-around' }} onClick={() => { }}>
+                {this.renderAccount()}
+              </List> */}
+
     // return images.map((image, i) => {
     //   return (
     //     <ListItemAvatar key={i}>
@@ -57,10 +56,16 @@ class Header extends React.Component {
     getTagsInfo(this.props.address).then((tag) => {
       console.log(tag['display-name'])
       this.setState({
-        displayName: tag['display-name']? tag['display-name'] : 'null',
+        displayName: tag['display-name'] ? tag['display-name'] : 'null',
         firstName: tag.firstname,
         lastName: tag.lastname
       })
+      this.props.setAccount({
+        ...this.props.account,
+        displayName: this.state.displayName
+      })
+
+
     })
     getAlias(this.props.address).then((alias) => {
       this.setState({
@@ -87,29 +92,15 @@ class Header extends React.Component {
               </Typography>
               <Avatar alt="Remy Sharp" onClick={() => this.setShowDialog(true)} />
             </div>
-            <Dialog open={this.state.showDialog} maxWidth="sm" fullWidth onClose={() => this.setShowDialog(false)}>
-              <DialogTitle id="form-dialog-title">Your Account</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Username: {this.state.username}
-                </DialogContentText>
-                <DialogContentText>
-                  First name: {this.state.firstName}
-                </DialogContentText>
-                <DialogContentText>
-                  Last name: {this.state.lastName}
-                </DialogContentText>
-                <DialogContentText>
-                  Balance: {this.state.balance} TEA
-                </DialogContentText>
-                <DialogContentText>
-                  Address: {this.props.address}
-                </DialogContentText>
-              </DialogContent>
-              {/* <List style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-around' }} onClick={() => { }}>
-                {this.renderAccount()}
-              </List> */}
-            </Dialog>
+            <UserInfo
+              username = {this.state.username}
+              firstname = {this.state.firstName} 
+              lastname = {this.state.lastName} 
+              balance = {this.state.balance} 
+              address = {this.props.address}
+              showDialog = {this.state.showDialog}
+              setShowDialog = {this.setShowDialog.bind(this)}
+            />
           </Toolbar>
         </AppBar>
         {needAuth && <PasswordPrompt />}
@@ -120,6 +111,7 @@ class Header extends React.Component {
 }
 const mapStateToProps = state => ({
   address: state.account.address,
+  account: state.account,
   needAuth: state.account.needAuth,
 });
 const styles = {
