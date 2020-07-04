@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import {Question} from './'
+import {List} from '@material-ui/core';
+import { Question } from './'
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
@@ -12,10 +12,16 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 function renderFeed(isReward, questions, onQuestionClick) {
+    // const numberOfQuestions = questions.length
     let feed = questions.map((q, i) => {
         if (!q)
             return null
-        return <Question isReward={isReward} key={i} i={i} question={q} onClick={onQuestionClick} />
+        return (
+            <div>
+                <Question isReward={isReward} key={i} i={i} question={q} onClick={onQuestionClick} />
+                {/* <Divider variant="inset" component="li" /> */}
+            </div>
+        )
     })
     return feed.reverse()
 }

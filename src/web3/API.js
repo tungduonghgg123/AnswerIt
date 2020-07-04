@@ -1,12 +1,10 @@
 import {toTEA} from '../helper/common'
 import { IceteaWeb3 } from '@iceteachain/web3'
 import {getAliasAndTags} from '../helper/account'
-import { isLength } from 'lodash'
 const tweb3 = new IceteaWeb3(process.env.REACT_APP_RPC)
 // resolve contract
 let contract = tweb3.contract(process.env.REACT_APP_CONTRACT)
 const resolveContract = async () => {
-    console.log('resolve contract executed')
     // return a contract instance using address instead of alias.
     const address = await tweb3.contract('system.alias').methods.resolve(process.env.REACT_APP_CONTRACT).call()
     return tweb3.contract(address)
@@ -57,7 +55,6 @@ try {
             ...aliasAndInfo[1]
         })
     }))
-    console.log(answers)
     return answers
 } catch (e) {
     throw e

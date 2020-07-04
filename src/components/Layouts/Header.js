@@ -1,13 +1,12 @@
 import React from 'react';
-import { Avatar, Dialog, DialogTitle, AppBar, Toolbar, Typography, DialogContent, DialogContentText } from '@material-ui/core';
-// import images from '../../assets/images'
+import { Avatar, AppBar, Toolbar, Typography} from '@material-ui/core';
 import { color } from '../../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/API'
 import PasswordPrompt from './PasswordPrompt'
 import { getTagsInfo, getAlias } from '../../helper/account'
-import {UserInfo} from '../Elements/UserInfo'
+import UserInfo from '../Elements/UserInfo'
 class Header extends React.Component {
   constructor(props) {
     super(props)

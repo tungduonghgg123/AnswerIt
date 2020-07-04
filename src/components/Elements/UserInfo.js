@@ -1,13 +1,17 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText } from '@material-ui/core';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions'
 
-export function UserInfo(props) {
-    const {username, firstname, lastname, balance, address, showDialog, setShowDialog} = props
-
+function UserInfo(props) {
+    const {username, firstname, lastname, balance, address, showDialog, setShowDialog, currentUserAddress} = props
+    console.log(address, currentUserAddress)
 
     return (
         <Dialog open={showDialog} maxWidth="sm" fullWidth onClose={() => setShowDialog(false)}>
-              <DialogTitle id="form-dialog-title">Your Account</DialogTitle>
+              <DialogTitle id="form-dialog-title">
+              {address === currentUserAddress ?'Your account' : `${username}'s account`}
+              </DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   Username: {username}
@@ -28,3 +32,7 @@ export function UserInfo(props) {
             </Dialog>
     )
 }
+const mapStateToProps = state => ({
+    currentUserAddress: state.account.address
+});
+export default connect(mapStateToProps, actions)(UserInfo)
