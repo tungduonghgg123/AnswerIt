@@ -63,18 +63,14 @@ const oldContractInstance = tweb3.contract(config.REACT_APP_CONTRACT)
   console.log(`Contract created: ${r.address}`)
 
   // migrate data
-  let contractAddr 
   try {
-    contractAddr = await tweb3.contract('system.alias').methods.resolve(contractAlias).call()
+    const contractAddr = await tweb3.contract('system.alias').methods.resolve(contractAlias).call()
     if (!contractAddr) {
       console.log(`${contractAlias} does not exist, no need to migrate data.`);
     } else {
       console.log('Trying to migrate data from ' + contractAlias);
       const newContract = tweb3.contract(r);
       await newContract.methods.migrateState(contractAlias, true).sendCommit({ from: account.address });
-      // await newContract.methods.addAdmins([account.address]).sendCommit({ from: account.address });
-      // await newContract.methods.migrateUsers().sendCommit({ from: account.address });
-      // await newContract.methods.migrateChoices().sendCommit({ from: account.address });
       console.log('Data migration finished.');
     }
   } catch (e) {
@@ -86,7 +82,9 @@ const oldContractInstance = tweb3.contract(config.REACT_APP_CONTRACT)
   // transfer TEA from old contract to new one
 
   try {
-    await oldContractInstance.methods.transferTEA2NewContract(r.address).sendCommit({ from: account.address });
+    const result = await oldContractInstance.methods.withdrawTea().sendCommit({ from: account.address });
+    const balance = result.returnValue
+    tweb3.transfer(r.address, balance)
     console.log('Tea transfer finished. ')
 
   } catch(e) {

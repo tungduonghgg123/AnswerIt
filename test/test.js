@@ -47,7 +47,7 @@ const filter = {
 
 // })
 // getAllQuestion().then(r => console.log(r))
-tweb3.getBalance('teat1420pzskw455tqlg6mq2xqf52ee7lt5vqhs2qu9').then((r) => {
+tweb3.getBalance('teat1825p6nrtxwgrv0p5xxw70f4fxs3xch6qmnt44r').then((r) => {
   console.log(r)
   process.exit()
 }

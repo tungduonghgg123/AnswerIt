@@ -101,10 +101,11 @@ const { expectOwner } = require('./helper.js');
         this.emitEvent('GaveReward', this.getAnswer(answerId))
     }
 
-    @transaction transferTEA2NewContract(toContract: address) {
+    @transaction withdrawTea() {
         expectOwner(this)
         if (this.balance > 0)
-            this.transfer(toContract, this.balance)
+            this.transfer(msg.sender, this.balance)
+        return this.balance
     }
 
     @transaction migrateState(fromContract: string, overwrite: ?bool = false) {
