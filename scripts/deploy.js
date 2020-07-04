@@ -81,9 +81,9 @@ const src = fs.readFileSync('./contracts/answerit.js');
   }
 
   // update .env
-  config.REACT_APP_CONTRACT = r.address
-  fs.writeFileSync(envPath, envfile.stringifySync(config)) 
-  console.log(`New contract address was updated to ${envPath}.`)
+  // config.REACT_APP_CONTRACT = r.address
+  // fs.writeFileSync(envPath, envfile.stringifySync(config)) 
+  // console.log(`New contract address was updated to ${envPath}.`)
 
   // old contract is alias, re-register alias
   try {
