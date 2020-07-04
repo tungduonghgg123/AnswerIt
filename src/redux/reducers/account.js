@@ -19,16 +19,15 @@ const initialState = {
   point: '',
   ...(function getSessionStorage() {
     const resp = {};
-    const sessionData = sessionStorage.getItem('sessionData') || localStorage.getItem('sessionData');
-    console.log('session storage:', sessionStorage.getItem('sessionData'))
-    console.log('local: ', localStorage.getItem('sessionData'))
+    /**
+     * `todo`: in the future, access the state 'isRemember' from Create reducer to pick between session and local storage
+     */
+    const sessionData = localStorage.getItem('sessionData');
     if (sessionData) {
       const token = codecDecode(Buffer.from(sessionData, 'base64'));
-      console.log(token)
       const expiredSoon = process.env.REACT_APP_CONTRACT !== token.contract || token.expireAfter - Date.now() < 60 * 1000;
       resp.expireAfter2Date = milliseconds2Date(token.expireAfter)
       if (!expiredSoon) {
-        console.log('not expired soon')
         resp.tokenKey = codecToString(token.tokenKey);
         getWeb3().wallet.importAccount(token.tokenKey);
         resp.tokenAddress = token.tokenAddress;
@@ -39,7 +38,7 @@ const initialState = {
     let user = localStorage.getItem('user') || sessionStorage.getItem('user');
     // eslint-disable-next-line no-cond-assign
     if ((user = (user && JSON.parse(user)) || {}).address) {
-      resp.address = user.address;
+      resp.address = user.address;    
       resp.mode = user.mode; //  0: privatekey - 1: mnemonic
       resp.encryptedData = user.keyObject;
     }

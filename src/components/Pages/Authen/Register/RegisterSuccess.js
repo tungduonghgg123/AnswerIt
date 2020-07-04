@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import {MyButton} from '../../../Elements/Button';
+import { MyButton } from '../../../Elements/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -116,8 +116,8 @@ function RegisterSuccess(props) {
       grantAccessToken(address, token.address, isRemember).then(async ({ returnValue }) => {
         tweb3.wallet.importAccount(token.privateKey);
         const keyObject = encode(mnemonic, password);
-        const storage = isRemember ? localStorage : sessionStorage;
-        // save token account
+        // const storage = isRemember ? localStorage : sessionStorage;
+        const storage = localStorage         // save token account
         storage.sessionData = codecEncode({
           contract: process.env.REACT_APP_CONTRACT,
           tokenAddress: token.address,

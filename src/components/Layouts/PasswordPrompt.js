@@ -79,7 +79,6 @@ function PasswordPrompt(props) {
 
   function passwordChange(event) {
     const { value } = event.target;
-    console.log(value)
     setPassword(value);
   }
 
@@ -96,8 +95,6 @@ function PasswordPrompt(props) {
   }
 
   function confirm(decryptPass, isAuto) {
-    console.log('ahihi')
-    console.log(decryptPass)
     if (encryptedData) {
       if (!decryptPass) {
         return;
@@ -120,23 +117,23 @@ function PasswordPrompt(props) {
 
         const tweb3 = getWeb3();
         tweb3.wallet.importAccount(privateKey);
-
         const token = tweb3.wallet.createRegularAccount();
         grantAccessToken(address, token.address, isRemember).then(({ returnValue }) => {
           console.log(returnValue)
           tweb3.wallet.importAccount(token.privateKey);
           const keyObject = encode(privateKey, decryptPass);
-        console.log('is remember: ', isRemember)
-          const storage = isRemember ? localStorage : sessionStorage;
-          // save token account
+          console.log('is remember: ', isRemember)
+          // const storage = isRemember ? localStorage : sessionStorage;
+          const storage = localStorage           // save token account
           storage.sessionData = codecEncode({
             contract: process.env.REACT_APP_CONTRACT,
             tokenAddress: token.address,
             tokenKey: token.privateKey,
             expireAfter: returnValue,
           }).toString('base64');
+
           // re-save main account
-          savetoLocalStorage({address, mode, keyObject});
+          savetoLocalStorage({ address, mode, keyObject });
           const account = {
             address,
             privateKey,

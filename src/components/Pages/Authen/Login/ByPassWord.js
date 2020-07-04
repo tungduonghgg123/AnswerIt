@@ -15,8 +15,8 @@ import { FormattedMessage } from 'react-intl';
 // import { AvatarPro } from '../../../elements';
 import { getWeb3, grantAccessToken } from '../../../../web3';
 import { wallet, savetoLocalStorage } from '../../../../helper/utils';
-import {decode} from '../../../../helper/decode';
-import {getTagsInfo} from '../../../../helper/account';
+import { decode } from '../../../../helper/decode';
+import { getTagsInfo } from '../../../../helper/account';
 // import * as actionGlobal from '../../../../store/actions/globalData';
 import * as actionAccount from '../../../../redux/actions/account';
 import * as actionCreate from '../../../../redux/actions/create';
@@ -69,12 +69,12 @@ function ByPassWord(props) {
       } else {
         setState({ ...state, username: 'undefined' });
         let message =
-            'This is the first time log in on this machine. If you created an account on another machine, please enter recovery phrase.';
+          'This is the first time log in on this machine. If you created an account on another machine, please enter recovery phrase.';
 
         enqueueSnackbar(message, {
           variant: 'info',
           autoHideDuration: 15000,
-          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          // anchorOrigin: { vertical: 'top', horizontal: 'center' },
         });
         setStep('two');
       }
@@ -114,9 +114,9 @@ function ByPassWord(props) {
             console.log(returnValue)
             tweb3.wallet.importAccount(token.privateKey);
             const keyObject = encode(privateKey, password);
-        console.log('is remember: ', isRemember)
-            const storage = isRemember ? localStorage : sessionStorage;
-            // save token account
+            console.log('is remember: ', isRemember)
+            // const storage = isRemember ? localStorage : sessionStorage;
+            const storage = localStorage             // save token account
             storage.sessionData = codecEncode({
               contract: process.env.REACT_APP_CONTRACT,
               tokenAddress: token.address,

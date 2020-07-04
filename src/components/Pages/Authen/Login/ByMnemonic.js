@@ -89,17 +89,15 @@ function ByMnemonic(props) {
 
       const tweb3 = getWeb3();
       tweb3.wallet.importAccount(privateKey);
-      // tweb3.wallet.defaultAccount = address;
-
-    
-
       const token = tweb3.wallet.createRegularAccount();
       grantAccessToken(address, token.address, isRemember).then(({ returnValue }) => {
         console.log(returnValue)
         tweb3.wallet.importAccount(token.privateKey);
         const keyObject = encode(phrase, password);
         console.log('is remember: ', isRemember)
-        const storage = isRemember ? localStorage : sessionStorage;
+        // const storage = isRemember ? localStorage : sessionStorage;
+        const storage = localStorage 
+
         // save token account
         storage.sessionData = codecEncode({
           contract: process.env.REACT_APP_CONTRACT,
