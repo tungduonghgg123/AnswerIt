@@ -4,7 +4,6 @@ import {getWeb3} from '../../web3'
 import {milliseconds2Date} from '../../helper/common'
 const initialState = {
   needAuth: false,
-  isApproved: true,
   publicKey: '',
   cipher: '',
   address: '',
@@ -21,7 +20,7 @@ const initialState = {
   ...(function getSessionStorage() {
     const resp = {};
     const sessionData = sessionStorage.getItem('sessionData') || localStorage.getItem('sessionData');
-    console.log('seession storage:', sessionStorage.getItem('sessionData'))
+    console.log('session storage:', sessionStorage.getItem('sessionData'))
     console.log('local: ', localStorage.getItem('sessionData'))
     if (sessionData) {
       const token = codecDecode(Buffer.from(sessionData, 'base64'));

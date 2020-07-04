@@ -71,10 +71,8 @@ class Home extends React.Component {
     })
     addAnswerEvent(() => {
       if(_.isEmpty(this.state.clickedQuestion)) {
-        console.log('empty object')
         return
       } else {
-        console.log('not empty')
         this.fetchAnswers(this.state.clickedQuestion.index.toString()) 
       }
     }

@@ -1,8 +1,7 @@
-import { getAliasContract, getDidContract, getContract } from '../web3';
+import { getAliasContract, getDidContract } from '../web3';
 
 const aliasMethods = getAliasContract().methods;
 const didMethods = getDidContract().methods;
-const ctMethods = getContract().methods;
 const cache = {};
 
 export async function getAlias(address) {
@@ -63,34 +62,10 @@ export async function getTagsInfo(address) {
     });
 }
 
-export async function getUserInfo(address) {
-  return ctMethods
-    .getUserByAddress(address)
-    .call()
-    .then(user => {
-      return user;
-    })
-    .catch(() => {
-      return {};
-    });
-}
-
-export async function isApproved(address) {
-  return ctMethods
-    .isUserApproved(address)
-    .call()
-    .then(resp => {
-      return !!resp;
-    })
-    .catch(() => {
-      return false;
-    });
-}
-
 export function getAliasAndTags(address) {
   return Promise.all([getAlias(address), getTagsInfo(address)]);
 }
-
-export function getInfoAndTags(address) {
-  return Promise.all([getTagsInfo(address), getUserInfo(address)]);
+export function logout() {
+  sessionStorage.clear()
+  localStorage.clear()
 }

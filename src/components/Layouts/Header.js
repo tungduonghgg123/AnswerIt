@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/API'
 import PasswordPrompt from './PasswordPrompt'
-import { getTagsInfo, getAlias } from '../../helper/account'
+import { getTagsInfo, getAlias, logout } from '../../helper/account'
 import UserInfo from '../Elements/UserInfo'
+import {MyButton} from '../Elements/Button'
 class Header extends React.Component {
   constructor(props) {
     super(props)
@@ -53,7 +54,6 @@ class Header extends React.Component {
       this.props.sendRewardEventHandler()
     })
     getTagsInfo(this.props.address).then((tag) => {
-      console.log(tag['display-name'])
       this.setState({
         displayName: tag['display-name'] ? tag['display-name'] : 'null',
         firstName: tag.firstname,
@@ -91,6 +91,9 @@ class Header extends React.Component {
               </Typography>
               <Avatar alt="Remy Sharp" onClick={() => this.setShowDialog(true)} />
             </div>
+            <MyButton onClick={() => logout()}>
+              logout
+            </MyButton>
             <UserInfo
               username = {this.state.username}
               firstname = {this.state.firstName} 
