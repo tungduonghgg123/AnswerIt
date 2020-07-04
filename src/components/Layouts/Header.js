@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, AppBar, Toolbar, Typography} from '@material-ui/core';
+import { Avatar, AppBar, Toolbar, Typography } from '@material-ui/core';
 import { color } from '../../styles/index'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
@@ -7,7 +7,7 @@ import { getBalance, balanceChangeEvent, sendRewardEvent } from '../../web3/API'
 import PasswordPrompt from './PasswordPrompt'
 import { getTagsInfo, getAlias, logout } from '../../helper/account'
 import UserInfo from '../Elements/UserInfo'
-import {MyButton} from '../Elements/Button'
+import { MyButton } from '../Elements/Button'
 class Header extends React.Component {
   constructor(props) {
     super(props)
@@ -91,17 +91,20 @@ class Header extends React.Component {
               </Typography>
               <Avatar alt="Remy Sharp" onClick={() => this.setShowDialog(true)} />
             </div>
-            <MyButton onClick={() => logout()}>
+            <MyButton onClick={() => {
+              logout()
+              this.props.logout()
+            }}>
               logout
             </MyButton>
             <UserInfo
-              username = {this.state.username}
-              firstname = {this.state.firstName} 
-              lastname = {this.state.lastName} 
-              balance = {this.state.balance} 
-              address = {this.props.address}
-              showDialog = {this.state.showDialog}
-              setShowDialog = {this.setShowDialog.bind(this)}
+              username={this.state.username}
+              firstname={this.state.firstName}
+              lastname={this.state.lastName}
+              balance={this.state.balance}
+              address={this.props.address}
+              showDialog={this.state.showDialog}
+              setShowDialog={this.setShowDialog.bind(this)}
             />
           </Toolbar>
         </AppBar>

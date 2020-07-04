@@ -55,7 +55,9 @@ const account = (state = initialState, action) => {
 
     case actionTypes.SET_NEEDAUTH:
       return { ...state, needAuth: action.data };
-      
+    
+    case actionTypes.LOG_OUT:
+      return initialState
     default:
       return state;
   }
