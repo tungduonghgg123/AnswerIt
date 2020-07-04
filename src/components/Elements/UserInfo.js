@@ -9,13 +9,14 @@ function UserInfo(props) {
     const [balance, setBalance] = useState(0)
 
     const fetchBalance = async () => {
-        console.log('called')
-        const balance = await getBalance(address)
-        setBalance(balance)
+        if(showDialog) {
+            const balance = await getBalance(address)
+            setBalance(balance)
+        } 
     }
     useEffect(() => {
         fetchBalance()
-    }, [])
+    })
 
     return (
         <Dialog open={showDialog} maxWidth="sm" fullWidth onClose={() => setShowDialog(false)}>
