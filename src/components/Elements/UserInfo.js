@@ -4,32 +4,38 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 
 function UserInfo(props) {
-    const {username, firstname, lastname, balance, address, showDialog, setShowDialog, currentUserAddress} = props
-    console.log(address, currentUserAddress)
+    const { username, firstname, lastname, balance, address, showDialog, setShowDialog, currentUserAddress } = props
+    function renderBalance() {
+        if (balance || balance === 0) {
+            return (
+                <DialogContentText>
+                    Balance: {balance} TEA
+                </DialogContentText>
+            )
+        }
+    }
 
     return (
         <Dialog open={showDialog} maxWidth="sm" fullWidth onClose={() => setShowDialog(false)}>
-              <DialogTitle id="form-dialog-title">
-              {address === currentUserAddress ?'Your account' : `${username}'s account`}
-              </DialogTitle>
-              <DialogContent>
+            <DialogTitle id="form-dialog-title">
+                {address === currentUserAddress ? 'Your account' : `${username}'s account`}
+            </DialogTitle>
+            <DialogContent>
                 <DialogContentText>
-                  Username: {username}
+                    Username: {username}
                 </DialogContentText>
                 <DialogContentText>
-                  First name: {firstname}
+                    First name: {firstname}
                 </DialogContentText>
                 <DialogContentText>
-                  Last name: {lastname}
+                    Last name: {lastname}
                 </DialogContentText>
+                {renderBalance()}
                 <DialogContentText>
-                  Balance: {balance} TEA
+                    Address: {address}
                 </DialogContentText>
-                <DialogContentText>
-                  Address: {address}
-                </DialogContentText>
-              </DialogContent>
-            </Dialog>
+            </DialogContent>
+        </Dialog>
     )
 }
 const mapStateToProps = state => ({
