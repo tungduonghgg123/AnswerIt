@@ -10,18 +10,18 @@ const resolveContract = async () => {
     return tweb3.contract(address)
 }
 
-export const addQuestion = async (question, from, payer, value) => {
+export const addQuestion = async (question, from, tokenAddress, value) => {
     try {
         await contract.methods.addQuestion(question).sendCommit({
-            from, signers: payer, value
+            from, signers: tokenAddress, value
         })
     } catch (e) {
         throw e
     }
 }
-export const addAnswer = async (questionId, answer, from, tokenKey) => {
+export const addAnswer = async (questionId, answer, from, tokenAddress) => {
     try {
-        await contract.methods.addAnswer(questionId, answer).sendCommit({ from, signers: tokenKey })
+        await contract.methods.addAnswer(questionId, answer).sendCommit({ from, signers: tokenAddress })
     } catch (e) {
         // e - error object. It has 3 properties: name, message and stack!
         throw e
@@ -91,9 +91,9 @@ export const getQuestions = async (owner) => {
         throw e
     }
 }
-export const sendReward = async (questionId, answerId, amount, from) => {
+export const sendReward = async (questionId, answerId, amount, from, tokenAddress) => {
     try {
-        await contract.methods.sendReward(questionId, answerId, amount).sendCommit({ from })
+        await contract.methods.sendReward(questionId, answerId, amount).sendCommit({ from, signers: tokenAddress })
     } catch (e) {
         throw e
     }

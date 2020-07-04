@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText } from '@material-ui/core';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
-import { getBalance} from '../../web3/API'
+import { getBalance } from '../../web3/API'
 
 function UserInfo(props) {
     const { username, firstname, lastname, address, showDialog, setShowDialog, currentUserAddress } = props
     const [balance, setBalance] = useState(0)
 
     const fetchBalance = async () => {
+        console.log('called')
         const balance = await getBalance(address)
         setBalance(balance)
     }
-    useEffect(() => {  
+    useEffect(() => {
         fetchBalance()
-    })
+    }, [])
 
     return (
         <Dialog open={showDialog} maxWidth="sm" fullWidth onClose={() => setShowDialog(false)}>
@@ -32,7 +33,7 @@ function UserInfo(props) {
                     Last name: {lastname}
                 </DialogContentText>
                 <DialogContentText>
-                    Balance: {balance} TEA
+                    Balance: {balance} Tea
                 </DialogContentText>
                 <DialogContentText>
                     Address: {address}

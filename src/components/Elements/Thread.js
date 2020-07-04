@@ -62,7 +62,13 @@ function Thread(props) {
         if (!rewardFeed)
             return
         try {
-            await sendReward(questionId, answerId, question.reward, address)
+            if(!tokenAddress && !tokenKey) {
+                // it would be best to direct to the login page
+                console.log('token expired!')
+                setNeedAuth(true)
+                return;
+            }
+            await sendReward(questionId, answerId, question.reward, address, tokenAddress)
             setDialogContent('success')
         } catch (error) {
             setDialogContent(error.message)
