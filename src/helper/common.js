@@ -20,11 +20,11 @@ exports.toUNIT = (tea) => {
 exports.toUNIXTimestamp = (dateObj) => {
   try {
     return Math.round(dateObj.getTime() / 1000)
-  } catch (e){
+  } catch (e) {
     throw e
   }
 }
-exports.diffTime =(time) => {
+exports.diffTime = (time) => {
   // Set new thresholds
   // moment.relativeTimeThreshold("s", 10);
   moment.relativeTimeThreshold('ss', 60);
@@ -54,3 +54,11 @@ exports.diffTime =(time) => {
   return moment.unix(time).fromNow();
 }
 exports.MODIFY_TIME = 15 * 60
+exports.compareTimestamp = (t1, t2) => {
+  if (t1 > t2) {
+    return -1
+  }
+  else if (t1 < t2)
+    return 1
+  else return 0
+}
