@@ -114,7 +114,7 @@ export const sendRewardEvent = async (callback) => {
         if (error) {
             throw error
         } else {
-            callback()
+            callback(data.eventData.questionId)
             return data
         }
     })

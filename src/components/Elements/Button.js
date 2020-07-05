@@ -8,9 +8,9 @@ export function MyButton({ children, style, ...props }){
         </Button>
     )
 }
-export function MyLink({ children, ...props }){
+export function MyLink({ children, style,...props }){
     return (
-        <Button color="secondary"  {...props}>
+        <Button color="secondary"  {...props} style={{...styles.link, ...style}}>
             {children}
         </Button>
     )
@@ -18,6 +18,9 @@ export function MyLink({ children, ...props }){
 const styles = {
     button: {
         color: 'white',
+        textTransform: 'none'
+    }, 
+    link: {
         textTransform: 'none'
     }
 }

@@ -12,7 +12,6 @@ import {compareTimestamp} from '../../helper/common'
 
 function Thread(props) {
     const { open, handleClose, rewardFeed, question, answers } = props
-    console.log(question)
     const { address, tokenAddress, tokenKey, setNeedAuth } = props
     const [openDialog, setOpenDialog] = useState(false)
     const [dialogContent, setDialogContent] = useState('')
@@ -21,6 +20,8 @@ function Thread(props) {
         timestamp: '',
         deadline2Modify: ''
     })
+    const isOwner = address === question.owner
+    const showAcceptButton = !question.resolved && isOwner && question.reward
     function handleAnswerContentChange(content) {
         setAnswer({
             ...answer,
@@ -99,7 +100,8 @@ function Thread(props) {
                 <div key={i}>
                     <Answer
                         answer={answer} i={i}
-                        onClick={() => giveReward(answer.questionId.toString(), answer.id.toString())}
+                        giveReward={() => giveReward(answer.questionId.toString(), answer.id.toString())}
+                        showAcceptButton={showAcceptButton}
                     />
                 </div>
             )
