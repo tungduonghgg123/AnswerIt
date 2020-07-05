@@ -41,7 +41,7 @@ function Answer(props) {
                 {
                     isBestAnswer ?
                         <ListItemSecondaryAction>
-                            <DoneIcon style={styles.tickIcon} />
+                                <DoneIcon style={styles.tickIcon} />
                         </ListItemSecondaryAction>
                         :
                         null

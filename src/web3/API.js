@@ -89,7 +89,6 @@ export const getAllQuestion = async () => {
                 id
             })
         }))
-        console.log(questions)
         return questions
     } catch (e) {
         throw e

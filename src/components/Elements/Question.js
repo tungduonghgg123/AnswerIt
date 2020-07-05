@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DoneIcon from '@material-ui/icons/Done';
-import { Avatar, ListItem, ListItemSecondaryAction, ListItemText, ListItemAvatar, Typography } from '@material-ui/core';
+import { Avatar, ListItem, IconButton, ListItemSecondaryAction, ListItemText, ListItemAvatar, Typography } from '@material-ui/core';
 import { diffTime, toTEA } from '../../helper/common'
 import { color } from '../../styles'
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ function Question(props) {
     const [showDialog, setShowDialog] = useState(false)
     return (
         <div key={id}>
-            <ListItem alignItems="flex-start" >
+            <ListItem alignItems="flex-start" ContainerComponent="div">
                 <ListItemAvatar onClick={() => setShowDialog(true)}>
                     <Avatar alt="Remy Sharp" />
                 </ListItemAvatar>
@@ -41,7 +41,6 @@ function Question(props) {
                         </React.Fragment>
                     }
                 />
-
                 {
                     resolved ?
                         <ListItemSecondaryAction>
