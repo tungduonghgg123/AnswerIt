@@ -85,7 +85,8 @@ export const getAllQuestion = async () => {
                 ...question,
                 answers: numAnswers,
                 username: aliasAndInfo[0],
-                ...aliasAndInfo[1]
+                ...aliasAndInfo[1],
+                id
             })
         }))
         console.log(questions)

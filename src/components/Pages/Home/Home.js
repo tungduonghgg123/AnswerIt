@@ -54,12 +54,10 @@ class Home extends React.Component {
   async fetchQuestions() {
     const questions = await getAllQuestion()
     this.setState({ questions})
-    if(this.state.clickedQuestion && this.state.clickedQuestion.index) {
-      const index = this.state.clickedQuestion.index
+    if(this.state.clickedQuestion) {
       this.setState({
         clickedQuestion: {
-          ...questions[index],
-          index
+          ...questions[this.state.clickedQuestion.id],
         }
       })
     }
@@ -73,13 +71,15 @@ class Home extends React.Component {
       if(_.isEmpty(this.state.clickedQuestion)) {
         return
       } else {
-        this.fetchAnswers(this.state.clickedQuestion.index.toString()) 
+        this.fetchAnswers(this.state.clickedQuestion.id.toString()) 
+        this.fetchQuestions()
+
       }
     }
     )
     sendRewardEvent(() => {
       this.fetchQuestions()
-      this.fetchAnswers(this.state.clickedQuestion.index.toString())
+      this.fetchAnswers(this.state.clickedQuestion.id.toString())
     })
   }
   /**
@@ -87,17 +87,14 @@ class Home extends React.Component {
    */
   sendRewardEventHandler() {
     this.fetchQuestions()
-    this.fetchAnswers(this.state.clickedQuestion.index.toString())
+    this.fetchAnswers(this.state.clickedQuestion.id.toString())
   }
-  async onQuestionClick(question, index) {
+  async onQuestionClick(question) {
     this.setState({
       openThread: true,
-      clickedQuestion: {
-        ...question,
-        index
-      }
+      clickedQuestion: question
     })
-    this.fetchAnswers(index.toString())
+    this.fetchAnswers(question.id.toString())
   }
   render() {
     const { container, button, feed } = styles
@@ -112,7 +109,7 @@ class Home extends React.Component {
         </div>
 
         <Container maxWidth="sm" style={feed}>
-          <NewFeed isRewardFeed={this.state.rewardFeed} questions={this.state.questions} onQuestionClick={(q, i) => this.onQuestionClick(q, i)} />
+          <NewFeed isRewardFeed={this.state.rewardFeed} questions={this.state.questions} onQuestionClick={(q) => this.onQuestionClick(q)} />
         </Container>
         {this.state.openThread ? this.renderThread() : null}
       </div>

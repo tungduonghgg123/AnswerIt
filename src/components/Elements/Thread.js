@@ -90,7 +90,7 @@ function Thread(props) {
     return (
         <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth aria-labelledby="form-dialog-title">
             <DialogContent>
-                <Question isReward={rewardFeed} question={question} i={question.index} onClick={() => { }} />
+                <Question question={question} onClick={() => { }} />
             </DialogContent>
             <DialogContent>
                 Answers
@@ -98,7 +98,7 @@ function Thread(props) {
                     value={answer.value}
                     onContentChange={(content) => handleAnswerContentChange(content.target.value)}
                 />
-                <Button style={styles.button} onClick={() => submitAnswer(question.index.toString())} >Post</Button>
+                <Button style={styles.button} onClick={() => submitAnswer(question.id.toString())} >Post</Button>
                 <List>
                     {renderAnswers()}
                 </List>
