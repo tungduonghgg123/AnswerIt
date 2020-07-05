@@ -112,7 +112,7 @@ class Home extends React.Component {
         </div>
 
         <Container maxWidth="sm" style={feed}>
-          <NewFeed isReward={this.state.rewardFeed} questions={this.state.questions} onQuestionClick={(q, i) => this.onQuestionClick(q, i)} />
+          <NewFeed isRewardFeed={this.state.rewardFeed} questions={this.state.questions} onQuestionClick={(q, i) => this.onQuestionClick(q, i)} />
         </Container>
         {this.state.openThread ? this.renderThread() : null}
       </div>

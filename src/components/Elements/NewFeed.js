@@ -11,23 +11,24 @@ const useStyles = makeStyles(theme => ({
         display: 'inline',
     },
 }));
-function renderFeed(isReward, questions, onQuestionClick) {
-    // const numberOfQuestions = questions.length
+function renderFeed(isRewardFeed, questions, onQuestionClick) {
     let feed = questions.map((q, i) => {
         if (!q)
             return null
-        return (
-            <Question isReward={isReward} key={i} i={i} question={q} onClick={onQuestionClick} />
-        )
+        if((isRewardFeed && q.reward)||(!isRewardFeed && !q.reward))
+            return (
+                <Question key={i} i={i} question={q} onClick={onQuestionClick} />
+            )
+        return null
     })
     return feed.reverse()
 }
 function NewFeed(props) {
     const classes = useStyles();
-    const { isReward, questions, onQuestionClick } = props
+    const { isRewardFeed, questions, onQuestionClick } = props
     return (
         <List className={classes.root}>
-            {renderFeed(isReward, questions, onQuestionClick)}
+            {renderFeed(isRewardFeed, questions, onQuestionClick)}
         </List>
     );
 }
