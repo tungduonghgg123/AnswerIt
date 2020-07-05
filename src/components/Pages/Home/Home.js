@@ -35,7 +35,8 @@ class Home extends React.Component {
         value: '',
         timestamp: '',
         deadline2Modify: ''
-      }
+      },
+      clickedQuestion: null
     })
   }
   renderThread() {
@@ -68,14 +69,13 @@ class Home extends React.Component {
       this.fetchQuestions()
     })
     addAnswerEvent(() => {
-      // only fetching clicked question
-      if(_.isEmpty(this.state.clickedQuestion)) {
-        return
-      } else {
+/**
+ * 'TODO' move this part to thread component
+ */
+      if(!_.isEmpty(this.state.clickedQuestion)) {
         this.fetchAnswers(this.state.clickedQuestion.id.toString()) 
-        this.fetchQuestions()
-
       }
+      this.fetchQuestions()
     }
     )
     sendRewardEvent((questionId) => {
