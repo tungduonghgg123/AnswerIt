@@ -46,6 +46,9 @@ const { expectOwner } = require('./helper.js');
     @view getAnswers(questionId: string, options) {
         return this.answerHelper.getList(questionId, options)
     }
+    @view getNumberOfAnswers(questionId: string, options) {
+        return this.answerHelper.getList(questionId, options).length
+    }
     @view getAnswer(id) {
         return this.answerHelper.getOne(id)
     }

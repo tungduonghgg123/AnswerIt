@@ -47,8 +47,12 @@ const filter = {
 
 // })
 // getAllQuestion().then(r => console.log(r))
-tweb3.getBalance('teat1825p6nrtxwgrv0p5xxw70f4fxs3xch6qmnt44r').then((r) => {
+// tweb3.getBalance('teat1825p6nrtxwgrv0p5xxw70f4fxs3xch6qmnt44r').then((r) => {
+//   console.log(r)
+//   process.exit()
+// }
+//   )
+contract.methods.getNumberOfAnswers("0").call().then((r) => {
   console.log(r)
-  process.exit()
-}
-  )
+})
+console.log(config.REACT_APP_CONTRACT)

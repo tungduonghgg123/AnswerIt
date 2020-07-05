@@ -13,7 +13,7 @@ const styles = {
 }
 function Question(props) {
     const { isReward, question, i, onClick } = props
-    const { reward, expireTime, value, resolved } = question
+    const { reward, expireTime, value, resolved, answers } = question
     const { username, firstname, lastname, owner } = question
     const displayname = question['display-name']
     const { tickIcon } = styles
@@ -28,7 +28,7 @@ function Question(props) {
                         </ListItemAvatar>
                         <ListItemText
                             onClick={() => onClick(question, i)}
-                            secondary={`${displayname ? displayname : 'null'} ${reward ? `-- Reward: ${toTEA(reward)} Tea` : ''}  -- Deadline: ${diffTime(expireTime)}`}
+                            secondary={`${displayname ? displayname : 'null'} ${reward ? `-- Reward: ${toTEA(reward)} Tea` : ''}  -- Deadline: ${diffTime(expireTime)} -- ${answers === 0? '0 answer' : `${answers} answers`}`}
                             primary={
                                 <React.Fragment>
                                     <Typography
@@ -76,7 +76,7 @@ function Question(props) {
                         </ListItemAvatar>
                         <ListItemText
                             onClick={() => onClick(question, i)}
-                            secondary={`${displayname ? displayname : 'null'} ${reward ? `-- Reward: ${toTEA(reward)} Tea` : ''}  -- Deadline: ${diffTime(expireTime)}`}
+                            secondary={`${displayname ? displayname : 'null'} ${reward ? `-- Reward: ${toTEA(reward)} Tea` : ''}  -- Deadline: ${diffTime(expireTime)} -- ${answers === 0? '0 answer' : `${answers} answers`}`}
                             primary={
                                 <React.Fragment>
                                     {value}

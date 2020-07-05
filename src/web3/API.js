@@ -60,6 +60,13 @@ export const getAnswers = async (questionId) => {
         throw e
     }
 }
+const getNumberOfAnswers = async (questionId) => {
+    try {
+        return await contract.methods.getNumberOfAnswers(questionId).call()
+    } catch(e) {
+        throw e
+    }
+}
 export const getAllQuestion = async () => {
     try {
         // questions is an object.
@@ -70,15 +77,18 @@ export const getAllQuestion = async () => {
             questions[parseInt(key)] = questionsObj[parseInt(key)]
         })
         // get display-name
-        questions = await Promise.all(questions.map(async (question) => {
+        questions = await Promise.all(questions.map(async (question, id) => {
             const owner = question.owner
             const aliasAndInfo = await getAliasAndTags(owner)
+            const numAnswers = await getNumberOfAnswers(id.toString())
             return ({
                 ...question,
+                answers: numAnswers,
                 username: aliasAndInfo[0],
                 ...aliasAndInfo[1]
             })
         }))
+        console.log(questions)
         return questions
     } catch (e) {
         throw e
