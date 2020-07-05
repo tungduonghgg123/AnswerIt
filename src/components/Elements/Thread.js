@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 import { color } from '../../styles/index'
-import { Button, List, Dialog, DialogContent } from '@material-ui/core';
+import { List, Dialog, DialogContent } from '@material-ui/core';
+import {MyButton} from './Button'
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { AnswerForm, Answer, Question, InformDialog} from './'
@@ -98,7 +99,7 @@ function Thread(props) {
                     value={answer.value}
                     onContentChange={(content) => handleAnswerContentChange(content.target.value)}
                 />
-                <Button style={styles.button} onClick={() => submitAnswer(question.id.toString())} >Post</Button>
+                <MyButton style={styles.button} onClick={() => submitAnswer(question.id.toString())} >Post</MyButton>
                 <List>
                     {renderAnswers()}
                 </List>

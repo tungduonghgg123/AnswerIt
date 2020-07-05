@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 
-export function MyButton({ children, ...props }){
+export function MyButton({ children, style, ...props }){
     return (
-        <Button variant="contained" color="secondary" style={styles.button} {...props}>
+        <Button variant="contained" color="secondary" style={{...styles.button, ...style}} {...props}>
             {children}
         </Button>
     )
@@ -17,6 +17,7 @@ export function MyLink({ children, ...props }){
 }
 const styles = {
     button: {
-        color: 'white'
+        color: 'white',
+        textTransform: 'none'
     }
 }

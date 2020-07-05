@@ -1,7 +1,7 @@
 
 import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
-
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
+import {MyButton} from './Button'
 function FormDialog(props) {
   return (
       <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
@@ -18,12 +18,12 @@ function FormDialog(props) {
           {props.children}
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
+          <MyButton onClick={props.handleClose} color="primary">
             Cancel
-          </Button>
-          <Button onClick={props.handlePost} color="primary">
+          </MyButton>
+          <MyButton onClick={props.handlePost} color="primary">
             Post
-          </Button>
+          </MyButton>
         </DialogActions>
       </Dialog>
   );

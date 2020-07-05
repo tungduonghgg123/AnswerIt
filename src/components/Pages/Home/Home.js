@@ -1,6 +1,7 @@
 import React from 'react';
 import { color } from '../../../styles/index'
-import { Button, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
+import {MyButton} from '../../Elements/Button'
 import { connect } from 'react-redux';
 import * as actions from '../../../redux/actions'
 import { NewFeed, Thread, AskQuestion,} from '../../Elements'
@@ -104,8 +105,8 @@ class Home extends React.Component {
         <Header sendRewardEventHandler={() => this.sendRewardEventHandler()}/>
         <AskQuestion/>
         <div style={{ alignSelf: 'center' }}>
-          <Button style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({ rewardFeed: true })}>Reward</Button>
-          <Button style={button} onClick={() => this.setState({ rewardFeed: false })} >Normal</Button>
+          <MyButton style={{ ...button, marginRight: '10px' }} onClick={() => this.setState({ rewardFeed: true })}>Reward</MyButton>
+          <MyButton style={button} onClick={() => this.setState({ rewardFeed: false })} >Normal</MyButton>
         </div>
 
         <Container maxWidth="sm" style={feed}>
@@ -118,7 +119,6 @@ class Home extends React.Component {
 }
 const styles = {
   button: {
-    background: color.secondary,
     alignSelf: 'center',
     marginTop: '10px'
   },

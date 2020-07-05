@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { color } from '../../styles/index'
-import { Button} from '@material-ui/core';
+import { MyButton} from './Button';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions'
 import { FormDialog, AddQuestionForm, InformDialog,} from './'
@@ -96,11 +96,11 @@ function AskQuestion(props) {
     }
     return (
         <div style={{ alignSelf: 'center' }}>
-            <Button style={styles.button} variant="outlined"
+            <MyButton style={styles.button}
                 onClick={() => onOpenForm()}
             >
-                what is your question ?
-            </Button>
+                What is your question ?
+            </MyButton>
 
             <FormDialog
                 open={openForm}
@@ -123,7 +123,6 @@ function AskQuestion(props) {
 }
 const styles = {
     button: {
-        background: color.secondary,
         marginTop: '10px'
     },
 

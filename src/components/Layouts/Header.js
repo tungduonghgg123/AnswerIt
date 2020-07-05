@@ -83,7 +83,7 @@ class Header extends React.Component {
               logout()
               this.props.logout()
             }}>
-              logout
+              Logout
             </MyButton>
             <UserInfo
               username={this.state.username}
